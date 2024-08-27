@@ -13,4 +13,11 @@
     <description>
         Rainy - 通用配置.
     </description>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+        </dependency>
+    </dependencies>
 </project>

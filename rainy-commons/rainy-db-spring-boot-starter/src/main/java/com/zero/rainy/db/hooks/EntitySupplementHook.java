@@ -1,6 +1,7 @@
 package com.zero.rainy.db.hooks;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.zero.rainy.db.utils.IdUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
 
@@ -16,12 +17,11 @@ import java.time.LocalDateTime;
 public class EntitySupplementHook implements MetaObjectHandler {
 
     /**
-     * 自动填充五位字段
-     * id:         ID
+     * id:       ID主键
      * createAt: 创建时间
-     * updateAt: 创建者ID
-     * updateAt: 最后一次修改时间
-     * updater: 最后一次修改者ID
+     * updateAt: 更新时间
+     * creator:  创建者
+     * updater:  更新者
      */
     private final String ID = "id";
     private final String CREATE_AT = "createAt";
@@ -35,6 +35,7 @@ public class EntitySupplementHook implements MetaObjectHandler {
      */
     @Override
     public void insertFill(MetaObject metaObject) {
+        long id = IdUtils.getNextId();
         this.strictInsertFill(metaObject, CREATE_AT, LocalDateTime::now , LocalDateTime.class);
         this.strictInsertFill(metaObject, UPDATE_AT, LocalDateTime::now, LocalDateTime.class);
     }

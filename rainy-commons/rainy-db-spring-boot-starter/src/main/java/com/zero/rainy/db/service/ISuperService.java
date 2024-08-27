@@ -3,7 +3,8 @@ package com.zero.rainy.db.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
- * 通用 Service, 扩展公共抽象方法。所有实体 Service 均继承于它.
+ * 通用 Service 基于{@link IService}进行扩展。
+ * 增加一些通用抽象方法方法。所有实体 Service 均继承于它.
  *
  * @author Zero.
  * <p> Created on 2024/8/27 18:52 </p>

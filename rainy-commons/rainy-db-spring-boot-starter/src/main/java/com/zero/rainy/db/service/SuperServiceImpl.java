@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import lombok.extern.slf4j.Slf4j;
 
 /**
- * 通用 Service {@link ISuperService} 实现类. 实现通用扩展API
+ * 通用 Service {@link ISuperService} 实现类. 通用抽象方法的实现.
  *
  * @author Zero.
  * <p> Created on 2024/8/27 18:54 </p>

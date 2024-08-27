@@ -30,7 +30,7 @@
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <p6spy.version>3.9.1</p6spy.version>
-
+        <hutool.version>5.8.26</hutool.version>
 
         <!-- 核心依赖版本 -->
         <mybatis-plus.version>3.5.7</mybatis-plus.version>
@@ -41,6 +41,14 @@
         <!-- SpringCloudAlibaba -->
         <spring-cloud-alibaba.version>2023.0.1.2</spring-cloud-alibaba.version>
     </properties>
+
+    <!-- 基础依赖 -->
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
 
     <!-- 全局依赖版本锁定 -->
     <dependencyManagement>
@@ -67,6 +75,14 @@
                 <version>${rainy.version}</version>
             </dependency>
 
+            <!-- HuTool -->
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
+            </dependency>
+
+            <!-- p6spy -->
             <dependency>
                 <groupId>p6spy</groupId>
                 <artifactId>p6spy</artifactId>
