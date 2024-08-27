@@ -1,0 +1,154 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.zero.rainy</groupId>
+    <artifactId>rainy</artifactId>
+    <packaging>pom</packaging>
+    <version>v1.0.0</version>
+    <name>rainy</name>
+    <description>
+        Rainy - 顶级工程
+    </description>
+
+    <!--子模块-->
+    <modules>
+        <module>rainy-commons</module>
+        <module>rainy-services</module>
+        <module>rainy-config</module>
+    </modules>
+
+    <!-- 全局依赖版本 -->
+    <properties>
+        <!-- 项目当前版本. -->
+        <rainy.version>v1.0.0</rainy.version>
+        <!--Java Version-->
+        <java.version>21</java.version>
+        <maven.compiler.source>21</maven.compiler.source>
+        <maven.compiler.target>21</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!-- 核心依赖版本 -->
+        <!-- SpringBoot -->
+        <spring-boot.version>3.3.3</spring-boot.version>
+        <!-- SpringCloud -->
+        <spring-cloud.version>2023.0.3</spring-cloud.version>
+        <!-- SpringCloudAlibaba -->
+        <spring-cloud-alibaba.version>2023.0.1.2</spring-cloud-alibaba.version>
+    </properties>
+
+    <!-- 开发环境 -->
+    <profiles>
+        <profile>
+            <!-- 开发环境, 默认环境 -->
+            <id>dev</id>
+            <!--环境属性-->
+            <properties>
+                <profiles.active>dev</profiles.active>
+                <logging.level>info</logging.level>
+            </properties>
+            <activation>
+                <activeByDefault>true</activeByDefault>
+            </activation>
+        </profile>
+        <profile>
+            <!--测试环境-->
+            <id>test</id>
+            <properties>
+                <profiles.active>test</profiles.active>
+                <logging.level>info</logging.level>
+            </properties>
+        </profile>
+        <profile>
+            <!--生产环境-->
+            <id>prod</id>
+            <properties>
+                <profiles.active>prod</profiles.active>
+                <logging.level>info</logging.level>
+            </properties>
+        </profile>
+    </profiles>
+
+    <!-- 全局依赖版本锁定 -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- Rainy Log -->
+            <dependency>
+                <groupId>com.zero.rainy</groupId>
+                <artifactId>rainy-log-spring-boot-starter</artifactId>
+                <version>${rainy.version}</version>
+            </dependency>
+            <!-- Rainy Config -->
+            <dependency>
+                <groupId>com.zero.rainy</groupId>
+                <artifactId>rainy-config</artifactId>
+                <version>${rainy.version}</version>
+            </dependency>
+
+
+            <!-- SpringBoot -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- SpringCloud -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- SpringCloudAlibaba -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+
+    <!-- 项目打包插件 -->
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <parameters>true</parameters>
+                </configuration>
+            </plugin>
+        </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>true</filtering>
+            </resource>
+        </resources>
+    </build>
+
+    <!-- Maven 仓库 -->
+    <repositories>
+        <repository>
+            <id>aliYun</id>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+</project>
