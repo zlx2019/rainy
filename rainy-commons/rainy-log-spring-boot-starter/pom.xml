@@ -11,7 +11,7 @@
     <artifactId>rainy-log-spring-boot-starter</artifactId>
     <packaging>jar</packaging>
     <description>
-        Rainy - 公共日志组件
+        Rainy - 日志组件
     </description>
     <dependencies>
 

@@ -5,17 +5,20 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.zero.rainy</groupId>
-        <artifactId>rainy</artifactId>
+        <artifactId>rainy-commons</artifactId>
         <version>v1.0.0</version>
     </parent>
-    <artifactId>rainy-commons</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>rainy-core-spring-boot-starter</artifactId>
+    <packaging>jar</packaging>
     <description>
-        Rainy - 公共核心组件父工程
+        Rainy - 核心基础组件.
     </description>
-    <modules>
-        <module>rainy-log-spring-boot-starter</module>
-        <module>rainy-core-spring-boot-starter</module>
-        <module>rainy-db-spring-boot-starter</module>
-    </modules>
+
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
+
 </project>

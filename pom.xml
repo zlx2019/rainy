@@ -29,8 +29,11 @@
         <maven.compiler.source>21</maven.compiler.source>
         <maven.compiler.target>21</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <p6spy.version>3.9.1</p6spy.version>
+
 
         <!-- 核心依赖版本 -->
+        <mybatis-plus.version>3.5.7</mybatis-plus.version>
         <!-- SpringBoot -->
         <spring-boot.version>3.3.3</spring-boot.version>
         <!-- SpringCloud -->
@@ -38,6 +41,71 @@
         <!-- SpringCloudAlibaba -->
         <spring-cloud-alibaba.version>2023.0.1.2</spring-cloud-alibaba.version>
     </properties>
+
+    <!-- 全局依赖版本锁定 -->
+    <dependencyManagement>
+        <dependencies>
+            <!-- 内部依赖 -->
+            <dependency>
+                <groupId>com.zero.rainy</groupId>
+                <artifactId>rainy-log-spring-boot-starter</artifactId>
+                <version>${rainy.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zero.rainy</groupId>
+                <artifactId>rainy-config</artifactId>
+                <version>${rainy.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zero.rainy</groupId>
+                <artifactId>rainy-core-spring-boot-starter</artifactId>
+                <version>${rainy.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zero.rainy</groupId>
+                <artifactId>rainy-db-spring-boot-starter</artifactId>
+                <version>${rainy.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>p6spy</groupId>
+                <artifactId>p6spy</artifactId>
+                <version>${p6spy.version}</version>
+            </dependency>
+
+            <!-- MybatisPlus -->
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-spring-boot3-starter</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+
+            <!-- SpringBoot -->
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-dependencies</artifactId>
+                <version>${spring-boot.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- SpringCloud -->
+            <dependency>
+                <groupId>org.springframework.cloud</groupId>
+                <artifactId>spring-cloud-dependencies</artifactId>
+                <version>${spring-cloud.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+            <!-- SpringCloudAlibaba -->
+            <dependency>
+                <groupId>com.alibaba.cloud</groupId>
+                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
+                <version>${spring-cloud-alibaba.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <!-- 开发环境 -->
     <profiles>
@@ -70,50 +138,6 @@
             </properties>
         </profile>
     </profiles>
-
-    <!-- 全局依赖版本锁定 -->
-    <dependencyManagement>
-        <dependencies>
-            <!-- Rainy Log -->
-            <dependency>
-                <groupId>com.zero.rainy</groupId>
-                <artifactId>rainy-log-spring-boot-starter</artifactId>
-                <version>${rainy.version}</version>
-            </dependency>
-            <!-- Rainy Config -->
-            <dependency>
-                <groupId>com.zero.rainy</groupId>
-                <artifactId>rainy-config</artifactId>
-                <version>${rainy.version}</version>
-            </dependency>
-
-
-            <!-- SpringBoot -->
-            <dependency>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-dependencies</artifactId>
-                <version>${spring-boot.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!-- SpringCloud -->
-            <dependency>
-                <groupId>org.springframework.cloud</groupId>
-                <artifactId>spring-cloud-dependencies</artifactId>
-                <version>${spring-cloud.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-            <!-- SpringCloudAlibaba -->
-            <dependency>
-                <groupId>com.alibaba.cloud</groupId>
-                <artifactId>spring-cloud-alibaba-dependencies</artifactId>
-                <version>${spring-cloud-alibaba.version}</version>
-                <type>pom</type>
-                <scope>import</scope>
-            </dependency>
-        </dependencies>
-    </dependencyManagement>
 
     <!-- 项目打包插件 -->
     <build>
