@@ -19,20 +19,25 @@
 
     <!-- 服务依赖 -->
     <dependencies>
-        <!-- Rainy 日志组件 -->
+        <!-- Rainy 日志 -->
         <dependency>
             <groupId>com.zero.rainy</groupId>
             <artifactId>rainy-log-spring-boot-starter</artifactId>
         </dependency>
-        <!-- Rainy 配置组件 -->
+        <!-- Rainy 配置 -->
         <dependency>
             <groupId>com.zero.rainy</groupId>
             <artifactId>rainy-config</artifactId>
         </dependency>
-        <!-- Rainy 基础核心模块 -->
+        <!-- Rainy 基础核心 -->
         <dependency>
             <groupId>com.zero.rainy</groupId>
             <artifactId>rainy-core-spring-boot-starter</artifactId>
+        </dependency>
+        <!-- Rainy 数据访问 -->
+        <dependency>
+            <groupId>com.zero.rainy</groupId>
+            <artifactId>rainy-db-spring-boot-starter</artifactId>
         </dependency>
 
         <!-- Spring-Web -->
