@@ -42,13 +42,6 @@
         <spring-cloud-alibaba.version>2023.0.1.2</spring-cloud-alibaba.version>
     </properties>
 
-    <!-- 基础依赖 -->
-    <dependencies>
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-        </dependency>
-    </dependencies>
 
     <!-- 全局依赖版本锁定 -->
     <dependencyManagement>
