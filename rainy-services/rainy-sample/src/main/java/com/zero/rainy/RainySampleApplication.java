@@ -14,5 +14,4 @@ public class RainySampleApplication {
     public static void main(String[] args) {
         SpringApplication.run(RainySampleApplication.class, args);
     }
-
 }

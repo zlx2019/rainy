@@ -13,3 +13,11 @@ spring:
       idle-timeout: 600000  # 空闲连接超时时间
       connection-timeout: 30000 # 连接超时时间
       max-lifetime: 1800000     # 连接最大生命周期
+
+  cloud:
+    # 服务注册中心
+    nacos:
+      discovery:
+        server-addr: 192.168.95.130:8848
+        group: rainy-dev
+        namespace: 910a91d6-39cc-4677-8ce9-d320846a36c7

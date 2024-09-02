@@ -8,3 +8,4 @@ ${AnsiColor.BRIGHT_RED}
                        __/ |
                       |___/
                             ${spring.application.name} (${spring.application.version})
+${AnsiColor.DEFAULT}

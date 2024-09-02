@@ -34,16 +34,32 @@
             <groupId>com.zero.rainy</groupId>
             <artifactId>rainy-core-spring-boot-starter</artifactId>
         </dependency>
-        <!-- Rainy 数据访问 -->
-<!--        <dependency>-->
-<!--            <groupId>com.zero.rainy</groupId>-->
-<!--            <artifactId>rainy-db-spring-boot-starter</artifactId>-->
-<!--        </dependency>-->
+        <!-- Rainy DB -->
+        <dependency>
+            <groupId>com.zero.rainy</groupId>
+            <artifactId>rainy-db-spring-boot-starter</artifactId>
+        </dependency>
 
+        <!-- Spring Cloud nacos -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+
+        <!-- 数据校验 -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-validation</artifactId>
+        </dependency>
         <!-- Spring-Web -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+        <!-- Config -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
         </dependency>
         <!-- 单元测试 -->
         <dependency>
