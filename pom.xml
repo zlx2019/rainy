@@ -68,6 +68,11 @@
                 <artifactId>rainy-db-spring-boot-starter</artifactId>
                 <version>${rainy.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.zero.rainy</groupId>
+                <artifactId>rainy-feign-spring-boot-starter</artifactId>
+                <version>${rainy.version}</version>
+            </dependency>
 
             <!-- Thread Local -->
             <dependency>

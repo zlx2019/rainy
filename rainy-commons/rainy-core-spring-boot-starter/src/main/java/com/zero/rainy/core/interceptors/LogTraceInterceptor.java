@@ -17,7 +17,8 @@ import org.springframework.web.servlet.HandlerInterceptor;
 public class LogTraceInterceptor implements HandlerInterceptor {
 
     /**
-     * 获取请求头中的 `traceId`, 添加到MDC上下文中，输出到日志中.
+     * 请求前置处理
+     * 获取请求头中的 `traceId`, 添加到 日志的 {@link org.slf4j.spi.MDCAdapter} 上下文中
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {

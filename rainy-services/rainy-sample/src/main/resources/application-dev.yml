@@ -18,6 +18,21 @@ spring:
     # 服务注册中心
     nacos:
       discovery:
-        server-addr: 192.168.95.130:8848
+        server-addr: 127.0.0.1:8848
         group: rainy-dev
         namespace: 910a91d6-39cc-4677-8ce9-d320846a36c7
+    openfeign:
+      # 默认客户端配置 参考 https://docs.spring.io/spring-cloud-openfeign/reference/configprops.html
+      client:
+        config:
+          default:
+            # 连接超时
+            connect-timeout: 5000
+            # 读取超时
+            read-timeout: 5000
+            logger-level: basic
+      circuitbreaker:
+        # 开启断路器
+        enabled: true
+        alphanumeric-ids:
+          enabled: true
