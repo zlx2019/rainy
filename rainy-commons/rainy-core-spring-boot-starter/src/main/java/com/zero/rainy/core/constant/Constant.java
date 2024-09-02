@@ -9,6 +9,10 @@ package com.zero.rainy.core.constant;
 public interface Constant {
 
     /**
+     * 用户ID在请求头中的 key
+     */
+    String USER_ID_HEADER_KEY = "x-userId-header";
+    /**
      * 链路追踪ID，在请求头中的Key
      */
     String REQUEST_TRACE_KEY = "x-traceId-header";

@@ -19,10 +19,11 @@
 
     <!-- 终端日志输出格式，设置颜色高亮 -->
     <property name="CONSOLE_LOG_PATTERN"
-              value="%clr([${APP_NAME}]){magenta} %clr(%d{yyyy-MM-dd HH:mm:ss}){bright_yellow} %highlight(%-5level) %clr(${PID}){bright_magenta} %clr([%thread]){bright_green} %clr([%X{traceId}]){bright_cyan} %clr(%logger){cyan} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}" />
+              value="%clr([${APP_NAME}]){magenta} %clr(%d{yyyy-MM-dd HH:mm:ss}){bright_yellow} %highlight(%-5level) %clr(${PID}){bright_magenta} %clr([%X{traceId}]){bright_cyan} %clr([%thread]){bright_green} %clr(%logger){cyan} %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}" />
+
     <!--日志文件输出格式-->
     <property name="CONSOLE_LOG_PATTERN_NO_COLOR"
-              value="[${APP_NAME}] %d{yyyy-MM-dd HH:mm:ss} %level ${PID} [%thread] %logger %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}" />
+              value="[${APP_NAME}] %d{yyyy-MM-dd HH:mm:ss} %level ${PID} [%X{traceId}] [%thread] %logger %m%n${LOG_EXCEPTION_CONVERSION_WORD:-%wEx}" />
 
     <!-- 控制台日志 -->
     <appender name="StdoutAppender" class="ch.qos.logback.core.ConsoleAppender">

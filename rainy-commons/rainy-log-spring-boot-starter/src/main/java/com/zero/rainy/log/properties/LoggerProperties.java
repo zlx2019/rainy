@@ -1,4 +1,4 @@
-package com.zero.rainy.log.config;
+package com.zero.rainy.log.properties;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 

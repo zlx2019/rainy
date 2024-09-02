@@ -1,4 +1,4 @@
-package org.slf4j;
+package com.zero.rainy.log.spi;
 
 import com.alibaba.ttl.TransmittableThreadLocal;
 import org.slf4j.helpers.ThreadLocalMapOfStacks;
@@ -12,14 +12,13 @@ import java.util.Map;
 
 /**
  * Mapped Diagnostic Context, MDC是为了每个线程维护独立的上下文信息机制。
- * 自定义 MDC 适配器，替换Logback默认的{@link LogbackMDCAdapter}, 将默认的 ThreadLocal 更改为 {@link TransmittableThreadLocal}
+ * 自定义 MDC 适配器，替换Logback默认的 LogbackMDCAdapter, 将默认的 ThreadLocal 更改为 {@link TransmittableThreadLocal}
  * 实现 traceId 在父子线程之间的传递.
  *
  * @author Zero.
  * <p> Created on 2024/8/31 21:32 </p>
  */
 public class TransmittableMDCAdapter implements MDCAdapter {
-
     /**
      * 线程上下文数据容器
      */
@@ -40,14 +39,12 @@ public class TransmittableMDCAdapter implements MDCAdapter {
      * 单例模式
      */
     private TransmittableMDCAdapter(){}
-    private static final TransmittableMDCAdapter instance;
+    private static final TransmittableMDCAdapter INSTANCE;
     static {
-        instance = new TransmittableMDCAdapter();
-        // 设置MDC 默认的实现
-        MDC.mdcAdapter = instance;
+        INSTANCE = new TransmittableMDCAdapter();
     }
     public static MDCAdapter getInstance() {
-        return instance;
+        return INSTANCE;
     }
 
 
@@ -90,9 +87,13 @@ public class TransmittableMDCAdapter implements MDCAdapter {
      */
     @Override
     public void remove(String key) {
-        if (key == null) return;
+        if (key == null) {
+            return;
+        };
         Map<String, String> oldCtx = copyOnInheritThreadLocal.get();
-        if (oldCtx == null) return;
+        if (oldCtx == null) {
+            return;
+        };
         Integer lastOp = getAndSetLastOperation(WRITE_OPERATION);
         if (wasLastOpReadOrNull(lastOp)){
             Map<String, String> context = buildContextByOldContext(oldCtx);
@@ -116,7 +117,9 @@ public class TransmittableMDCAdapter implements MDCAdapter {
      */
     @Override
     public Map<String, String> getCopyOfContextMap() {
-        Map<String, String> ctx = getContext();
+        lastOperation.set(READ_OPERATION);
+        Map<String, String> ctx = copyOnInheritThreadLocal.get();
+//        Map<String, String> ctx = getContext();
         if (ctx == null) {
             return null;
         }
