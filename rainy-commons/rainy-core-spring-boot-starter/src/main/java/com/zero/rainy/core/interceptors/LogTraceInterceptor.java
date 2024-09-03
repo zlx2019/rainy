@@ -22,12 +22,13 @@ public class LogTraceInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        String traceId = request.getHeader(Constant.REQUEST_TRACE_KEY);
+        String traceId = request.getHeader(Constant.TRACE_ID_HEADER_KEY);
         if (StrUtil.isNotBlank(traceId)){
             // 设置到日志上下文
             MDC.put(Constant.LOG_TRACE_KEY, traceId);
+        }else {
+            MDC.put(Constant.LOG_TRACE_KEY, RandomUtil.randomString(10));
         }
-        MDC.put(Constant.LOG_TRACE_KEY, RandomUtil.randomString(10));
         return true;
     }
 

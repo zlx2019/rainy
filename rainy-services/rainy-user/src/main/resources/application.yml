@@ -1,0 +1,10 @@
+# Web Server Config
+server:
+  address: 0.0.0.0
+  port: 8990
+
+
+# Spring Config
+spring:
+  application:
+    name: rainy-user

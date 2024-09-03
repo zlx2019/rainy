@@ -15,7 +15,7 @@ public interface Constant {
     /**
      * 链路追踪ID，在请求头中的Key
      */
-    String REQUEST_TRACE_KEY = "x-traceId-header";
+    String TRACE_ID_HEADER_KEY = "x-traceId-header";
 
     /**
      * 链路追踪ID 在日志上下文中的key

@@ -1,4 +1,4 @@
-package com.zero.rainy.config;
+package com.zero.rainy.sample.config;
 
 import com.zero.rainy.core.config.DefaultConfigurer;
 import org.springframework.context.annotation.Configuration;
