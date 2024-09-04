@@ -1,10 +1,10 @@
 package com.zero.rainy.core.interceptors;
 
-import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.zero.rainy.core.constant.Constant;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.MDC;
 import org.springframework.web.servlet.HandlerInterceptor;
 
@@ -14,6 +14,7 @@ import org.springframework.web.servlet.HandlerInterceptor;
  * @author Zero.
  * <p> Created on 2024/9/1 22:09 </p>
  */
+@Slf4j
 public class LogTraceInterceptor implements HandlerInterceptor {
 
     /**
@@ -26,8 +27,6 @@ public class LogTraceInterceptor implements HandlerInterceptor {
         if (StrUtil.isNotBlank(traceId)){
             // 设置到日志上下文
             MDC.put(Constant.LOG_TRACE_KEY, traceId);
-        }else {
-            MDC.put(Constant.LOG_TRACE_KEY, RandomUtil.randomString(10));
         }
         return true;
     }

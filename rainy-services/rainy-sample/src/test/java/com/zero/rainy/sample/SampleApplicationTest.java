@@ -1,6 +1,6 @@
 package com.zero.rainy.sample;
 
-import com.zero.rainy.core.rpc.feign.SampleService;
+import com.zero.rainy.api.feign.SampleService;
 import lombok.RequiredArgsConstructor;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

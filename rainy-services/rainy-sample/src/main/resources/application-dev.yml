@@ -21,3 +21,9 @@ spring:
         server-addr: 192.168.95.130:8848
         group: rainy-dev
         namespace: 910a91d6-39cc-4677-8ce9-d320846a36c7
+#    openfeign:
+#      client:
+#        config:
+#          default:
+#            default-request-headers:
+#              caller-service: ${spring.application.name}

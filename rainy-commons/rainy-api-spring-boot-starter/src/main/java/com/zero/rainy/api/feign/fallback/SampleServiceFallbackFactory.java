@@ -1,6 +1,6 @@
-package com.zero.rainy.core.rpc.feign.fallback;
+package com.zero.rainy.api.feign.fallback;
 
-import com.zero.rainy.core.rpc.feign.SampleService;
+import com.zero.rainy.api.feign.SampleService;
 import feign.FeignException;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.cloud.openfeign.FallbackFactory;

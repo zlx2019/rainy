@@ -12,7 +12,7 @@ import java.util.Objects;
 import java.util.Optional;
 
 /**
- * Feign 客户端请求前置拦截器
+ * Feign 全局请求拦截器
  * 进行服务调用时，将一些全局上下文信息传递到下游服务
  *
  * @author Zero.

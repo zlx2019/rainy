@@ -30,11 +30,6 @@
             <groupId>com.zero.rainy</groupId>
             <artifactId>rainy-config</artifactId>
         </dependency>
-        <!-- Rainy 基础核心 -->
-        <dependency>
-            <groupId>com.zero.rainy</groupId>
-            <artifactId>rainy-core-spring-boot-starter</artifactId>
-        </dependency>
         <!-- Rainy DB -->
 <!--        <dependency>-->
 <!--            <groupId>com.zero.rainy</groupId>-->

@@ -1,7 +1,7 @@
-package com.zero.rainy.core.rpc.feign;
+package com.zero.rainy.api.feign;
 
+import com.zero.rainy.api.feign.fallback.SampleServiceFallbackFactory;
 import com.zero.rainy.core.constant.ServiceConstant;
-import com.zero.rainy.core.rpc.feign.fallback.SampleServiceFallbackFactory;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 

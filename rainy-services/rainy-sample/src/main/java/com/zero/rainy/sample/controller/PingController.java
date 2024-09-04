@@ -1,5 +1,6 @@
 package com.zero.rainy.sample.controller;
 
+import com.zero.rainy.core.holder.UserContextHolder;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -32,7 +33,7 @@ public class PingController {
      */
     @GetMapping("/rpc")
     public Map<String, Object> pingSample() {
-        log.info("sample ping");
+        log.info("userId: {}", UserContextHolder.getUser());
         return Map.of("name", "张三", "age", 19);
     }
 }

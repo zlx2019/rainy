@@ -4,7 +4,7 @@ import feign.InvocationContext;
 import feign.ResponseInterceptor;
 
 /**
- * Feign 响应拦截器
+ * Feign 全局请求响应拦截器
  *
  * @author Zero.
  * <p> Created on 2024/9/3 16:28 </p>
