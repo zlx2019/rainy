@@ -11,7 +11,7 @@
     <artifactId>rainy-feign-spring-boot-starter</artifactId>
     <packaging>jar</packaging>
     <description>
-        Rainy - Feign远程调用组件
+        Rainy - Feign 服务通信组件
     </description>
 
     <dependencies>
