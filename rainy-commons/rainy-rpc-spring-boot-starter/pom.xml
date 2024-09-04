@@ -16,5 +16,6 @@
     <modules>
         <module>rainy-feign-spring-boot-starter</module>
         <module>rainy-webclient-spring-boot-starter</module>
+        <module>rainy-grpc-spring-boot-starter</module>
     </modules>
 </project>

@@ -33,7 +33,16 @@
         <hutool.version>5.8.26</hutool.version>
         <ttl.version>2.14.5</ttl.version>
 
+
+        <!-- gRPC相关 -->
+        <grpc-spring-boot.version>3.1.0.RELEASE</grpc-spring-boot.version>
+        <grpc.version>1.65.1</grpc.version>
+        <protoc.version>3.23.4</protoc.version>
+        <protobuf-plugin.version>0.6.1</protobuf-plugin.version>
+        <protobuf-util.version>3.25.4</protobuf-util.version>
+
         <!-- 核心依赖版本 -->
+        <!-- Mybatis Plus -->
         <mybatis-plus.version>3.5.7</mybatis-plus.version>
         <!-- SpringBoot -->
         <spring-boot.version>3.3.3</spring-boot.version>
@@ -70,14 +79,48 @@
             </dependency>
             <dependency>
                 <groupId>com.zero.rainy</groupId>
+                <artifactId>rainy-api-spring-boot-starter</artifactId>
+                <version>${rainy.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zero.rainy</groupId>
                 <artifactId>rainy-feign-spring-boot-starter</artifactId>
                 <version>${rainy.version}</version>
             </dependency>
             <dependency>
                 <groupId>com.zero.rainy</groupId>
-                <artifactId>rainy-api-spring-boot-starter</artifactId>
+                <artifactId>rainy-grpc-spring-boot-starter</artifactId>
                 <version>${rainy.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.zero.rainy</groupId>
+                <artifactId>rainy-webclient-spring-boot-starter</artifactId>
+                <version>${rainy.version}</version>
+            </dependency>
+
+            <!-- SpringBoot gRPC -->
+            <dependency>
+                <groupId>net.devh</groupId>
+                <artifactId>grpc-spring-boot-starter</artifactId>
+                <version>${grpc-spring-boot.version}</version>
+            </dependency>
+            <!-- gRPC -->
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-stub</artifactId>
+                <version>${grpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.grpc</groupId>
+                <artifactId>grpc-protobuf</artifactId>
+                <version>${grpc.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.protobuf</groupId>
+                <artifactId>protobuf-java-util</artifactId>
+                <version>${protobuf-util.version}</version>
+            </dependency>
+
 
             <!-- Thread Local -->
             <dependency>
