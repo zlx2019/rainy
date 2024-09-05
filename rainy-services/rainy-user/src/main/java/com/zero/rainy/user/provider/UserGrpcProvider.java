@@ -2,6 +2,7 @@ package com.zero.rainy.user.provider;
 
 import com.zero.rainy.api.grpc.pb.user.UserServ;
 import com.zero.rainy.api.grpc.pb.user.UserServiceGrpc;
+import com.zero.rainy.core.holder.UserContextHolder;
 import io.grpc.stub.StreamObserver;
 import lombok.extern.slf4j.Slf4j;
 import net.devh.boot.grpc.server.service.GrpcService;
@@ -23,6 +24,7 @@ public class UserGrpcProvider extends UserServiceGrpc.UserServiceImplBase {
      */
     @Override
     public void sayHello(UserServ.UserRequest request, StreamObserver<UserServ.UserReply> response) {
+        log.info("userId: {}", UserContextHolder.getUser());
         log.info("sayHello username: {}, password: {}", request.getUsername(), request.getPassword());
         UserServ.UserReply reply = UserServ.UserReply.newBuilder()
                 .setUsername("root")
