@@ -21,21 +21,3 @@ spring:
         server-addr: 192.168.95.130:8848
         group: rainy-dev
         namespace: 910a91d6-39cc-4677-8ce9-d320846a36c7
-grpc:
-  # 服务端配置
-  server:
-    # 最大传输数据大小，默认为 Integer.MAX_VALUE。-1 表示不上限
-    max-inbound-message-size: 4194304
-    # 最大传输的元数据大小
-    max-inbound-metadata-size: 4096
-    # 开启keep-alive
-    enable-keep-alive: true
-    port: 11002
-  # 客户端配置
-  client:
-    GLOBAL:
-      negotiation-type: plaintext
-      enable-keep-alive: true
-      max-inbound-message-size: 4194304
-      max-inbound-metadata-size: 4096
-      keep-alive-without-calls: true

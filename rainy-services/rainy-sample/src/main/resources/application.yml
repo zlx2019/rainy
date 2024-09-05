@@ -9,10 +9,8 @@ spring:
   application:
     name: rainy-sample
 
-# gRPC Config
-#grpc:
-#  server:
-#    address: 0.0.0.0
-#    port: 11002
-#
-
+# grpc Config
+grpc:
+  server:
+    address: 0.0.0.0
+    port: 11002

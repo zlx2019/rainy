@@ -7,3 +7,9 @@ server:
 spring:
   application:
     name: rainy-user
+
+# grpc Config
+grpc:
+  server:
+    address: 0.0.0.0
+    port: 12002
