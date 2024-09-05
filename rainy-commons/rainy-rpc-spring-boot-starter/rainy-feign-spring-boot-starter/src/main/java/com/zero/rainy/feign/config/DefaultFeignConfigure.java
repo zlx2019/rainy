@@ -15,12 +15,12 @@ import org.springframework.cloud.openfeign.support.SpringEncoder;
 import org.springframework.context.annotation.Bean;
 
 /**
- * 全局 Feign 默认配置类注入
+ * 全局 Feign 默认配置类
  *
  * @author Zero.
  * <p> Created on 2024/9/3 16:30 </p>
  */
-public class DefaultFeignConfigurer {
+public class DefaultFeignConfigure {
     /**
      * 注入SpringMvc 编码器
      */

@@ -10,4 +10,7 @@ public interface ServiceConstant {
 
     /* 模板服务节点名称 */
     String SAMPLE = "rainy-sample";
+
+    /* 用户服务节点名称 */
+    String USER = "rainy-user";
 }

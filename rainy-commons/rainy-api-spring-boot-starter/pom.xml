@@ -19,6 +19,7 @@
         <dependency>
             <groupId>com.zero.rainy</groupId>
             <artifactId>rainy-core-spring-boot-starter</artifactId>
+            <scope>provided</scope>
         </dependency>
         <!-- OpenFeign -->
         <dependency>
@@ -32,6 +33,61 @@
             <artifactId>spring-boot-starter-webflux</artifactId>
             <scope>provided</scope>
         </dependency>
+        <!-- gRPC -->
+        <dependency>
+            <groupId>net.devh</groupId>
+            <artifactId>grpc-client-spring-boot-starter</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.google.protobuf</groupId>
+            <artifactId>protobuf-java-util</artifactId>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>javax.annotation</groupId>
+            <artifactId>javax.annotation-api</artifactId>
+            <scope>provided</scope>
+        </dependency>
     </dependencies>
+
+    <!-- gRPC 打包插件 -->
+    <build>
+        <extensions>
+            <!--用于检测当前系统信息,${os.detected.classifier}：这个变量获取操作系统的版本，例如osx-x86_64-->
+            <extension>
+                <groupId>kr.motd.maven</groupId>
+                <artifactId>os-maven-plugin</artifactId>
+                <version>${os-plugin.version}</version>
+            </extension>
+        </extensions>
+        <plugins>
+            <!-- Protobuf和gRPC代码生成插件 -->
+            <plugin>
+                <groupId>org.xolstice.maven.plugins</groupId>
+                <artifactId>protobuf-maven-plugin</artifactId>
+                <version>${protobuf-plugin.version}</version>
+                <configuration>
+                    <protocArtifact>com.google.protobuf:protoc:${protoc.version}:exe:${os.detected.classifier}</protocArtifact>
+                    <pluginId>grpc-java</pluginId>
+                    <pluginArtifact>io.grpc:protoc-gen-grpc-java:${grpc.version}:exe:${os.detected.classifier}</pluginArtifact>
+                    <!--设置grpc生成代码到指定路径,-->
+<!--                    <outputDirectory>${project.basedir}/src/main/java</outputDirectory>-->
+                    <!--默认会生成在/src/main/java下，不显示指定则直接编译进target包-->
+                    <!--生成代码前是否清空目录-->
+                    <clearOutputDirectory>false</clearOutputDirectory>
+                </configuration>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>compile</goal>
+                            <goal>compile-custom</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
 
 </project>

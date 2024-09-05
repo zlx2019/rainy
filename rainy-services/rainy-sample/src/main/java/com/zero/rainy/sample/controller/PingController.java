@@ -1,6 +1,8 @@
 package com.zero.rainy.sample.controller;
 
+import com.zero.rainy.api.grpc.UserGrpcClient;
 import com.zero.rainy.core.holder.UserContextHolder;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,8 +20,9 @@ import java.util.Map;
 @Slf4j
 @RestController
 @RequestMapping("/sample/ping")
+@RequiredArgsConstructor
 public class PingController {
-
+    private final UserGrpcClient userGrpcClient;
     /**
      * Ping
      */
@@ -35,5 +38,10 @@ public class PingController {
     public Map<String, Object> pingSample() {
         log.info("userId: {}", UserContextHolder.getUser());
         return Map.of("name", "张三", "age", 19);
+    }
+
+    @GetMapping("/grpc")
+    public void grpcCallUser(String username, String password){
+        userGrpcClient.sayHello(username, password);
     }
 }
