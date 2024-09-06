@@ -26,7 +26,6 @@ public class UserGrpcClient {
     public void sayHello(String username, String password){
         UserServ.UserRequest request = UserServ.UserRequest.newBuilder()
                 .setUsername(username)
-                .setPassword(password)
                 .build();
         UserServ.UserReply userReply = userServStub.sayHello(request);
         log.info("client username: {}, password: {}", userReply.getUsername(), userReply.getPassword());

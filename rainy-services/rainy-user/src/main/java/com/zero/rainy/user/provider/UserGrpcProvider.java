@@ -25,7 +25,7 @@ public class UserGrpcProvider extends UserServiceGrpc.UserServiceImplBase {
     @Override
     public void sayHello(UserServ.UserRequest request, StreamObserver<UserServ.UserReply> response) {
         log.info("userId: {}", UserContextHolder.getUser());
-        log.info("sayHello username: {}, password: {}", request.getUsername(), request.getPassword());
+        log.info("sayHello {}", request);
         UserServ.UserReply reply = UserServ.UserReply.newBuilder()
                 .setUsername("root")
                 .setPassword("root@admin")
