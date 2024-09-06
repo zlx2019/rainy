@@ -5,13 +5,13 @@ import cn.hutool.core.date.LocalDateTimeUtil;
 import com.google.protobuf.Message;
 import com.google.protobuf.Timestamp;
 import com.google.protobuf.util.Timestamps;
-import com.zero.rainy.api.grpc.pb.user.UserServ;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.util.Assert;
 
+import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
@@ -35,6 +35,44 @@ public class ProtoUtils {
     private static final List<String> IGNORED_FIELD = List.of("serialVersionUID");
     private static final String GETTER_PREFIX = "get";
     private static final String SETTER_PREFIX = "set";
+    private static final Map<Class<?>, Class<?>> TYPE_MAPPING = new HashMap<>();
+    static {
+        TYPE_MAPPING.put(String.class, String.class);
+        TYPE_MAPPING.put(Integer.class, int.class);
+        TYPE_MAPPING.put(Long.class, long.class);
+        TYPE_MAPPING.put(Double.class, double.class);
+        TYPE_MAPPING.put(Float.class, float.class);
+        TYPE_MAPPING.put(Boolean.class, boolean.class);
+        TYPE_MAPPING.put(Byte.class, byte.class);
+        TYPE_MAPPING.put(Short.class, short.class);
+        TYPE_MAPPING.put(int.class, int.class);
+        TYPE_MAPPING.put(long.class, long.class);
+        TYPE_MAPPING.put(double.class, double.class);
+        TYPE_MAPPING.put(float.class, float.class);
+        TYPE_MAPPING.put(boolean.class, boolean.class);
+        TYPE_MAPPING.put(byte.class, byte.class);
+        TYPE_MAPPING.put(short.class, short.class);
+    }
+
+
+    /**
+     * Java entity copy to Protobuf entity
+     *
+     * @param source 源对象
+     * @param clazz  目标对象类型
+     */
+    public static <T extends Message.Builder> T copy(Object source, Class<T> clazz){
+        try {
+            Constructor<T> constructor = clazz.getDeclaredConstructor();
+            constructor.setAccessible(true);
+            T instance = constructor.newInstance();
+            copy(source, instance);
+            return instance;
+        } catch (Exception e) {
+            log.error("java bean copy protobuf build fail", e);
+            return null;
+        }
+    }
 
     /**
      * Java 实体属性 拷贝到 Protobuf 生成的实体中
@@ -138,45 +176,14 @@ public class ProtoUtils {
     }
 
     private static Class<?> getFieldType(Class<?> fieldType) {
-        String typeName = fieldType.getName();
-        return switch (typeName) {
-            case "java.lang.String" -> String.class;
-            case "int", "java.lang.Integer" -> int.class;
-            case "long", "java.lang.Long" -> long.class;
-            case "byte", "java.lang.Byte" -> byte.class;
-            case "double", "java.lang.Double" -> double.class;
-            case "float", "java.lang.Float" -> float.class;
-            case "short", "java.lang.Short" -> short.class;
-            case "boolean", "java.lang.Boolean" -> boolean.class;
-            default -> fieldType;
-        };
+        return TYPE_MAPPING.get(fieldType);
     }
 
-    /**
-     * 将字段名改为首字母大写
-     */
     private static String toUpperCaseFirstOne(String fieldName){
         if (fieldName == null || fieldName.isEmpty() || Character.isUpperCase(fieldName.charAt(0))){
             return fieldName;
         }
         return Character.toUpperCase(fieldName.charAt(0)) +
                 fieldName.substring(1);
-    }
-
-    public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
-
-        User user = new User();
-        user.setUsername("12312");
-        user.setPrice(213.24);
-        user.setLocked(true);
-        user.setScore(100.23f);
-        user.setSendTime(LocalDateTime.now());
-        user.setUid(213124512412L);
-        UserServ.UserRequest.Builder builder = UserServ.UserRequest.newBuilder();
-        copy(user, builder);
-//        BeanUtils.copyProperties(user,builder);
-        UserServ.UserRequest userRequest = builder.build();
-//        System.out.println(userRequest.getUsername());
-        log.info("{}", userRequest);
     }
 }
