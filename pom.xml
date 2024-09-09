@@ -3,14 +3,13 @@
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-
     <groupId>com.zero.rainy</groupId>
     <artifactId>rainy</artifactId>
     <packaging>pom</packaging>
-    <version>v1.0.0</version>
+    <version>${rainy.version}</version>
     <name>rainy</name>
     <description>
-        Rainy - 顶级工程
+        Rainy - 项目顶级工程
     </description>
 
     <!--子模块-->
@@ -18,6 +17,7 @@
         <module>rainy-commons</module>
         <module>rainy-services</module>
         <module>rainy-config</module>
+        <module>rainy-gateway</module>
     </modules>
 
     <!-- 全局依赖版本 -->
@@ -57,8 +57,7 @@
 
     <!-- 全局依赖版本锁定 -->
     <dependencyManagement>
-        <dependencies>
-            <!-- 内部组件版本锁定 -->
+        <dependencies><!-- 内部组件版本锁定 -->
             <dependency>
                 <groupId>com.zero.rainy</groupId>
                 <artifactId>rainy-log-spring-boot-starter</artifactId>
@@ -235,6 +234,14 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
                 <version>${spring-boot.version}</version>
+                <configuration>
+                    <excludes>
+                        <exclude>
+                            <groupId>org.projectlombok</groupId>
+                            <artifactId>lombok</artifactId>
+                        </exclude>
+                    </excludes>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>

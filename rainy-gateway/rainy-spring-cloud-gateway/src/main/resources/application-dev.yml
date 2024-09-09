@@ -1,0 +1,9 @@
+# 开发环境配置
+
+spring:
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 192.168.95.130:8848
+        group: rainy-dev
+        namespace: 910a91d6-39cc-4677-8ce9-d320846a36c7

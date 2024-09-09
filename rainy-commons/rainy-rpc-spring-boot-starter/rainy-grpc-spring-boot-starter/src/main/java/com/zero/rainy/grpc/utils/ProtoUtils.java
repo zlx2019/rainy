@@ -5,6 +5,7 @@ import cn.hutool.core.date.LocalDateTimeUtil;
 import com.google.protobuf.Message;
 import com.google.protobuf.Timestamp;
 import com.google.protobuf.util.Timestamps;
+import com.zero.rainy.api.grpc.pb.user.UserServ;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -54,19 +55,31 @@ public class ProtoUtils {
         TYPE_MAPPING.put(short.class, short.class);
     }
 
+    public static <B extends Message.Builder, T> T toEntity(B src, T dst) {
+        Assert.notNull(src, "Source must not be null");
+        Assert.notNull(dst, "Target must not be null");
+        List<Field> fieldsAll = new ArrayList<>();
+        Class<?> sourceClass = src.getClass();
+        while (sourceClass != null && !sourceClass.equals(Object.class)){
+            fieldsAll.addAll(Arrays.asList(sourceClass.getDeclaredFields()));
+            sourceClass = sourceClass.getSuperclass();
+        }
+        System.out.println(fieldsAll.size());
+        return null;
+    }
 
     /**
      * Java entity copy to Protobuf entity
      *
-     * @param source 源对象
+     * @param src 源对象
      * @param clazz  目标对象类型
      */
-    public static <T extends Message.Builder> T copy(Object source, Class<T> clazz){
+    public static <B extends Message.Builder> B toProto(Object src, Class<B> clazz){
         try {
-            Constructor<T> constructor = clazz.getDeclaredConstructor();
+            Constructor<B> constructor = clazz.getDeclaredConstructor();
             constructor.setAccessible(true);
-            T instance = constructor.newInstance();
-            copy(source, instance);
+            B instance = constructor.newInstance();
+            toProto(src, instance);
             return instance;
         } catch (Exception e) {
             log.error("java bean copy protobuf build fail", e);
@@ -77,52 +90,45 @@ public class ProtoUtils {
     /**
      * Java 实体属性 拷贝到 Protobuf 生成的实体中
      *
-     * @param source    Java 实体
-     * @param build     Protobuf 生成的实体构建器
+     * @param src    Java 实体
+     * @param dst     Protobuf 生成的实体构建器
      */
-    public static <R,T extends Message.Builder> void copy(R source, T build){
-        Assert.notNull(source, "Source must not be null");
-        Assert.notNull(build, "Target must not be null");
+    public static <B extends Message.Builder> void toProto(Object src, B dst){
+        Assert.notNull(src, "Source must not be null");
+        Assert.notNull(dst, "Target must not be null");
 
-        // 获取源对象的所有字段(包括继承的父类字段)
-        List<Field> fields = new ArrayList<>();
-        Class<?> sourceClass = source.getClass();
+        // 递归取出源对象的所有字段，包括其父类可访问的字段
+        List<Field> fieldsAll = new ArrayList<>();
+        Class<?> sourceClass = src.getClass();
         while (sourceClass != null && !sourceClass.equals(Object.class)){
-            fields.addAll(Arrays.asList(sourceClass.getDeclaredFields()));
+            fieldsAll.addAll(Arrays.asList(sourceClass.getDeclaredFields()));
             sourceClass = sourceClass.getSuperclass();
         }
-        Class<? extends Message.Builder> targetClass = build.getClass();
-        // 遍历源对象所有字段
-        for (Field field : fields) {
+
+        // 遍历所有字段，根据字段名进行拷贝
+        for (Field field : fieldsAll) {
             String fieldName = field.getName();
+            // 过滤
             if (IGNORED_FIELD.contains(fieldName)){
-                return;
+                continue;
             }
+            // 设置可访问
             field.setAccessible(true);
             try {
-                Object fieldValue = field.get(source);
-                if (fieldValue == null){
-                    return;
-                }else if (fieldValue instanceof String value && StringUtils.isBlank(value)){
+                Object fieldValue = field.get(src);
+                if (fieldValue == null || (fieldValue instanceof String value && StringUtils.isBlank(value))){
                     continue;
                 }
-                // field getter
+                Class<? extends Message.Builder> targetClass = dst.getClass();
+                // 通过 getter,setter 方法，将字段值设置到目标对象
                 String getterMethodName = GETTER_PREFIX + toUpperCaseFirstOne(fieldName);
-                Method targetGetterMethod;
-                try {
-                    targetGetterMethod = targetClass.getDeclaredMethod(getterMethodName);
-                } catch (NoSuchMethodException e) {
-                    // 字段在目标类中不存在,忽略
-                    continue;
-                }
-                // 获取 target 的字段值，和值的类型
-                Object targetFieldValue = targetGetterMethod.invoke(build);
-                Class<?> targetFieldType = targetFieldValue.getClass();
-
-                // 通过 setter 设置值
+                Method getterMethod = targetClass.getDeclaredMethod(getterMethodName);
+                Object dstFieldValue = getterMethod.invoke(dst);
+                Class<?> dstFieldType = dstFieldValue.getClass();
+                // 设置字段值
                 String setterMethodName = SETTER_PREFIX + toUpperCaseFirstOne(fieldName);
-                Method targetSetterMethod = targetClass.getDeclaredMethod(setterMethodName, getFieldType(targetFieldType));
-                invokeSetter(fieldValue, targetFieldType, build, targetSetterMethod);
+                Method targetSetterMethod = targetClass.getDeclaredMethod(setterMethodName, getFieldType(dstFieldType));
+                invokeSetter(fieldValue, dstFieldType, dst, targetSetterMethod);
             } catch (Exception e) {
                 log.error("java bean copy protobuf build fail", e);
             }
@@ -140,50 +146,73 @@ public class ProtoUtils {
         if (value instanceof List<?> || value instanceof Set<?> || value instanceof Map<?,?>){
             return;
         }
+        Object fieldValue = value;
         // 如果值为时间类型，但目标对象中为字符串
         if (value instanceof LocalDate date){
             if (fieldType.equals(String.class)){
-                method.invoke(target, LocalDateTimeUtil.format(date, DatePattern.NORM_DATE_PATTERN));
+                fieldValue = LocalDateTimeUtil.format(date, DatePattern.NORM_DATE_PATTERN);
             }
             if (fieldType.equals(Timestamp.class)){
-                long milli = date.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli();
-                method.invoke(target, Timestamps.fromMillis(milli));
+                fieldValue = Timestamps.fromMillis(date.atStartOfDay(ZoneId.systemDefault()).toInstant().toEpochMilli());
             }
-            return;
         }
         if (value instanceof LocalDateTime dateTime){
             if (fieldType.equals(String.class)){
-                method.invoke(target, LocalDateTimeUtil.format(dateTime, DatePattern.NORM_DATETIME_PATTERN));
+                fieldValue = LocalDateTimeUtil.format(dateTime, DatePattern.NORM_DATETIME_PATTERN);
             }
             if (fieldType.equals(Timestamp.class)){
-                long milli = dateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli();
-                method.invoke(target, Timestamps.fromMillis(milli));
+                fieldValue = Timestamps.fromMillis(dateTime.atZone(ZoneId.systemDefault()).toInstant().toEpochMilli());
             }
-            return;
         }
         if (value instanceof BigDecimal val){
             if (fieldType.equals(double.class) || fieldType.equals(Double.class)){
-                method.invoke(target, val.doubleValue());
+                fieldValue = val.doubleValue();
             }
             if (fieldType.equals(float.class) || fieldType.equals(Float.class)){
-                method.invoke(target, val.floatValue());
+                fieldValue = val.floatValue();
             }
             if (fieldType.equals(String.class)){
-                method.invoke(target, val.toString());
+                fieldValue = val.toString();
             }
         }
-        method.invoke(target, value);
+        method.invoke(target, fieldValue);
     }
 
+    /**
+     * 将包装类型，转换为基本类型
+     * @param fieldType 字段类型
+     */
     private static Class<?> getFieldType(Class<?> fieldType) {
         return TYPE_MAPPING.get(fieldType);
     }
 
+    /**
+     * 将 属性名的首字母转成大写.
+     * @param fieldName 原属性名
+     */
     private static String toUpperCaseFirstOne(String fieldName){
         if (fieldName == null || fieldName.isEmpty() || Character.isUpperCase(fieldName.charAt(0))){
             return fieldName;
         }
         return Character.toUpperCase(fieldName.charAt(0)) +
                 fieldName.substring(1);
+    }
+
+    public static void main(String[] args) {
+        User user = new User();
+        user.setUsername("12312");
+        user.setPrice(213.24);
+        user.setLocked(true);
+        user.setScore(100.23f);
+        user.setSendTime(LocalDateTime.now());
+        user.setUid(213124512412L);
+        UserServ.UserRequest.Builder builder = toProto(user, UserServ.UserRequest.Builder.class);
+        log.info("{}", builder.build());
+
+        User user1 = new User();
+        toEntity(builder, user1);
+        UserServ.UserRequest request = builder.build();
+//        BeanUtils.copyProperties(builder, user1);
+//        log.info("{}", user1);
     }
 }
