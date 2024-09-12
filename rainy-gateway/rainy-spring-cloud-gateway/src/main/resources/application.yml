@@ -1,7 +1,7 @@
 # Web Config
 server:
   address: 0.0.0.0
-  port: 50001
+  port: 51001
 
 # Spring Config
 spring:
@@ -12,17 +12,15 @@ spring:
     gateway:
       # Netty Http Client 配置
       httpclient:
-        # 连接下游服务超时时间
-        connect-timeout: 10
-        # 响应超时时间
-        response-timeout: 10s
-        # 开启压缩
-        compression: true
-        # 最大响应头大小
-        max-header-size: 4096
+        connect-timeout: 5000 # 连接下游服务超时时间
+        response-timeout: 10s # 响应超时时间
+        compression: true     # 开启压缩
+        max-header-size: 4096 # 最大响应头大小
         # 连接池
         pool:
           type: elastic
+        # 开启调试模式
+        wiretap: true
       # 跨域处理
       global-cors:
         cors-configurations:
@@ -38,14 +36,20 @@ spring:
               - DELETE
       # 服务路由映射
       routes:
+          # 服务路由ID
         - id: sample
+          # 路由到的地址
           uri: lb://rainy-sample
-#          uri: http://127.0.0.1:11001
-          # 谓词匹配链
+          # 断言链，当所有断言都成功，则将请求路由到该服务
           predicates:
-            # 路由匹配前缀
             - Path=/api-sample/**
-          # 过滤器链
-          filters:
-            # 去除 path 首个前缀
-            - StripPrefix=1
+            - Between=2017-01-20T17:42:47.789+08:00[Asia/Shanghai], 2025-01-21T17:42:47.789+08:00[Asia/Shanghai]
+        - id: user
+          uri: lb://rainy-user
+          predicates:
+            - Path=/api-user/**
+      # 全局默认过滤器
+      default-filters:
+        - StripPrefix=1 # 去除路由匹配的前缀
+        # 添加请求头标识
+        - AddRequestHeader=x-caller-service, ${spring.application.name}

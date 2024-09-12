@@ -8,6 +8,10 @@ package com.zero.rainy.core.constant;
  */
 public interface Constant {
 
+    /* 请求业务 成功/失败响应码 */
+    int SUCCESS_CODE = 0;
+    int FAIL_CODE = 1;
+
     /**
      * 用户ID在请求头中的 key
      */
@@ -21,4 +25,9 @@ public interface Constant {
      * 链路追踪ID 在日志上下文中的key
      */
     String LOG_TRACE_KEY = "traceId";
+
+    /**
+     * 调用方服务标识 在请求头中的 Key
+     */
+    String CALLER_SERVICE_HEADER_KEY = "x-caller-service";
 }

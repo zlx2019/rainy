@@ -15,6 +15,6 @@ import java.util.Map;
 @FeignClient(name = ServiceConstant.SAMPLE, fallbackFactory = SampleServiceFallbackFactory.class)
 public interface SampleService {
 
-    @GetMapping("/sample/ping/rpc")
+    @GetMapping("/sample/feign")
     Map<String, Object> pingSample();
 }
