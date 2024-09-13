@@ -6,6 +6,7 @@ import feign.RequestInterceptor;
 import feign.RequestTemplate;
 import jakarta.servlet.http.HttpServletRequest;
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.MDC;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 
@@ -33,7 +34,7 @@ public class FeignRequestInterceptor implements RequestInterceptor {
                 .filter(StringUtils::isNoneBlank)
                 .ifPresent(user-> next.header(Constant.USER_ID_HEADER_KEY, user));
         // 传递 traceId
-        Optional.ofNullable(curRequest.getHeader(Constant.TRACE_ID_HEADER_KEY))
+        Optional.ofNullable(MDC.get(Constant.LOG_TRACE_KEY))
                 .filter(StringUtils::isNoneBlank)
                 .ifPresent(traceId-> next.header(Constant.TRACE_ID_HEADER_KEY, traceId));
     }

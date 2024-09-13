@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import java.util.Map;
 
 /**
- * Sample 服务 Feign客户端
+ * Sample 服务 Feign 客户端
  * @author Zero.
  * <p> Created on 2024/9/3 15:30 </p>
  */

@@ -50,6 +50,11 @@
             <groupId>com.zero.rainy</groupId>
             <artifactId>rainy-grpc-spring-boot-starter</artifactId>
         </dependency>
+        <!-- Rainy WebClient -->
+        <dependency>
+            <groupId>com.zero.rainy</groupId>
+            <artifactId>rainy-webclient-spring-boot-starter</artifactId>
+        </dependency>
         <!-- Spring Cloud nacos -->
         <dependency>
             <groupId>com.alibaba.cloud</groupId>
