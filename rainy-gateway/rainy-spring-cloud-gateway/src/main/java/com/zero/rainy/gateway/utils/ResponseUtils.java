@@ -1,7 +1,7 @@
 package com.zero.rainy.gateway.utils;
 
-import com.zero.rainy.core.entity.abstracts.Result;
-import com.zero.rainy.core.utils.JsonUtil;
+import com.zero.rainy.core.pojo.Result;
+import com.zero.rainy.core.utils.JsonUtils;
 import com.zero.rainy.gateway.enums.GatewayError;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -46,7 +46,7 @@ public class ResponseUtils {
         response.setStatusCode(status);
         response.getHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         Result<?> result = Result.fail(code, message);
-        DataBuffer buffer = response.bufferFactory().wrap(JsonUtil.toJson(result).getBytes(StandardCharsets.UTF_8));
+        DataBuffer buffer = response.bufferFactory().wrap(JsonUtils.toJson(result).getBytes(StandardCharsets.UTF_8));
         return response.writeWith(Mono.just(buffer));
     }
 

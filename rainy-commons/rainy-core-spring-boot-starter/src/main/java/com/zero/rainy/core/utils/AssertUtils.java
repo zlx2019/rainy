@@ -3,6 +3,7 @@ package com.zero.rainy.core.utils;
 import cn.hutool.core.util.StrUtil;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 
@@ -13,7 +14,7 @@ import java.util.Arrays;
  * <p> Created on 2024/8/28 14:32 </p>
  */
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class AssertUtil {
+public class AssertUtils {
     static final String TEXT_ERR = "多文本断言未通过,不允许有空值,请检查程序!";
     static final String OBJ_ERR = "多对象断言未通过,不允许有Null,请检查程序!";
     static final String BOOL_ERR = "多boolean值断言未通过,请检查程序";
@@ -25,8 +26,8 @@ public class AssertUtil {
      * @param message 异常消息
      */
     public static void isBlank(String obj, String... message) {
-        if (StrUtil.isBlank(obj)) {
-            execute(message);
+        if (StringUtils.isBlank(obj)) {
+
         }
     }
 
@@ -132,8 +133,9 @@ public class AssertUtil {
         isTrue(number < min,message);
     }
 
+
     /**
-     * 统一异常处理
+     * 统一断言处理
      *
      * @param message 异常提示信息
      */

@@ -1,6 +1,7 @@
 package com.zero.rainy.core.config;
 
 import org.springframework.context.annotation.Import;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 /**
  * 全局默认服务配置注入

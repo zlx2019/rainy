@@ -2,11 +2,12 @@ package com.zero.rainy.core.utils;
 
 import cn.hutool.core.date.DatePattern;
 import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.databind.type.MapType;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -35,7 +36,7 @@ import java.util.Map;
  * <p> Created on 2024/8/28 14:32 </p>
  */
 @Slf4j
-public class JsonUtil {
+public class JsonUtils {
 
     /**
      * Jackson 实例
@@ -80,12 +81,9 @@ public class JsonUtil {
      * @param clazz 泛型
      * @return      Object
      */
+    @SneakyThrows
     public static <T> T toObj(String value, Class<T> clazz) {
-        try {
-            return MAPPER.readValue(value, clazz);
-        } catch (JsonProcessingException e) {
-            throw new RuntimeException(e);
-        }
+        return MAPPER.readValue(value, clazz);
     }
 
     /**
@@ -94,7 +92,8 @@ public class JsonUtil {
      * @param src   输入流
      * @param clazz 实体原型
      */
-    public static <T> T toObj(InputStream src, Class<T> clazz) throws Exception {
+    @SneakyThrows
+    public static <T> T toObj(InputStream src, Class<T> clazz)  {
         return MAPPER.readValue(src, clazz);
     }
 
@@ -105,11 +104,13 @@ public class JsonUtil {
      * @param type  泛型推到
      * @param <T>   泛型
      */
-    public static <T> T toObj(String value, TypeReference<T> type) throws Exception {
+    @SneakyThrows
+    public static <T> T toObj(String value, TypeReference<T> type)  {
         return MAPPER.readValue(value, type);
     }
 
-    public static <T> T toObj(InputStream src, TypeReference<T> type) throws Exception {
+    @SneakyThrows
+    public static <T> T toObj(InputStream src, TypeReference<T> type) {
         return MAPPER.readValue(src, type);
     }
 
@@ -152,5 +153,18 @@ public class JsonUtil {
     public static  <M extends Map, K, V> M readValueToMap(String value, Class<M> mapType, Class<K> keyType, Class<V> valueType) {
         MapType mapKind = MAPPER.getTypeFactory().constructMapType(mapType, keyType, valueType);
         return MAPPER.readValue(value, mapKind);
+    }
+
+    /**
+     * 将 Json 字符串解析为 Json节点树
+     * @param json  json字符串
+     */
+    @SneakyThrows
+    public static JsonNode parseJsonNode(String json) {
+        return MAPPER.readTree(json);
+    }
+
+    public static ObjectNode parseObjectNode(String json) {
+        return (ObjectNode) parseJsonNode(json);
     }
 }

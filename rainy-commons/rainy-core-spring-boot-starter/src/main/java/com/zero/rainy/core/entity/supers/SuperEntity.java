@@ -1,4 +1,4 @@
-package com.zero.rainy.core.entity.abstracts;
+package com.zero.rainy.core.entity.supers;
 
 import com.baomidou.mybatisplus.annotation.FieldFill;
 import com.baomidou.mybatisplus.annotation.TableField;

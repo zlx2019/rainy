@@ -1,6 +1,5 @@
 # Web Server Config
 server:
-  address: 0.0.0.0
   port: 11001
 
 
@@ -12,5 +11,4 @@ spring:
 # grpc Config
 grpc:
   server:
-    address: 0.0.0.0
     port: 11002

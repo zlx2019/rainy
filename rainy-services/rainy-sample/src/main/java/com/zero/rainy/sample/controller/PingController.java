@@ -22,7 +22,7 @@ import java.util.Map;
  */
 @Slf4j
 @RestController
-@RequestMapping("/sample")
+@RequestMapping
 @RequiredArgsConstructor
 public class PingController {
     private final UserGrpcClient userGrpcClient;
@@ -38,7 +38,7 @@ public class PingController {
     /**
      * feign rpc ping
      */
-    @GetMapping("/feign")
+    @GetMapping("/ping/feign")
     public Map<String, Object> pingSample() {
         log.info("ping feign.");
         return Map.of("name", "张三", "age", 19);
@@ -47,7 +47,7 @@ public class PingController {
     /**
      * 通过 WebClient 进行异步服务通信
      */
-    @GetMapping("/webclient")
+    @GetMapping("/ping/webclient")
     public Mono<ResponseEntity<LoginResponseDTO>> login(String username, String password) {
         log.info("webclient ping username: {} password: {}", username, password);
         LoginRequestDTO loginRequestDTO = new LoginRequestDTO().setUsername(username).setPassword(password);
@@ -60,7 +60,7 @@ public class PingController {
     /**
      * grpc ping
      */
-    @GetMapping("/grpc")
+    @GetMapping("/ping/grpc")
     public void grpcCallUser(String username, String password){
         log.info("ping grpc.");
         userGrpcClient.sayHello(username, password);
