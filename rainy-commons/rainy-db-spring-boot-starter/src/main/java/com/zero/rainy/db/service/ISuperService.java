@@ -1,6 +1,7 @@
 package com.zero.rainy.db.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
+import com.zero.rainy.core.entity.supers.SuperEntity;
 
 /**
  * 通用 Service 基于{@link IService}进行扩展。
@@ -9,6 +10,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @author Zero.
  * <p> Created on 2024/8/27 18:52 </p>
  */
-public interface ISuperService<T> extends IService<T> {
+public interface ISuperService<T extends SuperEntity<T>> extends IService<T> {
 
+    boolean updateByLock(T entity);
 }

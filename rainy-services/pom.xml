@@ -36,10 +36,10 @@
             <artifactId>rainy-core-spring-boot-starter</artifactId>
         </dependency>
         <!-- Rainy DB -->
-<!--        <dependency>-->
-<!--            <groupId>com.zero.rainy</groupId>-->
-<!--            <artifactId>rainy-db-spring-boot-starter</artifactId>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>com.zero.rainy</groupId>
+            <artifactId>rainy-db-spring-boot-starter</artifactId>
+        </dependency>
         <!-- Rainy Feign -->
         <dependency>
             <groupId>com.zero.rainy</groupId>

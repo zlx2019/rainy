@@ -3,7 +3,6 @@ package com.zero.rainy.db.config;
 import com.baomidou.mybatisplus.annotation.DbType;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.BlockAttackInnerInterceptor;
-import com.baomidou.mybatisplus.extension.plugins.inner.IllegalSQLInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.zero.rainy.db.hooks.EntitySupplementHook;
@@ -28,7 +27,7 @@ public class DefaultMybatisPlusConfig {
     public MybatisPlusInterceptor mybatisPlusInterceptor(){
         MybatisPlusInterceptor interceptor = new MybatisPlusInterceptor();
         // 添加非法SQL拦截器
-        interceptor.addInnerInterceptor(new IllegalSQLInnerInterceptor());
+//        interceptor.addInnerInterceptor(new IllegalSQLInnerInterceptor());
         // 防止全表更新或删除插件.
         interceptor.addInnerInterceptor(new BlockAttackInnerInterceptor());
         // 乐观锁插件

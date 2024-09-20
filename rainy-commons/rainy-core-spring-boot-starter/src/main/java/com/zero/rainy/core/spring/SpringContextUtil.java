@@ -51,6 +51,11 @@ public class SpringContextUtil implements ApplicationContextAware, BeanFactoryPo
         }
     }
 
+
+    public static <T> T getBean(Class<T> clazz) {
+        return getBeanFactory().getBean(clazz);
+    }
+
     /**
      * 发布事件
      * @param src   事件源

@@ -1,6 +1,7 @@
 package com.zero.rainy.core.utils;
 
 import cn.hutool.core.util.StrUtil;
+import com.zero.rainy.core.exception.BusinessException;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -144,6 +145,6 @@ public class AssertUtils {
         if (message != null && message.length > 0) {
             msg = message[0];
         }
-        throw new RuntimeException(msg);
+        throw new BusinessException(msg);
     }
 }
