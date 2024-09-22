@@ -8,9 +8,17 @@ package com.zero.rainy.core.constant;
  */
 public interface Constant {
 
-    /* 请求业务 成功/失败响应码 */
-    int SUCCESSFUL = 0;
-    int FAILED = 1;
+    /**
+     * 基础业务请求响应码
+     */
+    int SUCCESS = 0;
+    int FAIL = 1;
+
+    /**
+     * 数据表逻辑删除
+     */
+    int NOT_DELETED = 0;
+    int DELETED = 1;
 
     /**
      * 用户ID在请求头中的 key

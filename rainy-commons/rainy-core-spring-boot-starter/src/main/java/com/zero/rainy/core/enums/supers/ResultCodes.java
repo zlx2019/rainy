@@ -15,7 +15,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public enum ResultCodes {
     /* 请求业务 */
-    Success(ResultCode.of(Constant.SUCCESSFUL, "successful")),
+    Success(ResultCode.of(Constant.SUCCESS, "successful")),
 
     /* 通用错误响应 */
     Unknown(ResultCode.of("系统错误")),

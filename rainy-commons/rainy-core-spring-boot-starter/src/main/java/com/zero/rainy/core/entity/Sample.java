@@ -1,7 +1,6 @@
 package com.zero.rainy.core.entity;
 
-import com.baomidou.mybatisplus.annotation.Version;
-import com.zero.rainy.core.entity.supers.SuperEntity;
+import com.zero.rainy.core.entity.supers.WithLockEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -11,12 +10,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Sample extends SuperEntity<Sample> {
+public class Sample extends WithLockEntity<Sample> {
     private String name;
     private int age;
-    /**
-     * 乐观锁标志
-     */
-    @Version
-    private int version;
 }

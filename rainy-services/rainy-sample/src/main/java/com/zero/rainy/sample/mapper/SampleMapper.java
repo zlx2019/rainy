@@ -1,7 +1,7 @@
 package com.zero.rainy.sample.mapper;
 
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.zero.rainy.core.entity.Sample;
+import com.zero.rainy.db.mapper.SuperMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
@@ -9,6 +9,6 @@ import org.apache.ibatis.annotations.Mapper;
  * <p> Created on 2024/9/20 10:31 </p>
  */
 @Mapper
-public interface SampleMapper extends BaseMapper<Sample> {
+public interface SampleMapper extends SuperMapper<Sample> {
 
 }

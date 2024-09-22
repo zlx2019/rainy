@@ -2,6 +2,7 @@ package com.zero.rainy.sample;
 
 import com.zero.rainy.core.entity.Sample;
 import com.zero.rainy.sample.service.ISampleService;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,37 +22,31 @@ public class SampleApplicationTest {
     }
 
     @Test
-    public void test(){
+    public void insert(){
         Sample sample = new Sample();
-        sample.setName("lisi");
+        sample.setName("Zero");
         sample.setAge(18);
-        boolean saved = sampleService.save(sample);
-        System.out.println(saved);
+        Assertions.assertTrue(sampleService.save(sample));
     }
 
     @Test
     public void update(){
-        Sample sample = sampleService.getById(1836972328246734848L);
-        sample.setAge(22);
-        boolean updated = sampleService.updateById(sample);
-        System.out.println(updated);
+        Sample sample = sampleService.getById(1837364931811069952L);
+        sample.setAge(30);
+        Assertions.assertTrue(sampleService.updateById(sample));
     }
 
     @Test
     public void delete(){
         Sample sample = new Sample();
-        sample.setId(1836972328246734848L);
-        boolean updated = sampleService.removeById(sample);
-        System.out.println(updated);
+        sample.setId(1837364931811069952L);
+        Assertions.assertTrue(sampleService.removeById(sample));
     }
 
     @Test
     public void lock(){
-        Sample sample;
-        do {
-            sample = sampleService.getById(1836967643460829184L);
-            sample.setAge(99);
-        }while (!sampleService.updateById(sample));
-        System.out.println("修改成功!");
+        Sample sample = sampleService.getById(1837364931811069952L);
+        sample.setAge(18);
+        Assertions.assertTrue(sampleService.lockUpdate(sample));
     }
 }

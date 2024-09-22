@@ -42,13 +42,13 @@ public class Result<T> implements Serializable {
     private T data;
 
     public static <T> Result<T> ok (T data) {
-        return of(Constant.SUCCESSFUL, null, data);
+        return of(Constant.SUCCESS, null, data);
     }
     public static <T> Result<T> fail () {
-        return of(Constant.FAILED, null, null);
+        return of(Constant.FAIL, null, null);
     }
     public static <T> Result<T> fail (String message) {
-        return of(Constant.FAILED, message, null);
+        return of(Constant.FAIL, message, null);
     }
     public static <T> Result<T> fail (int code, String message) {
         return of(code, message, null);

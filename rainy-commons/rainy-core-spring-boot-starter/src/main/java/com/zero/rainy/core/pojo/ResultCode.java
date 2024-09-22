@@ -13,7 +13,7 @@ import com.zero.rainy.core.constant.Constant;
  */
 public record ResultCode(int code, String message) {
     public static ResultCode of(String message){
-        return of(Constant.FAILED, message);
+        return of(Constant.FAIL, message);
     }
     public static ResultCode of(int code, String message) {
         return new ResultCode(code, message);

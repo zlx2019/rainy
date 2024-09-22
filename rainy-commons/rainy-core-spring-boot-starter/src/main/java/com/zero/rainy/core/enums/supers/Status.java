@@ -13,7 +13,7 @@ import lombok.Getter;
  */
 @AllArgsConstructor
 @Getter
-public enum EntityStatus {
+public enum Status {
     NORMAL(0, "正常"),
     LOCKING(1,"锁定")
     ;

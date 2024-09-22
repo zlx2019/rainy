@@ -6,7 +6,7 @@
     <groupId>com.zero.rainy</groupId>
     <artifactId>rainy</artifactId>
     <packaging>pom</packaging>
-    <version>${rainy.version}</version>
+    <version>v1.0.0</version>
     <name>rainy</name>
     <description>
         Rainy - 项目顶级工程
@@ -45,7 +45,7 @@
         <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
 
         <!-- Mybatis Plus -->
-        <mybatis-plus.version>3.5.7</mybatis-plus.version>
+        <mybatis-plus.version>3.5.5</mybatis-plus.version>
         <!-- SpringBoot -->
         <spring-boot.version>3.3.3</spring-boot.version>
         <!-- SpringCloud -->

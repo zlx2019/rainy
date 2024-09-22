@@ -1,13 +1,15 @@
 package com.zero.rainy.db.service;
 
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.zero.rainy.core.entity.supers.SuperEntity;
-import com.zero.rainy.db.utils.VersionChecker;
+import com.zero.rainy.core.entity.supers.WithLockEntity;
+import com.zero.rainy.core.utils.AssertUtils;
+import com.zero.rainy.db.constants.EntityColumn;
+import com.zero.rainy.db.mapper.SuperMapper;
 import lombok.extern.slf4j.Slf4j;
 
-import java.lang.reflect.Field;
+import java.util.Objects;
 
 /**
  * 通用 Service {@link ISuperService} 实现类. 通用抽象方法的实现.
@@ -16,20 +18,25 @@ import java.lang.reflect.Field;
  * <p> Created on 2024/8/27 18:54 </p>
  */
 @Slf4j
-public class SuperServiceImpl<M extends BaseMapper<T>,T extends SuperEntity<T>> extends ServiceImpl<M,T> implements ISuperService<T> {
+public class SuperServiceImpl<M extends SuperMapper<T>,T extends SuperEntity<T>> extends ServiceImpl<M,T> implements ISuperService<T> {
 
     @Override
-    public boolean updateByLock(T entity) {
-        VersionChecker<?> checker = new VersionChecker<>(entity.getClass());
-        if (!checker.hasVersion()){
+    public boolean lockUpdate(T entity) {
+        AssertUtils.nonNull(entity, "update entity is null");
+        if (!(entity instanceof WithLockEntity<?>)){
             return super.updateById(entity);
         }
-        Field field = checker.getVersionField();
-        new QueryWrapper<T>()
-                .select("version");
-        while (!this.updateById(entity)){
-            // TODO
+        QueryWrapper<T> wrapper = new QueryWrapper<T>().select(EntityColumn.VERSION).eq(EntityColumn.ID, entity.getId());
+        while (!super.updateById(entity)){
+            // reload latest version
+            T latest = super.getOne(wrapper);
+            if (Objects.isNull(latest)){
+                return Boolean.FALSE;
+            }
+            if (latest instanceof WithLockEntity<?> lockEntity){
+                ((WithLockEntity<?>) entity).setVersion(lockEntity.getVersion());
+            }
         }
-        return false;
+        return Boolean.TRUE;
     }
 }

@@ -5,7 +5,7 @@ import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.BlockAttackInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
-import com.zero.rainy.db.hooks.EntitySupplementHook;
+import com.zero.rainy.db.hooks.SupplementEntityHook;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
@@ -16,7 +16,7 @@ import org.springframework.context.annotation.Import;
  * @author Zero.
  * <p> Created on 2024/8/27 18:39 </p>
  */
-@Import(EntitySupplementHook.class)
+@Import(SupplementEntityHook.class)
 @MapperScan({"com.zero.rainy.*.mapper"})
 public class DefaultMybatisPlusConfig {
 

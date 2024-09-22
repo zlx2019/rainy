@@ -4,7 +4,7 @@
     <!-- 应用程序名称 -->
     <springProperty name="APP_NAME" scope="context" source="spring.application.name"/>
     <!-- 日志文件名称 -->
-    <springProperty name="LOG_FILE" scope="context" source="logging.file" defaultValue="./logs/${APP_NAME}"/>
+    <springProperty name="LOG_FILE" scope="context" source="logging.file" defaultValue="logs/${APP_NAME}"/>
     <!-- 日志文件最大大小 -->
     <springProperty name="LOG_MAXFILESIZE" scope="context" source="logback.filesize" defaultValue="50MB"/>
     <!-- 日志保留天数 -->

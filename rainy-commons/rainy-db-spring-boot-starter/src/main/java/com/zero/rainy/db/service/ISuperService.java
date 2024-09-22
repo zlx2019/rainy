@@ -12,5 +12,5 @@ import com.zero.rainy.core.entity.supers.SuperEntity;
  */
 public interface ISuperService<T extends SuperEntity<T>> extends IService<T> {
 
-    boolean updateByLock(T entity);
+    boolean lockUpdate(T entity);
 }

@@ -2,7 +2,7 @@ package com.zero.rainy.core.entity.supers;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.zero.rainy.core.enums.supers.EntityStatus;
+import com.zero.rainy.core.enums.supers.Status;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -23,7 +23,8 @@ public class SuperEntity <T extends Model<?>> extends Model<T> implements Serial
     private static final long serialVersionUID = 1L;
 
     /**
-     * ID
+     * 主键ID
+     *  - INPUT 需要手动生成ID
      */
     @TableId(type = IdType.INPUT)
     private Long id;
@@ -35,19 +36,23 @@ public class SuperEntity <T extends Model<?>> extends Model<T> implements Serial
     private LocalDateTime createTime;
 
     /**
-     * 修改时间
+     * 最后修改时间
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
     private LocalDateTime updateTime;
 
     /**
      * 状态
+     *  0: 正常
+     *  1: 锁定不可用
      */
-    private EntityStatus status = EntityStatus.NORMAL;
+    private Status status = Status.NORMAL;
 
     /**
      * 逻辑删除
+     * 0 - false: 未删除
+     * 1 - true: 已删除
      */
     @TableLogic
-    private Boolean deleted;
+    private Boolean deleted = Boolean.FALSE;
 }
