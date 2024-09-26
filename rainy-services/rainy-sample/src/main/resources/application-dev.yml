@@ -21,3 +21,19 @@ spring:
         server-addr: 127.0.0.1:8848
         group: rainy-dev
         namespace: 910a91d6-39cc-4677-8ce9-d320846a36c7
+
+rocketmq:
+  # RocketMQ NameServer 地址
+  name-server: 192.168.95.130:9876
+  # 默认生产者配置
+  producer:
+    group: rainy_default_producer   # 默认生产组
+    send-message-timeout: 5000      # 发送消息超时时间，默认3000毫秒
+    retry-times-when-send-failed: 3 # 发送消息失败重试次数
+    retry-times-when-send-async-failed: 3 # 发送异步消息失败重试次数
+    max-message-size: 4194304       # 最大可发送的消息大小, 默认为4MB
+    compress-message-body-threshold: 4096 # 消息进行压缩的阈值
+  # 默认消费者配置
+  consumer:
+#    group: rainy_default_consumer  # 默认消费组
+    pull-batch-size: 30             # 每次可以拉取到的最大消息数量

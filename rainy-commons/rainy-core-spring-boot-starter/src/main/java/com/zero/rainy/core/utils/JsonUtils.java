@@ -86,6 +86,16 @@ public class JsonUtils {
         return MAPPER.readValue(value, clazz);
     }
 
+    @SneakyThrows
+    public static <T> T toObj(byte[] value, Class<T> clazz){
+        return MAPPER.readValue(value, clazz);
+    }
+
+    @SneakyThrows
+    public static <T> T toObj(byte[] value, TypeReference<T> typeReference){
+        return MAPPER.readValue(value, typeReference);
+    }
+
     /**
      * Json输入流，序列化为实体
      *

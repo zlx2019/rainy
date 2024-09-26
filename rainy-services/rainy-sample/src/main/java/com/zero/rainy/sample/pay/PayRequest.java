@@ -5,8 +5,6 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import lombok.Data;
 
-import java.math.BigDecimal;
-
 /**
  * @author Zero.
  * <p> Created on 2024/9/22 19:46 </p>
@@ -18,7 +16,7 @@ public class PayRequest {
     @JsonProperty("order_id")
     private String orderId;
 
-    private BigDecimal amount;
+    private String amount;
 
     @JsonProperty("notify_url")
     private String notifyUrl;
