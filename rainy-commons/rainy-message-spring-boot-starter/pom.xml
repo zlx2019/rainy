@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.zero.rainy</groupId>
+        <artifactId>rainy-commons</artifactId>
+        <version>v1.0.0</version>
+    </parent>
+    <artifactId>rainy-message-spring-boot-starter</artifactId>
+    <packaging>jar</packaging>
+    <description>
+        Rainy - 消息组件
+    </description>
+    <dependencies>
+        <!-- Core -->
+        <dependency>
+            <groupId>com.zero.rainy</groupId>
+            <artifactId>rainy-core-spring-boot-starter</artifactId>
+        </dependency>
+        <!-- RocketMQ -->
+        <dependency>
+            <groupId>org.apache.rocketmq</groupId>
+            <artifactId>rocketmq-spring-boot-starter</artifactId>
+        </dependency>
+    </dependencies>
+</project>

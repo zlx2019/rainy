@@ -1,0 +1,39 @@
+# 开发环境配置
+spring:
+  # 数据源配置
+  datasource:
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+    url: jdbc:p6spy:mysql://127.0.0.1:3306/rainy?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+    username: root
+    password: rootROOT@1234
+    # 连接池
+    hikari:
+      minimum-idle: 10      # 最小连接数
+      maximum-pool-size: 64 # 最大连接数
+      idle-timeout: 600000  # 空闲连接超时时间
+      connection-timeout: 30000 # 连接超时时间
+      max-lifetime: 1800000     # 连接最大生命周期
+
+  cloud:
+    # 服务注册中心
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+        group: rainy-dev
+        namespace: 910a91d6-39cc-4677-8ce9-d320846a36c7
+
+rocketmq:
+  # RocketMQ NameServer 地址
+  name-server: 47.94.213.132:9876
+  # 默认生产者配置
+  producer:
+    group: rainy_default_producer   # 默认生产组
+    send-message-timeout: 5000      # 发送消息超时时间，默认3000毫秒
+    retry-times-when-send-failed: 3 # 发送消息失败重试次数
+    retry-times-when-send-async-failed: 3 # 发送异步消息失败重试次数
+    max-message-size: 4194304       # 最大可发送的消息大小, 默认为4MB
+    compress-message-body-threshold: 4096 # 消息进行压缩的阈值
+  # 默认消费者配置
+  consumer:
+#    group: rainy_default_consumer  # 默认消费组
+    pull-batch-size: 30             # 每次可以拉取到的最大消息数量

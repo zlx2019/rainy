@@ -19,5 +19,6 @@
         <module>rainy-db-spring-boot-starter</module>
         <module>rainy-rpc-spring-boot-starter</module>
         <module>rainy-api-spring-boot-starter</module>
+        <module>rainy-message-spring-boot-starter</module>
     </modules>
 </project>
