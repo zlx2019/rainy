@@ -3,10 +3,7 @@ package com.zero.rainy.core.utils;
 import cn.hutool.core.date.DatePattern;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.core.type.TypeReference;
-import com.fasterxml.jackson.databind.DeserializationFeature;
-import com.fasterxml.jackson.databind.JsonNode;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.*;
 import com.fasterxml.jackson.databind.node.ObjectNode;
 import com.fasterxml.jackson.databind.type.CollectionType;
 import com.fasterxml.jackson.databind.type.MapType;
@@ -49,6 +46,8 @@ public class JsonUtils {
         MAPPER.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         // 反序列化时 忽略json中存在 但对象中不存在的字段
         MAPPER.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        // 禁止将时间类型序列化为时间戳
+        MAPPER.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
         // 命名规则为驼峰命名
         MAPPER.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
         JavaTimeModule timeModule = new JavaTimeModule();
@@ -59,6 +58,10 @@ public class JsonUtils {
         timeModule.addDeserializer(LocalDate.class, new LocalDateDeserializer(DateTimeFormatter.ofPattern(DatePattern.NORM_DATE_PATTERN)));
         timeModule.addDeserializer(LocalTime.class, new LocalTimeDeserializer(DateTimeFormatter.ofPattern(DatePattern.NORM_TIME_PATTERN)));
         MAPPER.registerModule(timeModule);
+    }
+
+    public static ObjectMapper getMapper() {
+        return MAPPER;
     }
 
 

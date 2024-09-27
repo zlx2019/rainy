@@ -12,11 +12,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 public class TextMessage extends BaseMessage {
-    public TextMessage(String id) {
-        super(id);
-    }
-    public TextMessage(String id, String content) {
-        super(id);
+    public TextMessage(String content) {
         this.content = content;
     }
 

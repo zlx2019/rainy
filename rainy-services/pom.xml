@@ -60,6 +60,13 @@
 <!--            <groupId>com.alibaba.cloud</groupId>-->
 <!--            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>-->
 <!--        </dependency>-->
+
+        <!-- Rainy Message -->
+        <dependency>
+            <groupId>com.zero.rainy</groupId>
+            <artifactId>rainy-message-spring-boot-starter</artifactId>
+        </dependency>
+
         <!-- 数据校验 -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -74,12 +81,6 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
-        </dependency>
-
-        <!-- RocketMQ -->
-        <dependency>
-            <groupId>org.apache.rocketmq</groupId>
-            <artifactId>rocketmq-spring-boot-starter</artifactId>
         </dependency>
 
     </dependencies>
