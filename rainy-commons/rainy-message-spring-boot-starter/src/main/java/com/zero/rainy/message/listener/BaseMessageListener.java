@@ -1,9 +1,9 @@
 package com.zero.rainy.message.listener;
 
-import com.zero.rainy.message.model.BaseMessage;
+import com.zero.rainy.core.pojo.message.BaseMessage;
+import com.zero.rainy.core.pojo.message.delay.DelayMessage;
 import com.zero.rainy.message.template.MessageTemplate;
 import com.zero.rainy.message.template.provider.RocketMQProvider;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
 import org.apache.rocketmq.common.message.MessageExt;
@@ -11,6 +11,7 @@ import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.apache.rocketmq.spring.support.RocketMQMessageConverter;
 import org.apache.rocketmq.spring.support.RocketMQUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.messaging.Message;
 
@@ -23,12 +24,14 @@ import java.time.Duration;
  * <p> Created on 2024/9/27 17:30 </p>
  */
 @Slf4j
-@RequiredArgsConstructor
 @ConditionalOnBean(RocketMQProvider.class)
 public abstract class BaseMessageListener <T extends BaseMessage> implements RocketMQListener<MessageExt> {
     protected final int MAX_RETRY_TIMES = -1;
-    private final MessageTemplate template;
-    private final RocketMQMessageConverter converter;
+
+    @Autowired
+    private MessageTemplate template;
+    @Autowired
+    private RocketMQMessageConverter converter;
 
     /**
      * 消息的消费处理函数
@@ -44,6 +47,10 @@ public abstract class BaseMessageListener <T extends BaseMessage> implements Roc
     protected void goalkeeper(T message){
     }
 
+//    @Override
+//    public void onMessage(MessageExt message) {
+//        this.delegate(message, );
+//    }
 
     /**
      * 消息过滤，检查消息是否已被消费过
@@ -91,7 +98,10 @@ public abstract class BaseMessageListener <T extends BaseMessage> implements Roc
     /**
      * 获取重试延迟时长
      */
-    protected Duration getDelayTime(){
+    protected Duration getDelayTime(T message){
+        if (message instanceof DelayMessage delayMessage){
+            return delayMessage.getDelay();
+        }
         return Duration.ofSeconds(3);
     }
 
@@ -113,7 +123,7 @@ public abstract class BaseMessageListener <T extends BaseMessage> implements Roc
         String messageId = ext.getMsgId();
         String keys = ext.getKeys();
         String topic = ext.getTopic();
-        if (clazz.isInstance(messageValue)){
+        if (!clazz.isInstance(messageValue)){
             log.error("TOPIC: [{}] MESSAGE-ID: [{}] KEYS: [{}] cannot be processed cause: message must not convert to [{}]",
                     topic, messageId, keys, clazz.getName());
             return;
@@ -143,16 +153,19 @@ public abstract class BaseMessageListener <T extends BaseMessage> implements Roc
             if (!businessResult && isEnableRetry()){
                 int maxRetryTimes = this.getMaxRetryTimes();
                 if (maxRetryTimes != MAX_RETRY_TIMES && message.getUseCount() >= maxRetryTimes){
-                    // 业务失败 & 没有可重试次数
                     this.goalkeeper(message);
                 }else {
-                    // 业务执行失败，重试
                     reCommitMessage(message);
                 }
             }
-
         }catch (Exception e){
-
+            if (onErrorThrowException()){
+                // 抛出异常，由MQ接手重试
+                throw new RuntimeException(e);
+            }
+            if (isEnableRetry()){
+                reCommitMessage(message);
+            }
         }
     }
 
@@ -162,15 +175,24 @@ public abstract class BaseMessageListener <T extends BaseMessage> implements Roc
      */
     private void reCommitMessage(T message) {
         RocketMQMessageListener annotation = this.getClass().getAnnotation(RocketMQMessageListener.class);
-        if (annotation != null){
+        if (annotation == null){
             return;
         }
+        String topic = annotation.topic();
+        String tag = annotation.selectorExpression();
         message.incrCount();
-
-        if (this.isEnableDelay() && !this.getDelayTime().isZero()){
-
-        }else {
-            template.send(annotation.topic(), message, annotation.selectorExpression());
+        boolean sendResult;
+        try {
+            if (this.isEnableDelay() && !this.getDelayTime(message).isZero()){
+                sendResult = template.sendDelay(topic, message, getDelayTime(message), tag);
+            }else {
+                sendResult = template.send(topic, message, tag);
+            }
+        }catch (Exception e){
+            throw new RuntimeException("message recommit fail", e);
+        }
+        if (!sendResult){
+            throw new RuntimeException("message recommit fail KEYS: " + message.getKeys());
         }
     }
 }

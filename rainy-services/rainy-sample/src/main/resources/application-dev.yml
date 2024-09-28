@@ -35,5 +35,5 @@ rocketmq:
     compress-message-body-threshold: 4096 # 消息进行压缩的阈值
   # 默认消费者配置
   consumer:
-#    group: rainy_default_consumer  # 默认消费组
+    group: rainy_default_consumer  # 默认消费组
     pull-batch-size: 30             # 每次可以拉取到的最大消息数量

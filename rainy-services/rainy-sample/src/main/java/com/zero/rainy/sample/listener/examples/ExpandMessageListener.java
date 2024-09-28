@@ -1,4 +1,4 @@
-package com.zero.rainy.sample.listener;
+package com.zero.rainy.sample.listener.examples;
 
 import com.zero.rainy.core.pojo.bo.MessageBo;
 import lombok.RequiredArgsConstructor;
@@ -18,7 +18,7 @@ import java.util.Map;
 import java.util.UUID;
 
 /**
- * 扩展消息消费，此方式可高度扩展消息的处理
+ * 消息所有属性内容
  *
  * @author Zero.
  * <p> Created on 2024/9/26 13:40 </p>
@@ -28,7 +28,7 @@ import java.util.UUID;
 @Component
 @RequiredArgsConstructor
 @RocketMQMessageListener(topic = "complex-topic", consumerGroup = "complex-topic-consumer")
-public class ComplexMessageListener implements RocketMQListener<MessageExt> {
+public class ExpandMessageListener implements RocketMQListener<MessageExt> {
     /**
      * 消息转换器
      */

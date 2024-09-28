@@ -1,6 +1,9 @@
 package com.zero.rainy.message.config;
 
 import com.zero.rainy.core.utils.JsonUtils;
+import com.zero.rainy.message.template.MessageTemplate;
+import com.zero.rainy.message.template.provider.RocketMQProvider;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.apache.rocketmq.spring.support.RocketMQMessageConverter;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
@@ -32,5 +35,15 @@ public class DefaultRocketMQConfig {
             }
         }
         return converter;
+    }
+
+    /**
+     * 注入消息服务模板
+     * @param template  RocketMQ客户端
+     * @return {@link RocketMQProvider}
+     */
+    @Bean
+    public MessageTemplate messageTemplate(RocketMQTemplate template){
+        return new RocketMQProvider(template);
     }
 }

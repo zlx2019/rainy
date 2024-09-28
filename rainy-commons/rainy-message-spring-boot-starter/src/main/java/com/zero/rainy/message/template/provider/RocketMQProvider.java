@@ -1,7 +1,8 @@
 package com.zero.rainy.message.template.provider;
 
-import com.zero.rainy.message.model.BaseMessage;
+import com.zero.rainy.core.pojo.message.BaseMessage;
 import com.zero.rainy.message.template.MessageTemplate;
+import com.zero.rainy.message.utils.MessageUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ArrayUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -13,6 +14,10 @@ import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.apache.rocketmq.spring.support.RocketMQHeaders;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
+
+import java.time.Duration;
+import java.time.LocalDateTime;
+import java.util.UUID;
 
 /**
  * RocketMQ 消息服务提供者
@@ -38,11 +43,29 @@ public class RocketMQProvider implements MessageTemplate {
      */
     @Override
     public <T extends BaseMessage> boolean send(String topic, T message, String... tag) {
-        Message<T> msg = (Message<T>) MessageBuilder.withPayload(message)
+        if (StringUtils.isBlank(message.getKeys())){
+            message.setKeys(UUID.randomUUID().toString());
+        }
+        message.setSendTime(LocalDateTime.now());
+        Message<T> msg = MessageBuilder.withPayload(message)
                 .setHeader(RocketMQHeaders.KEYS, message.getKeys())
 //                .setHeader(MessageHeaders.ID, "")
                 .build();
         return syncSend(buildTopic(topic, tag), msg);
+    }
+
+    /**
+     * 发送延迟消息
+     *
+     * @param topic   目标主题
+     * @param message 消息
+     * @param tag     标签
+     */
+    @Override
+    public <T extends BaseMessage> boolean sendDelay(String topic, T message, Duration delay, String... tag) {
+        Message<T> msg = MessageUtils.buildMessage(message);
+        SendResult sendResult = template.syncSendDelayTimeMills(topic, msg, delay.toMillis());
+        return SendStatus.SEND_OK.equals(sendResult.getSendStatus());
     }
 
     /**

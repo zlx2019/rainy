@@ -2,8 +2,11 @@ package com.zero.rainy.user.controller;
 
 import cn.hutool.core.util.RandomUtil;
 import com.zero.rainy.core.pojo.Result;
-import com.zero.rainy.core.pojo.bo.MessageBo;
+import com.zero.rainy.core.pojo.message.TextMessage;
+import com.zero.rainy.core.pojo.message.UserMessage;
+import com.zero.rainy.message.template.MessageTemplate;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.client.producer.SendStatus;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
@@ -14,6 +17,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.time.Duration;
 import java.time.LocalDateTime;
 import java.util.UUID;
 
@@ -21,20 +25,50 @@ import java.util.UUID;
  * @author Zero.
  * <p> Created on 2024/9/26 13:34 </p>
  */
+@Slf4j
 @RestController
 @RequestMapping("/send")
 @RequiredArgsConstructor
 public class SendController {
     private final RocketMQTemplate rocketMQTemplate;
+    private final MessageTemplate messageTemplate;
 
 
     /**
-     * 发送同步消息
+     * 发送普通文本消息.
+     * @param topic     目标主题
+     * @param message   消息内容
+     *
      */
     @GetMapping
     public Result<Boolean> sendMessage(String topic, String message) {
         SendResult sendResult = rocketMQTemplate.syncSend(topic, MessageBuilder.withPayload(message).build());
         return Result.ok(sendResult.getSendStatus().equals(SendStatus.SEND_OK));
+    }
+
+    /**
+     * 向指定队列发送 {@link TextMessage} 消息
+     */
+    @GetMapping("/text")
+    public Result<Boolean> sendTextMessage(String topic, String message) {
+        TextMessage textMessage = new TextMessage(message);
+        textMessage.setKeys(UUID.randomUUID().toString());
+        textMessage.setSendTime(LocalDateTime.now());
+        SendResult sendResult = rocketMQTemplate.syncSend(topic, MessageBuilder.withPayload(textMessage).build());
+        return Result.ok(sendResult.getSendStatus().equals(SendStatus.SEND_OK));
+    }
+
+    @GetMapping("/user")
+    public Result<Boolean> sendUserMessage(String topic) {
+        UserMessage userMessage = new UserMessage();
+        userMessage.setUserId(1231312132L);
+        userMessage.setUsername("dwadwadwa");
+        userMessage.setPassword("root@qwedwq");
+        userMessage.setCreateTime(LocalDateTime.now().plusHours(1));
+        userMessage.setUpdateTime(LocalDateTime.now());
+        userMessage.setDelay(Duration.ofSeconds(5));
+        log.info("发送成功.");
+        return Result.ok(messageTemplate.sendDelay(topic, userMessage));
     }
 
     /**
@@ -57,17 +91,4 @@ public class SendController {
         return Result.ok(sendResult.getSendStatus().equals(SendStatus.SEND_OK));
     }
 
-    /**
-     * 发送复杂消息
-     */
-    @GetMapping("/complex/message")
-    public Result<Boolean> complexMessage(String topic, String name, Integer age) {
-        MessageBo bo = new MessageBo();
-        bo.setName(name);
-        bo.setAge(age);
-        bo.setDate(LocalDateTime.now());
-        Message<MessageBo> message = MessageBuilder.withPayload(bo).build();
-        SendResult sendResult = rocketMQTemplate.syncSend(topic, message);
-        return Result.ok(sendResult.getSendStatus().equals(SendStatus.SEND_OK));
-    }
 }
