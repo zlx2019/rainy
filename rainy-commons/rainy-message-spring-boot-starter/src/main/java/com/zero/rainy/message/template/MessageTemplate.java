@@ -1,8 +1,8 @@
 package com.zero.rainy.message.template;
 
 
-import com.zero.rainy.core.pojo.message.BaseMessage;
-import com.zero.rainy.core.pojo.message.delay.DelayMessage;
+import com.zero.rainy.core.pojo.message.supers.BaseMessage;
+import com.zero.rainy.core.pojo.message.supers.DelayMessage;
 
 import java.time.Duration;
 

@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Bean;
  * @author Zero.
  * <p> Created on 2024/9/5 16:07 </p>
  */
-public class DefaultGrpcConfigure {
+public class GrpcConfigure {
 
     /**
      * 注册 gRPC 客户端拦截器

@@ -1,6 +1,6 @@
 package com.zero.rainy.grpc;
 
-import com.zero.rainy.grpc.config.DefaultGrpcConfigure;
+import com.zero.rainy.grpc.config.GrpcConfigure;
 import org.springframework.context.annotation.Import;
 
 /**
@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Import;
  * @author Zero.
  * <p> Created on 2024/9/5 15:56 </p>
  */
-@Import(DefaultGrpcConfigure.class)
+@Import(GrpcConfigure.class)
 public class GrpcAutoConfigurer {
     
 }

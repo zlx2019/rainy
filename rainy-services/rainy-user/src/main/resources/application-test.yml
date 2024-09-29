@@ -13,6 +13,13 @@ spring:
       idle-timeout: 600000  # 空闲连接超时时间
       connection-timeout: 30000 # 连接超时时间
       max-lifetime: 1800000     # 连接最大生命周期
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      database: 0
+      timeout: 3s
+      connect-timeout: 3s
   cloud:
     # 服务注册中心
     nacos:
@@ -23,7 +30,7 @@ spring:
 
 rocketmq:
   # RocketMQ NameServer 地址
-  name-server: 47.94.213.132:9876
+  name-server: 47.238.125.255:9876
   # 默认生产者配置
   producer:
     group: rainy_default_producer   # 默认生产组

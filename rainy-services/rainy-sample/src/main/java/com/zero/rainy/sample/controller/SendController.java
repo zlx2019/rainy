@@ -1,4 +1,4 @@
-package com.zero.rainy.user.controller;
+package com.zero.rainy.sample.controller;
 
 import cn.hutool.core.util.RandomUtil;
 import com.zero.rainy.core.pojo.Result;
@@ -22,6 +22,8 @@ import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
+ * 消息发送控制器
+ *
  * @author Zero.
  * <p> Created on 2024/9/26 13:34 </p>
  */

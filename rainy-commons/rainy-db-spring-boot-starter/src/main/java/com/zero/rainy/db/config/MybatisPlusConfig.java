@@ -18,7 +18,7 @@ import org.springframework.context.annotation.Import;
  */
 @Import(SupplementEntityHook.class)
 @MapperScan({"com.zero.rainy.*.mapper"})
-public class DefaultMybatisPlusConfig {
+public class MybatisPlusConfig {
 
     /**
      * 注册 Mybatis Plus 插件

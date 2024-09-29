@@ -20,7 +20,7 @@ import org.springframework.context.annotation.Bean;
  * @author Zero.
  * <p> Created on 2024/9/3 16:30 </p>
  */
-public class DefaultFeignConfigure {
+public class FeignConfigure {
     /**
      * 注入SpringMvc 编码器
      */

@@ -1,6 +1,6 @@
 //package com.zero.rainy.message.model;
 //
-//import com.zero.rainy.core.pojo.message.BaseMessage;
+//import com.zero.rainy.core.pojo.message.supers.BaseMessage;
 //import lombok.Data;
 //import lombok.EqualsAndHashCode;
 //import lombok.NoArgsConstructor;

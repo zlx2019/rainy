@@ -1,6 +1,6 @@
 package com.zero.rainy.db;
 
-import com.zero.rainy.db.config.DefaultMybatisPlusConfig;
+import com.zero.rainy.db.config.MybatisPlusConfig;
 import org.springframework.context.annotation.Import;
 
 /**
@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Import;
  * @author Zero.
  * <p> Created on 2024/8/27 18:12 </p>
  */
-@Import(DefaultMybatisPlusConfig.class)
+@Import(MybatisPlusConfig.class)
 public class MybatisPlusAutoConfigure {
 
 }

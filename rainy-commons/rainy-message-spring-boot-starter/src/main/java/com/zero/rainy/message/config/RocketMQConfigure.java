@@ -1,5 +1,6 @@
 package com.zero.rainy.message.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zero.rainy.core.utils.JsonUtils;
 import com.zero.rainy.message.template.MessageTemplate;
 import com.zero.rainy.message.template.provider.RocketMQProvider;
@@ -17,7 +18,7 @@ import org.springframework.messaging.converter.MessageConverter;
  * @author Zero.
  * <p> Created on 2024/9/27 23:58 </p>
  */
-public class DefaultRocketMQConfig {
+public class RocketMQConfigure {
 
     /**
      * 注入消息转换器, 使用自定义的 Jackson 序列化器, 这样就可以进一步控制消息的编解码处理.

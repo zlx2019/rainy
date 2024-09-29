@@ -20,10 +20,5 @@ import java.util.Map;
 public class RainyUserApplication {
     public static void main(String[] args) {
         ConfigurableApplicationContext context = SpringApplication.run(RainyUserApplication.class, args);
-        Map<String, ObjectMapper> mapperMap = context.getBeansOfType(ObjectMapper.class);
-        System.out.println(mapperMap.size());
-
-        RocketMQMessageConverter converter = context.getBean(RocketMQMessageConverter.class);
-        System.out.println(converter.getMessageConverter());
     }
 }

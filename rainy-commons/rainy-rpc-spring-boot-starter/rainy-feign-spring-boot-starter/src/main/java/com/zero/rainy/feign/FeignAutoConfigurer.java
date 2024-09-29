@@ -1,6 +1,6 @@
 package com.zero.rainy.feign;
 
-import com.zero.rainy.feign.config.DefaultFeignConfigure;
+import com.zero.rainy.feign.config.FeignConfigure;
 import org.springframework.context.annotation.Import;
 
 /**
@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Import;
  * @author Zero.
  * <p> Created on 2024/9/3 15:42 </p>
  */
-@Import(DefaultFeignConfigure.class)
+@Import(FeignConfigure.class)
 public class FeignAutoConfigurer {
 
 }

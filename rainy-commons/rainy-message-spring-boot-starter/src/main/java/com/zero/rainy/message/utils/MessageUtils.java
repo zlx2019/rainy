@@ -1,7 +1,7 @@
 package com.zero.rainy.message.utils;
 
 import cn.hutool.core.util.RandomUtil;
-import com.zero.rainy.core.pojo.message.BaseMessage;
+import com.zero.rainy.core.pojo.message.supers.BaseMessage;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;

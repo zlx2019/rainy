@@ -1,6 +1,6 @@
 package com.zero.rainy.sample.listener;
 
-import com.zero.rainy.core.pojo.message.UserMessage;
+import com.zero.rainy.core.pojo.message.UserDelayMessage;
 import com.zero.rainy.message.listener.BaseMessageListener;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.common.message.MessageExt;
@@ -16,7 +16,7 @@ import org.springframework.stereotype.Component;
 @Slf4j
 @Component
 @RocketMQMessageListener(topic = "user-message-topic", consumerGroup = "user-message-topic-group")
-public class UserMessageListener extends BaseMessageListener<UserMessage> {
+public class UserMessageListener extends BaseMessageListener<UserDelayMessage> {
 
     /**
      * 消息的消费处理函数
@@ -25,9 +25,9 @@ public class UserMessageListener extends BaseMessageListener<UserMessage> {
      * @return 是否消费成功, 未成功则重新投入队列.
      */
     @Override
-    protected boolean handler(UserMessage message) throws Exception {
+    protected boolean handler(UserDelayMessage message) throws Exception {
         log.info("UserMessageListener receive message: {}", message);
-        return false;
+        return true;
     }
 
     /**
@@ -60,13 +60,13 @@ public class UserMessageListener extends BaseMessageListener<UserMessage> {
      * @param message 重试多次仍然失败的消息.
      */
     @Override
-    protected void goalkeeper(UserMessage message) {
+    protected void goalkeeper(UserDelayMessage message) {
         log.error("重试次数用尽... {}", message);
     }
 
     @Override
     public void onMessage(MessageExt message) {
-        super.delegate(message, UserMessage.class);
+        super.delegate(message, UserDelayMessage.class);
     }
 
 

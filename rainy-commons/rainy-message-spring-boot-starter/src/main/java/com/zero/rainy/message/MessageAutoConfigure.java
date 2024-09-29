@@ -1,6 +1,6 @@
 package com.zero.rainy.message;
 
-import com.zero.rainy.message.config.DefaultRocketMQConfig;
+import com.zero.rainy.message.config.RocketMQConfigure;
 import org.springframework.context.annotation.Import;
 
 /**
@@ -9,7 +9,7 @@ import org.springframework.context.annotation.Import;
  * @author Zero.
  * <p> Created on 2024/9/27 16:02 </p>
  */
-@Import(DefaultRocketMQConfig.class)
+@Import(RocketMQConfigure.class)
 public class MessageAutoConfigure {
 
 }

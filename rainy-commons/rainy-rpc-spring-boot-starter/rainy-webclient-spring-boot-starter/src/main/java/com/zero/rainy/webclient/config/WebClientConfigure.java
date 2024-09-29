@@ -26,7 +26,7 @@ import java.util.concurrent.TimeUnit;
  * <p> Created on 2024/9/4 14:29 </p>
  */
 @RequiredArgsConstructor
-public class DefaultWebClientConfigure {
+public class WebClientConfigure {
 
     /**
      * 请求服务负载均衡拦截器

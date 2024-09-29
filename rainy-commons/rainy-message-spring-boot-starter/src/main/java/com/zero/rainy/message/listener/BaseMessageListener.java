@@ -1,7 +1,7 @@
 package com.zero.rainy.message.listener;
 
-import com.zero.rainy.core.pojo.message.BaseMessage;
-import com.zero.rainy.core.pojo.message.delay.DelayMessage;
+import com.zero.rainy.core.pojo.message.supers.BaseMessage;
+import com.zero.rainy.core.pojo.message.supers.DelayMessage;
 import com.zero.rainy.message.template.MessageTemplate;
 import com.zero.rainy.message.template.provider.RocketMQProvider;
 import lombok.extern.slf4j.Slf4j;
