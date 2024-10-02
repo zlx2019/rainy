@@ -15,10 +15,21 @@ public interface Constant {
     int FAIL = 1;
 
     /**
+     * 默认页码、页容量
+     */
+    int PAGE = 1;
+    int PAGE_SIZE = 20;
+
+    /**
      * 数据表逻辑删除
      */
     int NOT_DELETED = 0;
     int DELETED = 1;
+
+    /**
+     * 分隔符
+     */
+    String DEFAULT_DELIMITER = ",";
 
     /**
      * 用户ID在请求头中的 key

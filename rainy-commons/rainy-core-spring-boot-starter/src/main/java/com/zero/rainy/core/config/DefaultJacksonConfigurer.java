@@ -1,6 +1,7 @@
 package com.zero.rainy.core.config;
 
 import cn.hutool.core.date.DatePattern;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.SerializationFeature;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
@@ -44,6 +45,9 @@ public class DefaultJacksonConfigurer {
                     .simpleDateFormat(DatePattern.NORM_DATETIME_PATTERN)
                     // 设置 Date、Calender 序列化时区
                     .timeZone(TimeZone.getTimeZone(ZoneId.systemDefault()));
+
+            // 反序列化时采用 小写+下划线形式.
+            builder.propertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE);
             // Java8 时期时间类型序列化
             JavaTimeModule timeModule = new JavaTimeModule();
             timeModule.addSerializer(LocalDateTime.class, new LocalDateTimeSerializer(DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN)));
@@ -55,7 +59,8 @@ public class DefaultJacksonConfigurer {
             builder.modules(timeModule);
             // BigNumber to String 防止前端精度丢失
             builder.serializerByType(Long.class, ToStringSerializer.instance);
-            builder.serializerByType(Long.TYPE,ToStringSerializer.instance);
+            // long 暂时不转换.
+//            builder.serializerByType(Long.TYPE,ToStringSerializer.instance);
             builder.serializerByType(BigInteger.class, ToStringSerializer.instance);
         };
     }

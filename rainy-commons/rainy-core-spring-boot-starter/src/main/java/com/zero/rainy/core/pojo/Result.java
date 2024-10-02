@@ -41,6 +41,10 @@ public class Result<T> implements Serializable {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;
 
+    public static <T> Result<T> ok () {
+        return ok(null);
+    }
+
     public static <T> Result<T> ok (T data) {
         return of(Constant.SUCCESS, null, data);
     }

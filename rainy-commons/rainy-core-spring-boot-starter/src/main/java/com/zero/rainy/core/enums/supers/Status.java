@@ -19,7 +19,7 @@ public enum Status {
     ;
 
     @EnumValue
-    private final int code;
     @JsonValue
+    private final int code;
     private final String message;
 }

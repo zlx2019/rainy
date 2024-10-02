@@ -17,7 +17,7 @@ import org.springframework.context.annotation.Import;
  * <p> Created on 2024/8/27 18:39 </p>
  */
 @Import(SupplementEntityHook.class)
-@MapperScan({"com.zero.rainy.*.mapper"})
+@MapperScan("com.zero.rainy.*.mapper")
 public class DefaultMybatisPlusConfig {
 
     /**
