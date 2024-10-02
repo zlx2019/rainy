@@ -30,6 +30,7 @@ public interface Constant {
      * 分隔符
      */
     String DEFAULT_DELIMITER = ",";
+    String SPACE = " ";
 
     /**
      * 用户ID在请求头中的 key

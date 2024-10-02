@@ -48,13 +48,13 @@ public class SuperServiceImpl<M extends SuperMapper<T>,T extends SuperEntity<T>>
             String orderCols = query.getOrderly();
             OrderBy orderBy = query.getOrderBy();
             if (StringUtils.hasText(orderCols) && (!SqlInjectionUtils.check(orderCols))){
-                StringBuilder sql = new StringBuilder(" ORDER BY ");
+                StringBuilder sql = new StringBuilder(ORDER_BY);
                 String[] columns = orderCols.split(Constant.DEFAULT_DELIMITER);
                 int length = columns.length;
                 for (int i = 0; i < length; i++) {
-                    sql.append(columns[i]).append(" ").append(orderBy.name());
+                    sql.append(columns[i]).append(Constant.SPACE).append(orderBy.name());
                     if (i != length - 1) {
-                        sql.append(",");
+                        sql.append(Constant.DEFAULT_DELIMITER);
                     }
                 }
                 lqw.last(sql.toString());

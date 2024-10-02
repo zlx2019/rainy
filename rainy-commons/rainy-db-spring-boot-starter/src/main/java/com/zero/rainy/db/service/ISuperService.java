@@ -18,8 +18,7 @@ import com.zero.rainy.core.pojo.rqeuest.PageableQuery;
  * <p> Created on 2024/8/27 18:52 </p>
  */
 public interface ISuperService<T extends SuperEntity<T>> extends IService<T> {
-
-
+    String ORDER_BY = " ORDER BY ";
 
     default Pages<T> pages(PageableQuery query){
         return Pages.of(this.page(query, null));
