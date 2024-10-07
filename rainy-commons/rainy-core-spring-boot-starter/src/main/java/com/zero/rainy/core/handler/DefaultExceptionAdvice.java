@@ -1,18 +1,24 @@
-package com.zero.rainy.core.config;
+package com.zero.rainy.core.handler;
 
 import com.zero.rainy.core.enums.supers.ResultCodes;
 import com.zero.rainy.core.exception.BusinessException;
 import com.zero.rainy.core.pojo.Result;
-import com.zero.rainy.core.pojo.ResultCode;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 /**
@@ -23,7 +29,7 @@ import java.util.Optional;
  */
 @Slf4j
 @ResponseBody
-public class DefaultExceptionConfigurer {
+public class DefaultExceptionAdvice {
 
     /**
      * 顶级异常统一处理
@@ -34,7 +40,7 @@ public class DefaultExceptionConfigurer {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Result<?> exceptionHandler (Exception e, HttpServletRequest request){
         log.error("系统未知异常: {}", e.getMessage(), e);
-        return exceptionHandler(ResultCodes.Unknown.getCode(), request);
+        return exceptionHandler(ResultCodes.Unknown);
     }
 
     /**
@@ -43,7 +49,7 @@ public class DefaultExceptionConfigurer {
      * @param request   产生异常的请求
      */
     @ExceptionHandler(BusinessException.class)
-    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ResponseStatus(HttpStatus.OK)
     public Result<?> businessExceptionHandler(BusinessException e, HttpServletRequest request) {
         log.error("系统业务异常: {} - ", e.getMessage(), e);
         return Optional.ofNullable(e.getCode())
@@ -55,28 +61,59 @@ public class DefaultExceptionConfigurer {
      * 资源找不到异常
      * @param e 找不到资源异常信息
      */
-    @ExceptionHandler(NoResourceFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
+    @ExceptionHandler(NoResourceFoundException.class)
     public Result<?> noResourceFoundExceptionHandler(NoResourceFoundException e) {
         log.error("Resource Not Found [{}] - [{}]", e.getHttpMethod(), e.getResourcePath());
-        return Result.fail(ResultCodes.NotFound);
+        return exceptionHandler(ResultCodes.NotFound);
     }
 
     /**
      * 请求 Method 不支持异常
      */
-    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     @ResponseStatus(HttpStatus.METHOD_NOT_ALLOWED)
+    @ExceptionHandler(HttpRequestMethodNotSupportedException.class)
     public Result<?> httpRequestMethodNotSupportedExceptionHandler(HttpRequestMethodNotSupportedException e, HttpServletRequest request) {
         String path = request.getRequestURI();
         String method = e.getMethod();
         String[] supportedMethods = e.getSupportedMethods();
         log.error("[{}] 不支持 [{}] 请求方式, 允许的请求方式: {}", path, method, supportedMethods);
-        return exceptionHandler(ResultCodes.MethodNotSupport.getCode(), null);
+        return exceptionHandler(ResultCodes.MethodNotSupport);
     }
 
+    /**
+     * 参数校验错误异常
+     * @param e         校验异常信息
+     * @param request   请求
+     */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentNotValidException.class)
+    public Result<?> methodArgumentNotValidExceptionHandler(MethodArgumentNotValidException e, HttpServletRequest request) {
+        BindingResult bindingResult = e.getBindingResult();
+        List<FieldError> fields = bindingResult.getFieldErrors();
+        log.error("============== 参数校验失败 ==============");
+        Map<String, String> errors = new HashMap<>();
+        for (FieldError field : fields) {
+            String fieldName = field.getField();
+            String message = field.getDefaultMessage();
+            errors.put(fieldName, message);
+            log.error("======> [{}] - {}", fieldName, message);
+        }
+        log.error("========================================");
+        return Result.fail(ResultCodes.PARAM_NOT_VALID).setData(errors);
+    }
 
-    private Result<?> exceptionHandler (ResultCode code, HttpServletRequest request){
+    /**
+     * 参数类型转换异常
+     */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public Result<?> httpMessageNotReadableExceptionHandler(MethodArgumentTypeMismatchException e) {
+        log.error("======> [{}] '{}' can not convert to [{}] 类型", e.getPropertyName(), e.getValue(), e.getParameter().getParameterType().getName());
+        return Result.fail(ResultCodes.PARAM_NOT_VALID);
+    }
+
+    private Result<?> exceptionHandler (ResultCodes code){
         return Result.fail(code);
     }
 }
