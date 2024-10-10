@@ -66,6 +66,11 @@
             <groupId>com.zero.rainy</groupId>
             <artifactId>rainy-message-spring-boot-starter</artifactId>
         </dependency>
+        <!-- Rainy Cache -->
+        <dependency>
+            <groupId>com.zero.rainy</groupId>
+            <artifactId>rainy-cache-spring-boot-starter</artifactId>
+        </dependency>
 
         <!-- Redis -->
         <dependency>

@@ -1,5 +1,6 @@
 package com.zero.rainy.core.entity;
 
+import com.baomidou.mybatisplus.annotation.TableName;
 import com.zero.rainy.core.entity.supers.WithLockEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -10,6 +11,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
+@TableName("sample")
 public class Sample extends WithLockEntity<Sample> {
     private String name;
     private int age;

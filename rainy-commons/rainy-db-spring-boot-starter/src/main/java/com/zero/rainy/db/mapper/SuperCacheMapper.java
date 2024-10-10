@@ -1,0 +1,15 @@
+package com.zero.rainy.db.mapper;
+
+import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
+import com.baomidou.mybatisplus.extension.activerecord.Model;
+import com.zero.rainy.core.entity.supers.SuperEntity;
+
+/**
+ * 主要用于解决使用 {@link LambdaQueryWrapper} 找不到实体缓存.
+ *
+ * @author Zero.
+ * <p> Created on 2024/10/1 22:07 </p>
+ */
+public interface SuperCacheMapper<T extends Model<?>> extends SuperMapper<SuperEntity<T>> {
+
+}

@@ -26,7 +26,7 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class FormatterUtils {
     private static final ConcurrentDateFormat FORMAT = new ConcurrentDateFormat(DatePattern.NORM_DATETIME_PATTERN, Locale.getDefault(), TimeZone.getDefault());
-    private static final DateTimeFormatter LOCAL_FORMAT = DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN, Locale.getDefault());
+    public static final DateTimeFormatter LOCAL_FORMAT = DateTimeFormatter.ofPattern(DatePattern.NORM_DATETIME_PATTERN, Locale.getDefault());
 
 
     /**
@@ -52,7 +52,7 @@ public class FormatterUtils {
      * string format Date
      * @throws ParseException 格式化异常
      */
-    public static Date parse(String str) throws ParseException {
+    public static Date parseDate(String str) throws ParseException {
         return FORMAT.parse(str);
     }
 

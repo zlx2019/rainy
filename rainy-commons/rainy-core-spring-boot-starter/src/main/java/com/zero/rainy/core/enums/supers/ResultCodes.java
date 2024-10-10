@@ -21,8 +21,8 @@ public enum ResultCodes {
     Unknown(ResultCode.of("系统错误")),
     Business(ResultCode.of("系统业务错误")),
 
-
     /* 非业务错误响应 */
+    PARAM_NOT_VALID(ResultCode.of(10001, "请求参数有误")),
     NotFound(ResultCode.of(10004, "资源找不到")),
     MethodNotSupport(ResultCode.of(10005, "Method 不匹配"))
     ,;

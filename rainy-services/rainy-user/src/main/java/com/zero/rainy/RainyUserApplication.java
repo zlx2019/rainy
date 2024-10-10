@@ -1,12 +1,7 @@
 package com.zero.rainy;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import org.apache.rocketmq.spring.support.RocketMQMessageConverter;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.context.ConfigurableApplicationContext;
-
-import java.util.Map;
 
 /**
  * Rainy 用户服务
@@ -19,6 +14,6 @@ import java.util.Map;
 @SpringBootApplication
 public class RainyUserApplication {
     public static void main(String[] args) {
-        ConfigurableApplicationContext context = SpringApplication.run(RainyUserApplication.class, args);
+        SpringApplication.run(RainyUserApplication.class, args);
     }
 }

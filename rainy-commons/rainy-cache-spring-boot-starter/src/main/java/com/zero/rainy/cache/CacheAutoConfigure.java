@@ -6,6 +6,7 @@ package com.zero.rainy.cache;
  * @author Zero.
  * <p> Created on 2024/9/29 16:10 </p>
  */
+@Import({RedisConfig.class})
 public class CacheAutoConfigure {
 
 }
