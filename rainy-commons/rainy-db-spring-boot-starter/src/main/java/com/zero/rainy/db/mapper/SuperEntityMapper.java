@@ -10,6 +10,6 @@ import com.zero.rainy.core.entity.supers.SuperEntity;
  * @author Zero.
  * <p> Created on 2024/10/1 22:07 </p>
  */
-public interface SuperCacheMapper<T extends Model<?>> extends SuperMapper<SuperEntity<T>> {
+public interface SuperEntityMapper<T extends Model<?>> extends SuperMapper<SuperEntity<T>> {
 
 }
