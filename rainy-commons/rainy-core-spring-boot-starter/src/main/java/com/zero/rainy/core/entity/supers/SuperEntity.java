@@ -53,6 +53,6 @@ public class SuperEntity <T extends Model<?>> extends Model<T> implements Serial
      * 0 - false: 未删除
      * 1 - true: 已删除
      */
-    @TableLogic
+    @TableLogic(delval = "true", value = "false")
     private Boolean deleted = Boolean.FALSE;
 }

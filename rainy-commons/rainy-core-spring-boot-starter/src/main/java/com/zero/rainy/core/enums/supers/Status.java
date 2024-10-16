@@ -1,7 +1,6 @@
 package com.zero.rainy.core.enums.supers;
 
 import com.baomidou.mybatisplus.annotation.EnumValue;
-import com.fasterxml.jackson.annotation.JsonValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -19,7 +18,6 @@ public enum Status {
     ;
 
     @EnumValue
-    @JsonValue
     private final int code;
     private final String message;
 }

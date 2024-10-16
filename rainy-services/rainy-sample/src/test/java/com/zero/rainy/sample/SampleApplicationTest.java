@@ -31,7 +31,7 @@ public class SampleApplicationTest {
 
     @Test
     public void update(){
-        Sample sample = sampleService.getById(1837364931811069952L);
+        Sample sample = sampleService.getById(1846396068193820672L);
         sample.setAge(30);
         Assertions.assertTrue(sampleService.updateById(sample));
     }
@@ -39,13 +39,13 @@ public class SampleApplicationTest {
     @Test
     public void delete(){
         Sample sample = new Sample();
-        sample.setId(1837364931811069952L);
+        sample.setId(1846396068193820672L);
         Assertions.assertTrue(sampleService.removeById(sample));
     }
 
     @Test
     public void lock(){
-        Sample sample = sampleService.getById(1837364931811069952L);
+        Sample sample = sampleService.getById(1846396068193820672L);
         sample.setAge(18);
         Assertions.assertTrue(sampleService.lockUpdate(sample));
     }
