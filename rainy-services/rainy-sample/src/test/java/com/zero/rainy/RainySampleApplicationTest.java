@@ -1,4 +1,4 @@
-package com.zero.rainy.sample;
+package com.zero.rainy;
 
 import com.zero.rainy.core.entity.Sample;
 import com.zero.rainy.sample.service.ISampleService;
@@ -11,8 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
  * @author Zero.
  * <p> Created on 2024/9/3 16:36 </p>
  */
-@SpringBootTest
-public class SampleApplicationTest {
+@SpringBootTest(classes = {RainySampleApplication.class})
+public class RainySampleApplicationTest {
     @Autowired
     private ISampleService sampleService;
 
