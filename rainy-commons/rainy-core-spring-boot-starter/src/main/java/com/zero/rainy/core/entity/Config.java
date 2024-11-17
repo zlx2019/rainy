@@ -17,12 +17,12 @@ public class Config extends SuperEntity<Config> {
     /**
      * 配置Key
      */
-    private String key;
+    private String configKey;
 
     /**
      * 配置Value (Json格式)
      */
-    private String value;
+    private String configValue;
 
     /**
      * 配置备注

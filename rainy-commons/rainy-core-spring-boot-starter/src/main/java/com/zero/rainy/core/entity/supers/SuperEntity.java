@@ -30,18 +30,6 @@ public class SuperEntity <T extends Model<?>> extends Model<T> implements Serial
     private Long id;
 
     /**
-     * 创建时间
-     */
-    @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
-
-    /**
-     * 最后修改时间
-     */
-    @TableField(fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime;
-
-    /**
      * 状态
      *  0: 正常
      *  1: 锁定不可用
@@ -53,6 +41,19 @@ public class SuperEntity <T extends Model<?>> extends Model<T> implements Serial
      * 0 - false: 未删除
      * 1 - true: 已删除
      */
-    @TableLogic(delval = "true", value = "false")
+//    @TableLogic(delval = "true", value = "false")
+    @TableLogic
     private Boolean deleted = Boolean.FALSE;
+
+    /**
+     * 创建时间
+     */
+    @TableField(fill = FieldFill.INSERT)
+    private LocalDateTime createTime;
+
+    /**
+     * 最后修改时间
+     */
+    @TableField(fill = FieldFill.INSERT_UPDATE)
+    private LocalDateTime updateTime;
 }

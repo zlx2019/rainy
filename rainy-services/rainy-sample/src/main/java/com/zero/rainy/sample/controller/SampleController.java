@@ -1,5 +1,6 @@
 package com.zero.rainy.sample.controller;
 
+import com.zero.rainy.core.config.GlobalDynamicConfig;
 import com.zero.rainy.core.entity.Sample;
 import com.zero.rainy.core.pojo.Pages;
 import com.zero.rainy.core.pojo.Result;
@@ -21,8 +22,8 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 @RequestMapping("/sample")
 public class SampleController {
-
     private final ISampleService sampleService;
+    private final GlobalDynamicConfig globalDynamicConfig;
 
     /**
      * 分页查询
@@ -51,5 +52,10 @@ public class SampleController {
     @GetMapping("/page")
     public Result<Pages<Sample>> page(@Valid PageableQuery query){
         return Result.ok(sampleService.pages(query));
+    }
+
+    @GetMapping("/config")
+    public Result<GlobalDynamicConfig> config(){
+        return Result.ok(globalDynamicConfig);
     }
 }

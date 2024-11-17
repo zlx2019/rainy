@@ -1,9 +1,11 @@
 package com.zero.rainy.core.handler;
 
-import com.zero.rainy.core.enums.supers.ResultCodes;
+import com.zero.rainy.core.enums.supers.ResponseCodes;
 import com.zero.rainy.core.exception.BusinessException;
+import com.zero.rainy.core.pojo.ResponseCode;
 import com.zero.rainy.core.pojo.Result;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
@@ -16,10 +18,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 
 /**
  * 全局异常捕获处理
@@ -40,7 +39,7 @@ public class DefaultExceptionAdvice {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Result<?> exceptionHandler (Exception e, HttpServletRequest request){
         log.error("系统未知异常: {}", e.getMessage(), e);
-        return exceptionHandler(ResultCodes.Unknown);
+        return exceptionHandler(ResponseCodes.Unknown);
     }
 
     /**
@@ -49,12 +48,14 @@ public class DefaultExceptionAdvice {
      * @param request   产生异常的请求
      */
     @ExceptionHandler(BusinessException.class)
-    @ResponseStatus(HttpStatus.OK)
-    public Result<?> businessExceptionHandler(BusinessException e, HttpServletRequest request) {
+    public Result<?> businessExceptionHandler(BusinessException e, HttpServletRequest request, HttpServletResponse response) {
+        if (e.getCode() != null && e.getCode().httpStatus() != null) {
+            response.setStatus(e.getCode().httpStatus().value());
+        }
         log.error("系统业务异常: {} - ", e.getMessage(), e);
         return Optional.ofNullable(e.getCode())
                 .map(Result::fail)
-                .orElseGet(()-> Result.fail(ResultCodes.Business.getCode()));
+                .orElseGet(()-> Result.fail(ResponseCodes.Business.getCode()));
     }
 
     /**
@@ -65,7 +66,7 @@ public class DefaultExceptionAdvice {
     @ExceptionHandler(NoResourceFoundException.class)
     public Result<?> noResourceFoundExceptionHandler(NoResourceFoundException e) {
         log.error("Resource Not Found [{}] - [{}]", e.getHttpMethod(), e.getResourcePath());
-        return exceptionHandler(ResultCodes.NotFound);
+        return exceptionHandler(ResponseCodes.RESOURCE_NOT_FOUND);
     }
 
     /**
@@ -78,7 +79,7 @@ public class DefaultExceptionAdvice {
         String method = e.getMethod();
         String[] supportedMethods = e.getSupportedMethods();
         log.error("[{}] 不支持 [{}] 请求方式, 允许的请求方式: {}", path, method, supportedMethods);
-        return exceptionHandler(ResultCodes.MethodNotSupport);
+        return exceptionHandler(ResponseCodes.METHOD_NOT_SUPPORT);
     }
 
     /**
@@ -100,7 +101,7 @@ public class DefaultExceptionAdvice {
             log.error("======> [{}] - {}", fieldName, message);
         }
         log.error("========================================");
-        return Result.fail(ResultCodes.PARAM_NOT_VALID).setData(errors);
+        return Result.fail(ResponseCodes.PARAM_NOT_VALID).setData(errors);
     }
 
     /**
@@ -110,10 +111,10 @@ public class DefaultExceptionAdvice {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public Result<?> httpMessageNotReadableExceptionHandler(MethodArgumentTypeMismatchException e) {
         log.error("======> [{}] '{}' can not convert to [{}] 类型", e.getPropertyName(), e.getValue(), e.getParameter().getParameterType().getName());
-        return Result.fail(ResultCodes.PARAM_NOT_VALID);
+        return Result.fail(ResponseCodes.PARAM_NOT_VALID);
     }
 
-    private Result<?> exceptionHandler (ResultCodes code){
+    private Result<?> exceptionHandler (ResponseCodes code){
         return Result.fail(code);
     }
 }

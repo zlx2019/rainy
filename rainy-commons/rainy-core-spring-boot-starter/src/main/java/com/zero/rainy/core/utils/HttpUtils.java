@@ -1,10 +1,18 @@
 package com.zero.rainy.core.utils;
 
+import cn.hutool.http.Method;
 import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.DeserializationFeature;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.PropertyNamingStrategies;
+import com.fasterxml.jackson.databind.SerializationFeature;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import lombok.SneakyThrows;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.MediaType;
 
 import java.net.URI;
@@ -16,6 +24,7 @@ import java.time.Duration;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.concurrent.CompletableFuture;
 
 /**
  * HTTP 客户端工具
@@ -23,15 +32,25 @@ import java.util.Objects;
  * @author Zero.
  * <p> Created on 2024/8/13 11:43 </p>
  */
+@Slf4j
+@SuppressWarnings({"unused"})
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class HttpUtils {
-
     private static final Duration DEFAULT_TIMEOUT = Duration.ofSeconds(10);
-    private static final Map<String,String> DEFAULT_HEADER = new HashMap<>(4);
-
+    private static final Map<String,String> DEFAULT_HEADER = new HashMap<>(16);
+    private static final ObjectMapper CODEC;
     static {
         DEFAULT_HEADER.put(HttpHeaders.ACCEPT, MediaType.APPLICATION_JSON_VALUE);
         DEFAULT_HEADER.put(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
+        CODEC = new ObjectMapper();
+        // 反序列化时 忽略json中存在 但对象中不存在的字段
+        CODEC.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES);
+        // 序列化时，对象没有任何属性也不报错.
+        CODEC.configure(SerializationFeature.FAIL_ON_EMPTY_BEANS, false);
+        // 禁止将时间类型序列化为时间戳
+        CODEC.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
+        // 驼峰，首字母小写
+        CODEC.setPropertyNamingStrategy(PropertyNamingStrategies.LOWER_CAMEL_CASE);
     }
 
     private static final HttpClient CLIENT = HttpClient.newBuilder()
@@ -57,7 +76,7 @@ public class HttpUtils {
      * @param timeout 请求超时时间
      */
     private static <R> R getRequest(String url, Map<String, String> headers, Duration timeout, TypeReference<R> type, Class<R> clazz) {
-        return sendRequest2Json("GET", url, null, headers, timeout, type, clazz);
+        return sendRequest2Json(HttpMethod.GET, url, null, headers, timeout, type, clazz);
     }
     public static <R> R get2Json(String url, Map<String, String> headers, TypeReference<R> type) {
         return getRequest(url, headers, DEFAULT_TIMEOUT, type, null);
@@ -78,7 +97,7 @@ public class HttpUtils {
         return get(url, headers, DEFAULT_TIMEOUT);
     }
     public static String get(String url, Map<String, String> headers, Duration timeout) {
-        return sendRequest("GET", url, null, headers, timeout).body();
+        return sendRequest(HttpMethod.GET, url, null, headers, timeout).body();
     }
 
     /**
@@ -90,22 +109,22 @@ public class HttpUtils {
      * @param timeout 请求超时时间
      */
     private static <T,R> R postRequest(String url, T body, Map<String, String> headers, Duration timeout, TypeReference<R> type, Class<R> clazz) {
-        return sendRequest2Json("POST", url, body, headers, timeout, type, clazz);
+        return sendRequest2Json(HttpMethod.POST, url, body, headers, timeout, type, clazz);
     }
     public static <T> HttpResponse<String> post(String url, T body) {
         return post(url, body, DEFAULT_HEADER);
     }
     public static <T> HttpResponse<String> post(String url, T body, Map<String, String> headers) {
-        return sendRequest("POST", url, JsonUtils.toJson(body), headers, DEFAULT_TIMEOUT);
+        return sendRequest(HttpMethod.POST, url, JsonUtils.marshal(body, CODEC), headers, DEFAULT_TIMEOUT);
     }
     public static HttpResponse<String> post(String url, String body, Map<String, String> headers) {
-        return sendRequest("POST", url, body, headers, DEFAULT_TIMEOUT);
+        return sendRequest(HttpMethod.POST, url, body, headers, DEFAULT_TIMEOUT);
     }
     public static <T> String post2String(String url, T body) {
         return post2String(url, body, DEFAULT_HEADER);
     }
     public static <T> String post2String(String url, T body, Map<String, String> headers) {
-        return sendRequest("POST", url, JsonUtils.toJson(body), headers, DEFAULT_TIMEOUT).body();
+        return sendRequest(HttpMethod.POST, url, JsonUtils.marshal(body, CODEC), headers, DEFAULT_TIMEOUT).body();
     }
     public static <T,R> R post2Json(String url, T body, Class<R> clazz) {
         return postRequest(url, body, DEFAULT_HEADER, DEFAULT_TIMEOUT, null, clazz);
@@ -128,26 +147,23 @@ public class HttpUtils {
      * @param headers 请求头
      * @param timeout 请求超时时间
      */
-    public static <T,R> R sendRequest2Json(String method, String url, T body, Map<String, String> headers, Duration timeout, TypeReference<R> type, Class<R> clazz) {
+    public static <T,R> R sendRequest2Json(HttpMethod method, String url, T body, Map<String, String> headers, Duration timeout, TypeReference<R> type, Class<R> clazz) {
         if (Objects.nonNull(clazz)){
-            return sendRequest2Json(method, url, JsonUtils.toJson(body), headers, timeout, clazz);
+            return sendRequest2Json(method, url, JsonUtils.marshal(body, CODEC), headers, timeout, clazz);
         }else if (Objects.nonNull(type)){
-            return sendRequest2Json(method, url, JsonUtils.toJson(body), headers, timeout, type);
+            return sendRequest2Json(method, url, JsonUtils.marshal(body, CODEC), headers, timeout, type);
         }
         return null;
     }
 
-    private static <R> R sendRequest2Json(String method, String url, String body, Map<String, String> headers, Duration timeout, Class<R> clazz) {
+    private static <R> R sendRequest2Json(HttpMethod method, String url, String body, Map<String, String> headers, Duration timeout, Class<R> clazz) {
         HttpResponse<String> response = sendRequest(method, url, body, headers, timeout);
-        return JsonUtils.toObj(response.body(), clazz);
+        return JsonUtils.unmarshal(response.body(), clazz, CODEC);
     }
-    private static <R> R sendRequest2Json(String method, String url, String body, Map<String, String> headers, Duration timeout, TypeReference<R> type) {
-        HttpRequest request = buildRequest(method, url, body, headers, timeout);
-        try {
-            return CLIENT.send(request, new JsonEntityType<R>(type)).body();
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+    @SneakyThrows
+    private static <R> R sendRequest2Json(HttpMethod method, String url, String body, Map<String, String> headers, Duration timeout, TypeReference<R> type) {
+        HttpRequest request = buildRequest(method.name(), url, body, headers, timeout);
+        return CLIENT.send(request, new JsonEntityType<R>(type)).body();
     }
 
 
@@ -159,13 +175,26 @@ public class HttpUtils {
      * @param headers 请求头
      * @param timeout 请求超时时间
      */
-    private static HttpResponse<String> sendRequest(String method, String url, String body, Map<String, String> headers, Duration timeout) {
+    @SneakyThrows
+    private static HttpResponse<String> sendRequest(HttpMethod method, String url, String body, Map<String, String> headers, Duration timeout) {
+        HttpRequest request = buildRequest(method.name(), url, body, headers, timeout);
+        return CLIENT.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
+    }
+
+    /**
+     * 发送异步 HTTP 请求
+     *
+     * @param method  请求类型
+     * @param url     请求地址
+     * @param body    请求体
+     * @param headers 请求头
+     * @param timeout 请求超时时间
+     *
+     * @return {@link CompletableFuture <R>}
+     */
+    public static <R> CompletableFuture<R> sendAsyncRequest(String url, String method, String body, Map<String, String> headers, Duration timeout, TypeReference<R> type){
         HttpRequest request = buildRequest(method, url, body, headers, timeout);
-        try {
-            return CLIENT.send(request, HttpResponse.BodyHandlers.ofString(StandardCharsets.UTF_8));
-        } catch (Exception e) {
-            throw new RuntimeException(e);
-        }
+        return CLIENT.sendAsync(request, new JsonEntityType<R>(type)).thenApply(HttpResponse::body);
     }
 
     /**
@@ -221,7 +250,7 @@ public class HttpUtils {
                     HttpResponse.BodySubscribers.ofString(StandardCharsets.UTF_8),
                     (String body) -> {
                         try {
-                            return JsonUtils.toObj(body, typeReference);
+                            return CODEC.readValue(body, typeReference);
                         } catch (Exception e) {
                             throw new RuntimeException(e);
                         }

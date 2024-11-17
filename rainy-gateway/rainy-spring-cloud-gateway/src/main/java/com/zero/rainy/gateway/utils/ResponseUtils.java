@@ -46,7 +46,7 @@ public class ResponseUtils {
         response.setStatusCode(status);
         response.getHeaders().set(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE);
         Result<?> result = Result.fail(code, message);
-        DataBuffer buffer = response.bufferFactory().wrap(JsonUtils.toJson(result).getBytes(StandardCharsets.UTF_8));
+        DataBuffer buffer = response.bufferFactory().wrap(JsonUtils.marshal(result).getBytes(StandardCharsets.UTF_8));
         return response.writeWith(Mono.just(buffer));
     }
 

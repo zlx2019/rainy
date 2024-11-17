@@ -133,7 +133,7 @@ public class RedisProvide implements CacheTemplate {
             }
         }
         if (clazz == String.class){
-            return clazz.cast(JsonUtils.toJson(value));
+            return clazz.cast(JsonUtils.marshal(value));
         }
         throw new IllegalArgumentException("Cannot convert " + value + " to " + clazz.getName());
     }

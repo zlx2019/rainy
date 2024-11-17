@@ -21,7 +21,7 @@ public class Demo {
         System.out.println(format);
         String sign = DigestUtil.md5Hex(format);
         System.out.println(sign);
-        String json = JsonUtils.toJson(request);
+        String json = JsonUtils.marshal(request);
         System.out.println(json);
 
         // 签名

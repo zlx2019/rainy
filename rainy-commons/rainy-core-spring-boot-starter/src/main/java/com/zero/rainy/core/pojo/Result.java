@@ -2,7 +2,7 @@ package com.zero.rainy.core.pojo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.zero.rainy.core.constant.Constant;
-import com.zero.rainy.core.enums.supers.ResultCodes;
+import com.zero.rainy.core.enums.supers.ResponseCodes;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -58,10 +58,10 @@ public class Result<T> implements Serializable {
     public static <T> Result<T> fail (int code, String message) {
         return of(code, message, null);
     }
-    public static <T> Result<T> fail (ResultCode resultCode){
+    public static <T> Result<T> fail (ResponseCode resultCode){
         return fail(resultCode.code(), resultCode.message());
     }
-    public static <T> Result<T> fail (ResultCodes resultCodes){
+    public static <T> Result<T> fail (ResponseCodes resultCodes){
         return fail(resultCodes.getCode());
     }
     private static <T> Result<T> of(int code, String message, T data){
