@@ -14,6 +14,8 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.concurrent.TimeUnit;
+
 /**
  *
  *
@@ -57,15 +59,16 @@ public class SampleController {
         return Result.ok(sampleService.pages(query));
     }
 
-    @Limiter(limitType = LimitType.ARGS)
+    @Limiter(limitType = LimitType.API, limits = 10, limitTime = 1, timeUnit = TimeUnit.MINUTES)
     @GetMapping("/limit")
     public Result<?> limit(String name, int age){
         return Result.ok();
     }
 
-    @Limiter(limitType = LimitType.ARGS)
+    @Limiter(limitType = LimitType.KEY_WORD, key = "test", limits = 10, limitTime = 1, timeUnit = TimeUnit.MINUTES)
     @PostMapping("/limit/post")
     public Result<LimitVo> limitPost(@RequestBody LimitVo vo){
         return Result.ok(vo);
     }
+
 }

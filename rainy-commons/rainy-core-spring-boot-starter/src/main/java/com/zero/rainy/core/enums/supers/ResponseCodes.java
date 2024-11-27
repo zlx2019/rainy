@@ -27,6 +27,7 @@ public enum ResponseCodes {
     METHOD_NOT_SUPPORT(of(10003, "Method 不匹配")),
     NETWORK_ERROR(of(10004, "网络错误")),
     CODEC_ERROR(of(10005, "编解码错误")),
+    REQUEST_LIMIT(of(10006, "请求过于频繁")),
 
     /* 认证授权相关 */
     USER_UNAUTHORIZED(of(20001, "用户未登录")),

@@ -32,6 +32,7 @@
         <ttl.version>2.14.5</ttl.version>
         <commons-lang3.version>3.14.0</commons-lang3.version>
         <commons-collections4.version>4.4</commons-collections4.version>
+        <guava.version>33.2.0-jre</guava.version>
         <rocketmq-spring-boot.version>2.3.0</rocketmq-spring-boot.version>
 
         <!-- gRPC相关 -->
@@ -151,6 +152,11 @@
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-collections4</artifactId>
                 <version>${commons-collections4.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.google.guava</groupId>
+                <artifactId>guava</artifactId>
+                <version>${guava.version}</version>
             </dependency>
 
             <!-- Thread Local -->
@@ -280,16 +286,16 @@
     </build>
 
     <!-- Maven 仓库 -->
-<!--    <repositories>-->
-<!--        <repository>-->
-<!--            <id>aliYun</id>-->
-<!--            <url>https://maven.aliyun.com/repository/public</url>-->
-<!--            <releases>-->
-<!--                <enabled>true</enabled>-->
-<!--            </releases>-->
-<!--            <snapshots>-->
-<!--                <enabled>false</enabled>-->
-<!--            </snapshots>-->
-<!--        </repository>-->
-<!--    </repositories>-->
+    <repositories>
+        <repository>
+            <id>aliYun</id>
+            <url>https://maven.aliyun.com/repository/public</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>false</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
 </project>

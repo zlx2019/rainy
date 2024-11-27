@@ -18,6 +18,11 @@ public enum LimitType {
     ARGS,
 
     /**
+     * 根据API限流
+     */
+    API,
+
+    /**
      * 根据用户Token限流
      */
     TOKEN,

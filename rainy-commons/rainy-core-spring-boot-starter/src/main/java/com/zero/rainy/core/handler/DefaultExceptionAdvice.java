@@ -2,7 +2,7 @@ package com.zero.rainy.core.handler;
 
 import com.zero.rainy.core.enums.supers.ResponseCodes;
 import com.zero.rainy.core.exception.BusinessException;
-import com.zero.rainy.core.pojo.ResponseCode;
+import com.zero.rainy.core.exception.RequestLimitException;
 import com.zero.rainy.core.pojo.Result;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 
 /**
  * 全局异常捕获处理
@@ -67,6 +70,16 @@ public class DefaultExceptionAdvice {
     public Result<?> noResourceFoundExceptionHandler(NoResourceFoundException e) {
         log.error("Resource Not Found [{}] - [{}]", e.getHttpMethod(), e.getResourcePath());
         return exceptionHandler(ResponseCodes.RESOURCE_NOT_FOUND);
+    }
+
+    /**
+     * 请求限流异常处理
+     */
+    @ResponseStatus(HttpStatus.TOO_MANY_REQUESTS)
+    @ExceptionHandler(RequestLimitException.class)
+    public Result<?> requestLimitExceptionHandler(RequestLimitException e, HttpServletRequest request) {
+        log.error("Too Many Requests [{}]", request.getRequestURI());
+        return exceptionHandler(ResponseCodes.REQUEST_LIMIT);
     }
 
     /**
