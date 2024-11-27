@@ -1,5 +1,7 @@
 package com.zero.rainy.sample.controller;
 
+import com.zero.rainy.cache.limiting.LimitType;
+import com.zero.rainy.cache.limiting.Limiter;
 import com.zero.rainy.cache.publisher.DynamicConfigPublisher;
 import com.zero.rainy.core.config.GlobalDynamicConfig;
 import com.zero.rainy.core.entity.Config;
@@ -35,6 +37,7 @@ public class ConfigController {
     /**
      * 动态配置列表
      */
+    @Limiter(limitType = LimitType.ARGS)
     @GetMapping("/list")
     public Result<Set<Object>> list() {
         return Result.ok(DynamicConfigContext.getConfigs());

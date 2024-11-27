@@ -1,10 +1,13 @@
 package com.zero.rainy.sample.controller;
 
+import com.zero.rainy.cache.limiting.LimitType;
+import com.zero.rainy.cache.limiting.Limiter;
 import com.zero.rainy.core.config.GlobalDynamicConfig;
 import com.zero.rainy.core.entity.Sample;
 import com.zero.rainy.core.pojo.Pages;
 import com.zero.rainy.core.pojo.Result;
 import com.zero.rainy.core.pojo.rqeuest.PageableQuery;
+import com.zero.rainy.sample.pojo.vo.LimitVo;
 import com.zero.rainy.sample.service.ISampleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -54,8 +57,15 @@ public class SampleController {
         return Result.ok(sampleService.pages(query));
     }
 
-    @GetMapping("/config")
-    public Result<GlobalDynamicConfig> config(){
-        return Result.ok(globalDynamicConfig);
+    @Limiter(limitType = LimitType.ARGS)
+    @GetMapping("/limit")
+    public Result<?> limit(String name, int age){
+        return Result.ok();
+    }
+
+    @Limiter(limitType = LimitType.ARGS)
+    @PostMapping("/limit/post")
+    public Result<LimitVo> limitPost(@RequestBody LimitVo vo){
+        return Result.ok(vo);
     }
 }

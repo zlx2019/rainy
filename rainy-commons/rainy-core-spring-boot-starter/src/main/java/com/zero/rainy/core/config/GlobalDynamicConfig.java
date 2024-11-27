@@ -15,6 +15,6 @@ import lombok.Data;
 @EnableDynamicConfiguration(DynamicConfigKeys.SAMPLE)
 public class GlobalDynamicConfig implements DynamicConfig {
     private String name;
-    private int age;
+    private int age = 22;
     private String address;
 }
