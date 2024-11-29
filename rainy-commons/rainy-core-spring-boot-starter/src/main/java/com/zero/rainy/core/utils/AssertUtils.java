@@ -14,6 +14,7 @@ import java.util.List;
  * @author Zero.
  * <p> Created on 2024/8/28 14:32 </p>
  */
+@SuppressWarnings("all")
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class AssertUtils {
 

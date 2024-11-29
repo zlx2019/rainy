@@ -4,6 +4,7 @@ import com.zero.rainy.cache.template.CacheTemplate;
 import com.zero.rainy.core.utils.JsonUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.redis.connection.RedisStringCommands;
 import org.springframework.data.redis.core.ListOperations;
 import org.springframework.data.redis.core.RedisCallback;
@@ -13,7 +14,11 @@ import org.springframework.data.redis.core.types.Expiration;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
 import java.time.Duration;
+import java.util.List;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
+import java.util.stream.Collectors;
+
 
 /**
  * 缓存服务客户端
@@ -23,6 +28,7 @@ import java.util.concurrent.TimeUnit;
  */
 @Slf4j
 @RequiredArgsConstructor
+@SuppressWarnings("all")
 public class RedisProvide implements CacheTemplate {
     private final RedisTemplate<String, Object> template;
 
@@ -98,8 +104,67 @@ public class RedisProvide implements CacheTemplate {
             if (expire.isZero()){
                 return conn.commands().setNX(keys, values);
             }
-             return conn.commands().set(keys, values, Expiration.from(expire), RedisStringCommands.SetOption.ifAbsent());
+            return conn.commands().set(keys, values, Expiration.from(expire), RedisStringCommands.SetOption.ifAbsent());
         });
+    }
+
+    /**
+     * 向List左侧插入多个元素
+     *
+     * @param key    列表Key
+     * @param values 元素序列
+     * @return 索引
+     */
+    @Override
+    public <T> Long lPush(String key, T... values) {
+        return opsList().leftPushAll(key, values);
+    }
+
+    /**
+     * 从 List 右侧弹出一个元素
+     *
+     * @param key   key
+     * @param clazz 元素原型
+     */
+    @Override
+    public <T> T rPop(String key, Class<T> clazz) {
+        Object value = opsList().rightPop(key);
+        if (Objects.nonNull(value)){
+            return convertValue(value, clazz);
+        }
+        return null;
+    }
+
+    @Override
+    public Object rPop(String key) {
+        return opsList().rightPop(key);
+    }
+
+    /**
+     * 从 List 右侧阻塞式弹出一个元素。
+     *
+     * @param timeout 超时时间
+     */
+    @Override
+    public <T> T brPop(String key, Duration timeout, Class<T> clazz) {
+        Object value = opsList().rightPop(key, timeout);
+        if (Objects.nonNull(value)){
+            return convertValue(value, clazz);
+        }
+        return null;
+    }
+
+    /**
+     * 从 List 右侧弹出多个元素
+     */
+    @Override
+    public <T> List<T> rPop(String key, int count, Class<T> clazz) {
+        List<Object> list = opsList().rightPop(key, count);
+        if (CollectionUtils.isEmpty(list)){
+            return List.of();
+        }
+        return list.stream().filter(Objects::nonNull)
+                .map(value-> convertValue(value, clazz)).collect(Collectors.toList());
     }
 
     /**
@@ -132,10 +197,12 @@ public class RedisProvide implements CacheTemplate {
                 return clazz.cast(number.floatValue());
             }
         }
-        if (clazz == String.class){
+        if (String.class == clazz){
+            return clazz.cast(value.toString());
+        }
+        if (value instanceof String){
             return clazz.cast(JsonUtils.marshal(value));
         }
         throw new IllegalArgumentException("Cannot convert " + value + " to " + clazz.getName());
     }
-
 }

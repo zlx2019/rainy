@@ -1,6 +1,7 @@
 package com.zero.rainy.cache.template;
 
 import java.time.Duration;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 /**
@@ -9,6 +10,7 @@ import java.util.concurrent.TimeUnit;
  * @author Zero.
  * <p> Created on 2024/10/2 11:00 </p>
  */
+@SuppressWarnings("all")
 public interface CacheTemplate {
 
     /**
@@ -61,4 +63,33 @@ public interface CacheTemplate {
      * @return 设置是否成功, 已存在则设置失败
      */
     Boolean setNx(final String key, final Object value, Duration expire);
+
+    /**
+     * 向List左侧插入多个元素
+     * @param key    列表Key
+     * @param values 元素序列
+     * @return       索引
+     */
+    <T> Long lPush(final String key, final T... values);
+
+    /**
+     * 从 List 右侧弹出一个元素
+     *
+     * @param key   key
+     * @param clazz 元素原型
+     */
+    <T> T rPop(final String key, final Class<T> clazz);
+
+    Object rPop(final String key);
+
+    /**
+     * 从 List 右侧阻塞式弹出一个元素。
+     * @param timeout 超时时间
+     */
+    <T> T brPop(final String key, Duration timeout, final Class<T> clazz);
+
+    /**
+     * 从 List 右侧弹出多个元素
+     */
+    <T> List<T> rPop(final String key, int count, final Class<T> clazz);
 }

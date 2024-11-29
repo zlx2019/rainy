@@ -2,6 +2,7 @@ package com.zero.rainy.sample.controller;
 
 import com.zero.rainy.cache.limiting.LimitType;
 import com.zero.rainy.cache.limiting.Limiter;
+import com.zero.rainy.cache.template.CacheTemplate;
 import com.zero.rainy.core.config.GlobalDynamicConfig;
 import com.zero.rainy.core.entity.Sample;
 import com.zero.rainy.core.pojo.Pages;
@@ -28,6 +29,7 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("/sample")
 public class SampleController {
     private final ISampleService sampleService;
+    private final CacheTemplate cacheTemplate;
     private final GlobalDynamicConfig globalDynamicConfig;
 
     /**

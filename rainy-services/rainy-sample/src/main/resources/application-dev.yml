@@ -19,7 +19,7 @@ spring:
       port: 6379
       database: 0
       connect-timeout: 3s
-      timeout: 3s
+      timeout: 5s
   cloud:
     # 服务注册中心
     nacos:
