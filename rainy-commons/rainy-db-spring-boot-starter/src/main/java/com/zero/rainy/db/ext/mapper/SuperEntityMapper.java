@@ -1,4 +1,4 @@
-package com.zero.rainy.db.mapper;
+package com.zero.rainy.db.ext.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.activerecord.Model;

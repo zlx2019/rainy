@@ -1,14 +1,18 @@
-package com.zero.rainy.db.service;
+package com.zero.rainy.db.ext.service;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import com.baomidou.mybatisplus.core.mapper.BaseMapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zero.rainy.core.entity.supers.SuperEntity;
 import com.zero.rainy.core.pojo.Pages;
 import com.zero.rainy.core.pojo.rqeuest.PageableQuery;
+
+import java.util.Collection;
+import java.util.List;
 
 /**
  * 通用 Service 基于{@link IService}进行扩展。
@@ -17,6 +21,7 @@ import com.zero.rainy.core.pojo.rqeuest.PageableQuery;
  * @author Zero.
  * <p> Created on 2024/8/27 18:52 </p>
  */
+@SuppressWarnings("all")
 public interface ISuperService<T extends SuperEntity<T>> extends IService<T> {
     String ORDER_BY = " ORDER BY ";
 
@@ -48,6 +53,17 @@ public interface ISuperService<T extends SuperEntity<T>> extends IService<T> {
      * @return       是否更新成功.
      */
     boolean lockUpdate(T entity);
+
+    /**
+     * 批量新增
+     *
+     * @param   list 实体对象集合
+     * @return       是否全部插入成功
+     */
+    boolean batchSave(List<T> list);
+    default boolean batchSave(T... items){
+        return this.batchSave(List.of(items));
+    }
 
 
     default QueryWrapper<T> wrapper() {

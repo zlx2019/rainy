@@ -1,4 +1,4 @@
-package com.zero.rainy.db.service;
+package com.zero.rainy.db.ext.service;
 
 import com.baomidou.mybatisplus.core.conditions.Wrapper;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
@@ -7,6 +7,7 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.sql.SqlInjectionUtils;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.google.common.collect.Lists;
 import com.zero.rainy.core.constant.Constant;
 import com.zero.rainy.core.entity.supers.SuperEntity;
 import com.zero.rainy.core.entity.supers.WithLockEntity;
@@ -14,11 +15,16 @@ import com.zero.rainy.core.enums.OrderBy;
 import com.zero.rainy.core.pojo.rqeuest.PageableQuery;
 import com.zero.rainy.core.utils.AssertUtils;
 import com.zero.rainy.db.constants.EntityColumn;
-import com.zero.rainy.db.mapper.SuperMapper;
+import com.zero.rainy.db.ext.mapper.SuperMapper;
+import jakarta.annotation.Resource;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 
@@ -31,6 +37,7 @@ import java.util.Optional;
 @Slf4j
 public class SuperServiceImpl<M extends SuperMapper<T>,T extends SuperEntity<T>> extends ServiceImpl<M,T> implements ISuperService<T> {
 
+    private static final int BATCH_MAX = 1000;
 
     @Override
     public IPage<T> page(PageableQuery query, Wrapper<T> wrapper) {
@@ -81,5 +88,10 @@ public class SuperServiceImpl<M extends SuperMapper<T>,T extends SuperEntity<T>>
             }
         }
         return Boolean.TRUE;
+    }
+
+    @Override
+    public boolean batchSave(List<T> list) {
+        return list.size() == Lists.partition(list, BATCH_MAX).stream().mapToInt(group -> super.getBaseMapper().batchInsert(group)).sum();
     }
 }
