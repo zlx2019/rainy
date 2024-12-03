@@ -41,6 +41,5 @@ public class DynamicConfigManager implements InitializingBean {
         jdbcTemplate.query(SQL, param, (rs) -> {
             CONFIG_TABLES.put(rs.getString(CONFIG_KEY), rs.getString(CONFIG_VALUE));
         });
-        System.out.println(CONFIG_TABLES.size());
     }
 }

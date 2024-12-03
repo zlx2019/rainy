@@ -1,7 +1,7 @@
 package com.zero.rainy.sample.mapper;
 
 import com.zero.rainy.core.entity.Sample;
-import com.zero.rainy.db.mapper.SuperMapper;
+import com.zero.rainy.db.ext.mapper.SuperMapper;
 import org.apache.ibatis.annotations.Mapper;
 
 /**

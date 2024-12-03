@@ -1,8 +1,7 @@
 package com.zero.rainy.sample.service;
 
 import com.zero.rainy.core.entity.Config;
-import com.zero.rainy.core.entity.Sample;
-import com.zero.rainy.db.service.ISuperService;
+import com.zero.rainy.db.ext.service.ISuperService;
 
 /**
  * @author Zero.

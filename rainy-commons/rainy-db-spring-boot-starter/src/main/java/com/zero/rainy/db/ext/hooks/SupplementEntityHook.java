@@ -1,4 +1,4 @@
-package com.zero.rainy.db.hooks;
+package com.zero.rainy.db.ext.hooks;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.zero.rainy.core.holder.UserContextHolder;
