@@ -72,5 +72,4 @@ public class SampleController {
     public Result<LimitVo> limitPost(@RequestBody LimitVo vo){
         return Result.ok(vo);
     }
-
 }
