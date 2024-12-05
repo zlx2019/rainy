@@ -2,16 +2,12 @@ package com.zero.rainy;
 
 import com.zero.rainy.sample.model.MailMessage;
 import com.zero.rainy.sample.model.MailStorage;
-import com.zero.rainy.sample.model.MailStorageEntity;
 import com.zero.rainy.sample.service.MailTemporaryRepository;
-import org.checkerframework.checker.units.qual.A;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -28,8 +24,7 @@ public class RedisHashTest {
 
     @Test
     public void test() {
-        HashOperations<String, Object, Object> hash = redisTemplate.opsForHash();
-        MailStorageEntity entity = new MailStorageEntity();
+        MailStorage storage = new MailStorage("zero18674568@gmail.com");
         MailMessage message1 = new MailMessage();
         message1.setSender("github@nphudaw.com");
         message1.setContent("""
@@ -49,13 +44,22 @@ public class RedisHashTest {
         message2.setSubject("Twitter code");
         message2.setRecvTimeStamp(System.currentTimeMillis());
         message2.setSendTimeStamp(System.currentTimeMillis());
-
-        entity.put("github@nopoy1.com", message1);
-        entity.put("twitter@nopoy1.com", message2);
-        MailStorage<MailStorageEntity> storage = new MailStorage<>();
-        storage.setElems(entity);
-        storage.setKey("zero18674568@gmail.com");
-
+        storage.put("github@nopoy1.com", message1);
+        storage.put("twitter@nopoy1.com", message2);
         mailTemporaryRepository.putAll(storage);
+
+        Map<String, MailMessage> messageMap = mailTemporaryRepository.getAll(storage.getKey());
+        System.out.println(messageMap);
+
+        System.out.println(mailTemporaryRepository.hasExists(storage.getKey(), "twitter@nopoy1.com"));
+        System.out.println(mailTemporaryRepository.hasExists(storage.getKey(), "xzczs"));
+
+        System.out.println(mailTemporaryRepository.get(storage.getKey(), "twitter@nopoy1.com"));
+        System.out.println(mailTemporaryRepository.get(storage.getKey(), "dawdw"));
+
+        System.out.println(11);
+        mailTemporaryRepository.delete(storage.getKey());
+//        MailStorage store = mailTemporaryRepository.getStore(storage.getKey());
+//        System.out.println(store);
     }
 }

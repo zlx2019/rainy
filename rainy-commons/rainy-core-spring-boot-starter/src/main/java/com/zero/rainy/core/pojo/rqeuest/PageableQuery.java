@@ -42,6 +42,7 @@ public class PageableQuery {
      */
     protected String orderly;
 
+
     /**
      * 排序方式.
      */
