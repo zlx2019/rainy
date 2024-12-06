@@ -17,6 +17,9 @@ import org.springframework.messaging.support.MessageBuilder;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -35,37 +38,38 @@ public class RocketMQProvider implements MessageTemplate {
     }
 
     /**
-     * 发送同步消息 {@link BaseMessage}
-     *
-     * @param topic   目标主题
-     * @param message 消息
-     * @param tag     消息标签
+     * 发送同步消息
+     * @param topic     目标主题
+     * @param payload   消息载体
+     * @param tags      消息标签
      */
     @Override
-    public <T extends BaseMessage> boolean send(String topic, T message, String... tag) {
-        if (StringUtils.isBlank(message.getKeys())){
-            message.setKeys(UUID.randomUUID().toString());
-        }
-        message.setSendTime(LocalDateTime.now());
-        Message<T> msg = MessageBuilder.withPayload(message)
-                .setHeader(RocketMQHeaders.KEYS, message.getKeys())
-//                .setHeader(MessageHeaders.ID, "")
-                .build();
-        return syncSend(buildTopic(topic, tag), msg);
+    public <T> boolean send(String topic, T payload, String... tags) {
+        return this.syncSend(buildTopic(topic, tags), MessageUtils.buildMessage(payload));
     }
+
+    /**
+     * 批量发送同步消息
+     * @param topic     目标主题
+     * @param payloads  消息载体列表
+     * @param tags      消息标签
+     */
+    @Override
+    public <T> boolean sendBatch(String topic, Collection<T> payloads, String... tags) {
+        return this.syncSendBatch(buildTopic(topic, tags), MessageUtils.buildMessage(payloads));
+    }
+
 
     /**
      * 发送延迟消息
      *
      * @param topic   目标主题
-     * @param message 消息
+     * @param payload 消息载体
      * @param tag     标签
      */
     @Override
-    public <T extends BaseMessage> boolean sendDelay(String topic, T message, Duration delay, String... tag) {
-        Message<T> msg = MessageUtils.buildMessage(message);
-        SendResult sendResult = template.syncSendDelayTimeMills(topic, msg, delay.toMillis());
-        return SendStatus.SEND_OK.equals(sendResult.getSendStatus());
+    public <T> boolean sendDelay(String topic, T payload, Duration delay, String... tag) {
+        return this.syncSendDelay(buildTopic(topic, tag), MessageUtils.buildMessage(payload), delay);
     }
 
     /**
@@ -79,6 +83,28 @@ public class RocketMQProvider implements MessageTemplate {
         SendResult sendResult = template.syncSend(topic, message);
         return SendStatus.SEND_OK.equals(sendResult.getSendStatus());
     }
+
+    /**
+     * 发送同步延迟消息
+     * @param topic     主题
+     * @param message   消息
+     * @param delay     延迟时间
+     * @return          是否发送成功
+     */
+    private boolean syncSendDelay(String topic, Message<?> message, Duration delay) {
+        SendResult sendResult = template.syncSendDelayTimeMills(topic, message, delay.toMillis());
+        return SendStatus.SEND_OK.equals(sendResult.getSendStatus());
+    }
+
+    /**
+     * 批量发送同步消息
+     * @return      所有消息是否发送成功
+     */
+    private <T> boolean syncSendBatch(String topic, Collection<Message<T>> messages) {
+        SendResult sendResult = template.syncSend(topic, messages);
+        return SendStatus.SEND_OK.equals(sendResult.getSendStatus());
+    }
+
 
     /**
      * 发送异步消息

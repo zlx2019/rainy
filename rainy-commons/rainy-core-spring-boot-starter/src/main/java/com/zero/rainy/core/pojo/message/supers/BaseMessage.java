@@ -33,10 +33,10 @@ public abstract class BaseMessage {
     /**
      * 消息在业务层面上重复使用的计数
      */
-    protected int useCount = 1;
+    protected int useCount = 0;
 
     /**
-     * 消息发送时间
+     * 业务消息发送时间
      */
     protected LocalDateTime sendTime;
 
