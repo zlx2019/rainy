@@ -1,7 +1,6 @@
 package com.zero.rainy.sample.service;
 
-import com.zero.rainy.core.entity.Sample;
-import com.zero.rainy.core.pojo.Result;
+import com.zero.rainy.core.model.entity.Sample;
 import com.zero.rainy.db.ext.service.ISuperService;
 
 /**

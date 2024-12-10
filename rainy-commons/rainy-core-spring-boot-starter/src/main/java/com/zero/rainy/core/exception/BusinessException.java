@@ -1,7 +1,7 @@
 package com.zero.rainy.core.exception;
 
 import com.zero.rainy.core.enums.supers.ResponseCodes;
-import com.zero.rainy.core.pojo.ResponseCode;
+import com.zero.rainy.core.model.ResponseCode;
 import lombok.Getter;
 
 /**

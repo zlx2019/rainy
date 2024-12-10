@@ -1,8 +1,8 @@
 package com.zero.rainy.user.controller;
 
-import com.zero.rainy.core.pojo.Result;
-import com.zero.rainy.core.pojo.dto.LoginRequestDTO;
-import com.zero.rainy.core.pojo.dto.LoginResponseDTO;
+import com.zero.rainy.core.model.Result;
+import com.zero.rainy.core.model.dto.LoginRequestDTO;
+import com.zero.rainy.core.model.dto.LoginResponseDTO;
 import com.zero.rainy.user.pojo.request.ValidRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

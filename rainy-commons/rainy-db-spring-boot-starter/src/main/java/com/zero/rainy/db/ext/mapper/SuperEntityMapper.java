@@ -2,7 +2,7 @@ package com.zero.rainy.db.ext.mapper;
 
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
-import com.zero.rainy.core.entity.supers.SuperEntity;
+import com.zero.rainy.core.model.entity.supers.SuperEntity;
 
 /**
  * 主要用于解决使用 {@link LambdaQueryWrapper} 找不到实体缓存.

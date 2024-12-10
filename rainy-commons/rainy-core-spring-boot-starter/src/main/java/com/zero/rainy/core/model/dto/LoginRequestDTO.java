@@ -1,4 +1,4 @@
-package com.zero.rainy.core.pojo.dto;
+package com.zero.rainy.core.model.dto;
 
 import lombok.Data;
 import lombok.experimental.Accessors;

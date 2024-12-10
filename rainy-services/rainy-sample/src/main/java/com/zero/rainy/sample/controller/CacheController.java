@@ -1,7 +1,7 @@
 package com.zero.rainy.sample.controller;
 
 import com.zero.rainy.cache.template.CacheTemplate;
-import com.zero.rainy.core.pojo.Result;
+import com.zero.rainy.core.model.Result;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.web.bind.annotation.GetMapping;

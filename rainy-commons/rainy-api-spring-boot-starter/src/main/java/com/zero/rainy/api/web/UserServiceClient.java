@@ -1,8 +1,8 @@
 package com.zero.rainy.api.web;
 
 import com.zero.rainy.core.constant.ServiceConstant;
-import com.zero.rainy.core.pojo.dto.LoginRequestDTO;
-import com.zero.rainy.core.pojo.dto.LoginResponseDTO;
+import com.zero.rainy.core.model.dto.LoginRequestDTO;
+import com.zero.rainy.core.model.dto.LoginResponseDTO;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.service.annotation.HttpExchange;

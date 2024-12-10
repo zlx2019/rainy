@@ -1,4 +1,4 @@
-package com.zero.rainy.core.pojo;
+package com.zero.rainy.core.model;
 
 import com.zero.rainy.core.constant.Constant;
 import org.springframework.http.HttpStatus;

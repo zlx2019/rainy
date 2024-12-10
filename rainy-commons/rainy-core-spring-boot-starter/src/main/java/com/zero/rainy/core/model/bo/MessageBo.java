@@ -1,4 +1,4 @@
-package com.zero.rainy.core.pojo.bo;
+package com.zero.rainy.core.model.bo;
 
 import lombok.Data;
 

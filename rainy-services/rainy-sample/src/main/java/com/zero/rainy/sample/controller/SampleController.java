@@ -4,10 +4,10 @@ import com.zero.rainy.cache.limiting.LimitType;
 import com.zero.rainy.cache.limiting.Limiter;
 import com.zero.rainy.cache.template.CacheTemplate;
 import com.zero.rainy.core.config.GlobalDynamicConfig;
-import com.zero.rainy.core.entity.Sample;
-import com.zero.rainy.core.pojo.Pages;
-import com.zero.rainy.core.pojo.Result;
-import com.zero.rainy.core.pojo.rqeuest.PageableQuery;
+import com.zero.rainy.core.model.entity.Sample;
+import com.zero.rainy.core.model.Pages;
+import com.zero.rainy.core.model.Result;
+import com.zero.rainy.core.model.request.PageableQueryRequest;
 import com.zero.rainy.sample.pojo.vo.LimitVo;
 import com.zero.rainy.sample.service.ISampleService;
 import jakarta.validation.Valid;
@@ -34,19 +34,19 @@ public class SampleController {
 
     /**
      * 分页查询
-     * @param pageableQuery 分页参数
+     * @param pqr 分页参数
      */
     @GetMapping
-    public Result<Void> list(@Valid PageableQuery pageableQuery) {
+    public Result<Void> list(@Valid PageableQueryRequest pqr) {
         return Result.ok();
     }
 
     /**
      * Post 请求分页查询
-     * @param pageableQuery 分页参数
+     * @param pageableQueryRequest 分页参数
      */
     @PostMapping
-    public Result<Void> listAll(@RequestBody @Valid PageableQuery pageableQuery){
+    public Result<Void> listAll(@RequestBody @Valid PageableQueryRequest pageableQueryRequest){
         return Result.ok();
     }
 
@@ -57,7 +57,7 @@ public class SampleController {
      * @return {@link Sample}
      */
     @GetMapping("/page")
-    public Result<Pages<Sample>> page(@Valid PageableQuery query){
+    public Result<Pages<Sample>> page(@Valid PageableQueryRequest query){
         return Result.ok(sampleService.pages(query));
     }
 

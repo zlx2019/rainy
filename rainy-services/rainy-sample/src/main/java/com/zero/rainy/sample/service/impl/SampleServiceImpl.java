@@ -1,17 +1,12 @@
 package com.zero.rainy.sample.service.impl;
 
-import com.zero.rainy.core.entity.Sample;
-import com.zero.rainy.core.pojo.Result;
+import com.zero.rainy.core.model.entity.Sample;
 import com.zero.rainy.db.ext.service.SuperServiceImpl;
 import com.zero.rainy.sample.mapper.SampleMapper;
 import com.zero.rainy.sample.service.ISampleService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 /**
  * @author Zero.

@@ -1,4 +1,4 @@
-package com.zero.rainy.core.pojo;
+package com.zero.rainy.core.model;
 
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.zero.rainy.core.utils.CloneUtils;

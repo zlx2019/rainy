@@ -3,7 +3,7 @@ package com.zero.rainy.core.handler;
 import com.zero.rainy.core.enums.supers.ResponseCodes;
 import com.zero.rainy.core.exception.BusinessException;
 import com.zero.rainy.core.exception.RequestLimitException;
-import com.zero.rainy.core.pojo.Result;
+import com.zero.rainy.core.model.Result;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;

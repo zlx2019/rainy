@@ -1,7 +1,7 @@
 package com.zero.rainy.core.enums.supers;
 
 import com.zero.rainy.core.constant.Constant;
-import com.zero.rainy.core.pojo.ResponseCode;
+import com.zero.rainy.core.model.ResponseCode;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import org.springframework.http.HttpStatus;

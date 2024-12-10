@@ -1,6 +1,6 @@
-package com.zero.rainy.core.entity;
+package com.zero.rainy.core.model.entity;
 
-import com.zero.rainy.core.entity.supers.SuperEntity;
+import com.zero.rainy.core.model.entity.supers.SuperEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

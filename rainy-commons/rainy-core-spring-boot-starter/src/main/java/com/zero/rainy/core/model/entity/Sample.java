@@ -1,7 +1,7 @@
-package com.zero.rainy.core.entity;
+package com.zero.rainy.core.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.zero.rainy.core.entity.supers.WithLockEntity;
+import com.zero.rainy.core.model.entity.supers.WithLockEntity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 

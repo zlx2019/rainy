@@ -1,4 +1,4 @@
-package com.zero.rainy.core.pojo.message.supers;
+package com.zero.rainy.core.model.message.supers;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

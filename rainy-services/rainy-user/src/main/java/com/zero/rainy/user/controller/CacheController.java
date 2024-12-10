@@ -1,6 +1,6 @@
 package com.zero.rainy.user.controller;
 
-import com.zero.rainy.core.pojo.Result;
+import com.zero.rainy.core.model.Result;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;

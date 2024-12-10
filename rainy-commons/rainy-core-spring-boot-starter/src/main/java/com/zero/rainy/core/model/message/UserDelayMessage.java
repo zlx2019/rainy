@@ -1,6 +1,6 @@
-package com.zero.rainy.core.pojo.message;
+package com.zero.rainy.core.model.message;
 
-import com.zero.rainy.core.pojo.message.supers.DelayMessage;
+import com.zero.rainy.core.model.message.supers.DelayMessage;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

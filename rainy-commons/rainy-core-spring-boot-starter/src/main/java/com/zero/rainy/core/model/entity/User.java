@@ -1,4 +1,4 @@
-package com.zero.rainy.core.entity;
+package com.zero.rainy.core.model.entity;
 
 /**
  * @author Zero.

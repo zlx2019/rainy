@@ -1,6 +1,6 @@
 package com.zero.rainy.message.template.provider;
 
-import com.zero.rainy.core.pojo.message.supers.BaseMessage;
+import com.zero.rainy.core.model.message.supers.BaseMessage;
 import com.zero.rainy.message.template.MessageTemplate;
 import com.zero.rainy.message.utils.MessageUtils;
 import lombok.extern.slf4j.Slf4j;

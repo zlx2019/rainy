@@ -1,6 +1,6 @@
 package com.zero.rainy.sample.service.impl;
 
-import com.zero.rainy.core.entity.Config;
+import com.zero.rainy.core.model.entity.Config;
 import com.zero.rainy.db.ext.service.SuperServiceImpl;
 import com.zero.rainy.sample.mapper.ConfigMapper;
 import com.zero.rainy.sample.service.IConfigService;

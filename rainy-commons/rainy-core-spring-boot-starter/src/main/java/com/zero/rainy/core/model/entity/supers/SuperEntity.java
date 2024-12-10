@@ -1,4 +1,4 @@
-package com.zero.rainy.core.entity.supers;
+package com.zero.rainy.core.model.entity.supers;
 
 import com.baomidou.mybatisplus.annotation.*;
 import com.baomidou.mybatisplus.extension.activerecord.Model;

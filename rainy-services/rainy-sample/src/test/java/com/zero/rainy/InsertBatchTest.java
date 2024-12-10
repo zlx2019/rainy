@@ -1,6 +1,6 @@
 package com.zero.rainy;
 
-import com.zero.rainy.core.entity.Sample;
+import com.zero.rainy.core.model.entity.Sample;
 import com.zero.rainy.sample.mapper.SampleMapper;
 import com.zero.rainy.sample.service.ISampleService;
 import org.junit.jupiter.api.Assertions;

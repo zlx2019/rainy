@@ -1,6 +1,6 @@
 package com.zero.rainy.gateway.utils;
 
-import com.zero.rainy.core.pojo.Result;
+import com.zero.rainy.core.model.Result;
 import com.zero.rainy.core.utils.JsonUtils;
 import com.zero.rainy.gateway.enums.GatewayError;
 import lombok.AccessLevel;

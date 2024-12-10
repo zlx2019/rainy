@@ -1,8 +1,7 @@
 package com.zero.rainy.cache.subscriber;
 
-import com.zero.rainy.core.entity.Config;
+import com.zero.rainy.core.model.entity.Config;
 import com.zero.rainy.core.ext.dynamic.DynamicConfig;
-import com.zero.rainy.core.ext.dynamic.DynamicConfigConstant;
 import com.zero.rainy.core.ext.dynamic.DynamicConfigContext;
 import com.zero.rainy.core.utils.JsonUtils;
 import lombok.RequiredArgsConstructor;

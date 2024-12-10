@@ -1,4 +1,4 @@
-package com.zero.rainy.core.pojo;
+package com.zero.rainy.core.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.zero.rainy.core.constant.Constant;

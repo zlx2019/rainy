@@ -1,8 +1,7 @@
 package com.zero.rainy.cache.publisher;
 
-import com.zero.rainy.core.entity.Config;
+import com.zero.rainy.core.model.entity.Config;
 import com.zero.rainy.core.ext.dynamic.DynamicConfigConstant;
-import io.lettuce.core.dynamic.annotation.CommandNaming;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
