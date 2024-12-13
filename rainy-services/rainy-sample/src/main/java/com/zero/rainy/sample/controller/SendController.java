@@ -1,9 +1,9 @@
 package com.zero.rainy.sample.controller;
 
 import cn.hutool.core.util.RandomUtil;
-import com.zero.rainy.core.pojo.Result;
-import com.zero.rainy.core.pojo.message.TextMessage;
-import com.zero.rainy.core.pojo.message.UserDelayMessage;
+import com.zero.rainy.core.model.Result;
+import com.zero.rainy.core.model.message.TextMessage;
+import com.zero.rainy.core.model.message.UserDelayMessage;
 import com.zero.rainy.message.template.MessageTemplate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

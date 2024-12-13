@@ -4,9 +4,11 @@ import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
+import com.zero.rainy.cache.lock.RedisDistributedLock;
 import com.zero.rainy.cache.subscriber.DynamicConfigSubscriber;
 import com.zero.rainy.cache.template.provider.RedisProvide;
 import com.zero.rainy.core.ext.dynamic.DynamicConfigConstant;
+import com.zero.rainy.core.lock.DistributedLock;
 import com.zero.rainy.core.utils.JsonUtils;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Primary;
@@ -79,5 +81,13 @@ public class RedisConfig {
         container.setConnectionFactory(connectionFactory);
         container.addMessageListener(new DynamicConfigSubscriber(valueSerializer), new ChannelTopic(DynamicConfigConstant.EVENT_BUS_TOPIC));
         return container;
+    }
+
+    /**
+     * 注入 Redis 分布式锁
+     */
+    @Bean
+    public DistributedLock distributedLock(RedisTemplate<String, Object> redisTemplate) {
+        return new RedisDistributedLock(redisTemplate);
     }
 }

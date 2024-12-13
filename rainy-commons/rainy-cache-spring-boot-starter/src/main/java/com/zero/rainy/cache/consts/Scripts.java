@@ -22,5 +22,16 @@ public interface Scripts {
                 local newValue = redis.call("INCR", key)
                 return newValue
             end
-            """;
+    """;
+
+    /**
+     * 释放分布式锁
+     */
+    String UNLOCK_SCRIPTS = """
+        if redis.call('get', KEYS[1]) == ARGV[1] then
+            return redis.call('del', KEYS[1])
+        else
+            return 0
+        end
+    """;
 }
