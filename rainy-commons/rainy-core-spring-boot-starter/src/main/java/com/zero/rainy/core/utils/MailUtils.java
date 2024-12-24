@@ -8,13 +8,14 @@ import jakarta.mail.internet.MimeMultipart;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Properties;
 import java.util.stream.Collectors;
 
 /**
  * @author Zero.
  * <p> Created on 2024/12/10 16:56 </p>
  */
-public class EMailParseUtils {
+public class MailUtils {
 
 
     public static List<String> parserEmailAddress(Address[] addresses) {
@@ -91,5 +92,36 @@ public class EMailParseUtils {
             }
         }
         return result.toString();
+    }
+
+    public static Properties getIMAPConfig(String host, int port){
+        return getConfigs("imap", host, port, false);
+    }
+
+    /**
+     * 构建 邮件协议 Properties 配置
+     * @param protocol  协议
+     * @param host      主机
+     * @param port      端口
+     */
+    private static Properties getConfigs(String protocol, String host, int port, boolean sasl) {
+        Properties props = new Properties(12);
+        // 目标服务器信息
+        props.put("mail." + protocol + ".host", host);
+        props.put("mail." + protocol + ".port", port);
+        // 连接服务器超时时间
+        props.put("mail." + protocol + ".connectiontimeout", 15_000);
+        // 读取邮件超时时间
+        props.put("mail." + protocol + ".timeout", 15_000);
+
+        // 开启认证 & ssl/tls
+        props.put("mail." + protocol + ".auth", true);
+        props.put("mail." + protocol + ".ssl.enable", true);
+        if (sasl){
+            // XOAUTH2 认证
+            props.put("mail." + protocol + ".auth.enable", true);
+            props.put("mail." + protocol + ".auth.mechanisms", "XOAUTH2");
+        }
+        return props;
     }
 }
