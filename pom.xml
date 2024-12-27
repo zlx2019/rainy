@@ -17,6 +17,7 @@
         <module>rainy-services</module>
         <module>rainy-config</module>
         <module>rainy-gateway</module>
+        <module>rainy-dashboard</module>
     </modules>
     <!-- 全局依赖版本 -->
     <properties>
@@ -34,6 +35,7 @@
         <commons-collections4.version>4.4</commons-collections4.version>
         <guava.version>33.2.0-jre</guava.version>
         <rocketmq-spring-boot.version>2.3.0</rocketmq-spring-boot.version>
+        <rocketmq.version>5.1.4</rocketmq.version>
 
         <!-- gRPC相关 -->
         <grpc-spring-boot.version>3.1.0.RELEASE</grpc-spring-boot.version>
@@ -107,12 +109,28 @@
                 <artifactId>rainy-cache-spring-boot-starter</artifactId>
                 <version>${rainy.version}</version>
             </dependency>
+            <dependency>
+                <groupId>com.zero.rainy</groupId>
+                <artifactId>rainy-web-spring-boot-starter</artifactId>
+                <version>${rainy.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.zero.rainy</groupId>
+                <artifactId>rainy-test-spring-boot-starter</artifactId>
+                <version>${rainy.version}</version>
+            </dependency>
+
 
             <!-- RocketMQ -->
             <dependency>
                 <groupId>org.apache.rocketmq</groupId>
                 <artifactId>rocketmq-spring-boot-starter</artifactId>
                 <version>${rocketmq-spring-boot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.rocketmq</groupId>
+                <artifactId>rocketmq-tools</artifactId>
+                <version>${rocketmq.version}</version>
             </dependency>
 
             <!-- SpringBoot gRPC -->

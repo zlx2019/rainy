@@ -3,10 +3,8 @@ package com.zero.rainy.core.ext.dynamic;
 import com.zero.rainy.core.enums.supers.Status;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.context.annotation.DependsOn;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.stereotype.Component;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -16,7 +14,6 @@ import java.util.concurrent.ConcurrentHashMap;
  * @author Zero.
  * <p> Created on 2024/11/6 22:49 </p>
  */
-@Component
 @RequiredArgsConstructor
 public class DynamicConfigManager implements InitializingBean {
     private final NamedParameterJdbcTemplate jdbcTemplate;

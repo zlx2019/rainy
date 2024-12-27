@@ -72,27 +72,14 @@
             <artifactId>rainy-cache-spring-boot-starter</artifactId>
         </dependency>
 
-        <!-- 数据校验 -->
+        <!-- Rainy Web -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-validation</artifactId>
+            <groupId>com.zero.rainy</groupId>
+            <artifactId>rainy-web-spring-boot-starter</artifactId>
         </dependency>
-        <!-- Spring-Web -->
         <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-        <!-- 单元测试 -->
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-test</artifactId>
-            <scope>test</scope>
-        </dependency>
-        <!-- Rest API 单元测试 -->
-        <dependency>
-            <groupId>io.rest-assured</groupId>
-            <artifactId>rest-assured</artifactId>
-            <scope>test</scope>
+            <groupId>com.zero.rainy</groupId>
+            <artifactId>rainy-test-spring-boot-starter</artifactId>
         </dependency>
     </dependencies>
 

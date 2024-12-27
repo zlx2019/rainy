@@ -1,0 +1,3 @@
+rocketmq:
+  # RocketMQ NameServer 地址
+  name-server: 47.94.213.132:9876

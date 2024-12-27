@@ -1,5 +1,6 @@
 package com.zero.rainy;
 
+import com.zero.rainy.core.ext.dynamic.EnableDynamicConfig;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -9,6 +10,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * @author Zero.
  * <p> Created on 2024/8/27 13:33 </p>
  */
+@EnableDynamicConfig
 @SpringBootApplication
 //@EnableDiscoveryClient
 //@EnableFeignClients

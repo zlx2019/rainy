@@ -1,23 +1,22 @@
-package com.zero.rainy.api;
+package com.zero.rainy.test;
 
-import com.zero.rainy.RainySampleApplication;
 import io.restassured.RestAssured;
 import jakarta.annotation.PostConstruct;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
 
 /**
- * Assured Config
+ * Assured base Config
  *
  * @author Zero.
- * <p> Created on 2024/12/26 11:16 </p>
+ * <p> Created on 2024/12/27 15:15 </p>
  */
-@SpringBootTest(classes = RainySampleApplication.class, webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
-public abstract class BaseAssuredT {
+@SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
+public abstract class AssuredAbstractsApiTest {
     @LocalServerPort
     public int serverPort;
     @PostConstruct
-    public void initRestAssured(){
+    public void initAssured(){
         RestAssured.port = serverPort;
         RestAssured.urlEncodingEnabled = false;
         RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();

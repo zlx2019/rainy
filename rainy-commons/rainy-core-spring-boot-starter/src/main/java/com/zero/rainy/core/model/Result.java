@@ -47,7 +47,7 @@ public class Result<T> implements Serializable {
         return ok(null);
     }
     public static <T> Result<T> ok (T data) {
-        return of(Constant.SUCCESS, null, data);
+        return of(Constant.SUCCESS, ResponseCodes.Success.getCode().message(), data);
     }
     public static <T> Result<T> fail () {
         return of(Constant.FAIL, null, null);

@@ -1,0 +1,9 @@
+# Web Server Config
+server:
+  port: 17001
+
+
+# Spring Config
+spring:
+  application:
+    name: rainy-dashboard

@@ -1,13 +1,11 @@
 package com.zero.rainy.core.ext.dynamic;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zero.rainy.core.annotations.EnableDynamicConfiguration;
 import com.zero.rainy.core.utils.JsonUtils;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.config.BeanPostProcessor;
-import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
@@ -15,7 +13,6 @@ import java.util.Objects;
  * @author Zero.
  * <p> Created on 2024/11/6 22:50 </p>
  */
-@Component
 @RequiredArgsConstructor
 public class DynamicConfigProcessor implements BeanPostProcessor {
     private final DynamicConfigManager dynamicConfigManager;

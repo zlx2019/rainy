@@ -1,5 +1,6 @@
 package com.zero.rainy.api;
 
+import com.zero.rainy.test.AssuredAbstractsApiTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.http.HttpStatus;
 
@@ -10,7 +11,7 @@ import static org.hamcrest.CoreMatchers.is;
  * @author Zero.
  * <p> Created on 2024/12/26 11:28 </p>
  */
-public class PingResourceTest extends BaseAssuredT {
+public class PingResourceTest extends AssuredAbstractsApiTest {
     @Test
     public void test(){
         given()
