@@ -14,7 +14,7 @@ import com.zero.rainy.core.model.entity.supers.WithLockEntity;
 import com.zero.rainy.core.enums.OrderBy;
 import com.zero.rainy.core.model.request.PageableQueryRequest;
 import com.zero.rainy.core.utils.AssertUtils;
-import com.zero.rainy.db.constants.Columns;
+import com.zero.rainy.db.constants.ColumnConstant;
 import com.zero.rainy.db.ext.mapper.SuperMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
@@ -72,7 +72,7 @@ public class SuperServiceImpl<M extends SuperMapper<T>,T extends SuperEntity<T>>
         if (!(entity instanceof WithLockEntity<?>)){
             return super.updateById(entity);
         }
-        QueryWrapper<T> wrapper = new QueryWrapper<T>().select(Columns.VERSION).eq(Columns.ID, entity.getId());
+        QueryWrapper<T> wrapper = new QueryWrapper<T>().select(ColumnConstant.VERSION).eq(ColumnConstant.ID, entity.getId());
         while (!super.updateById(entity)){
             // reload latest version
             T latest = super.getOne(wrapper);

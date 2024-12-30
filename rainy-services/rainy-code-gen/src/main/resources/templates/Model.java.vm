@@ -1,0 +1,35 @@
+package ${package}.model;
+
+import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+#if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+#if(${hasLocalDateTime})
+import java.time.LocalDateTime;
+#end
+#if(${hasLocalDate})
+import java.time.LocalDate;
+#end
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@TableName("${tableName}")
+@EqualsAndHashCode(callSuper = true)
+public class ${className} extends SuperEntity<${className}>{
+    private static final long serialVersionUID = 1L;
+
+#foreach($column in $columns)
+    #if("$!column.comment" != "")
+    /**
+     * ${column.comment}
+     */
+    #end
+    private $column.attrType $column.attrNameCamelCase;
+
+#end
+}

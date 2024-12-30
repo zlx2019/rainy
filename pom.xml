@@ -36,6 +36,8 @@
         <guava.version>33.2.0-jre</guava.version>
         <rocketmq-spring-boot.version>2.3.0</rocketmq-spring-boot.version>
         <rocketmq.version>5.1.4</rocketmq.version>
+        <commons-configuration.version>1.10</commons-configuration.version>
+
 
         <!-- gRPC相关 -->
         <grpc-spring-boot.version>3.1.0.RELEASE</grpc-spring-boot.version>
@@ -49,6 +51,7 @@
 
         <!-- Mybatis Plus -->
         <mybatis-plus.version>3.5.5</mybatis-plus.version>
+        <velocity.version>2.3</velocity.version>
         <!-- SpringBoot -->
         <spring-boot.version>3.3.3</spring-boot.version>
         <!-- SpringCloud -->
@@ -176,6 +179,11 @@
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
             </dependency>
+            <dependency>
+                <groupId>commons-configuration</groupId>
+                <artifactId>commons-configuration</artifactId>
+                <version>${commons-configuration.version}</version>
+            </dependency>
 
             <!-- Thread Local -->
             <dependency>
@@ -205,6 +213,16 @@
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus</artifactId>
                 <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus-generator</artifactId>
+                <version>${mybatis-plus.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.velocity</groupId>
+                <artifactId>velocity-engine-core</artifactId>
+                <version>${velocity.version}</version>
             </dependency>
 
             <!-- SpringBoot -->

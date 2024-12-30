@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.zero.rainy.gen.mapper.CodeGeneratorMapper">
+
+    <select id="queryAllTables" resultType="com.zero.rainy.gen.model.entity.Table">
+        SELECT
+            table_name tableName,
+            ENGINE engine,
+            table_comment `comment`,
+            create_time createTime
+        FROM
+            information_schema.TABLES
+        WHERE
+            table_schema = (SELECT DATABASE())
+        <if test="name != null and name != ''">
+            and table_name like concat('%', #{name}, '%')
+        </if>
+        ORDER BY
+            create_time DESC
+    </select>
+    <select id="tablesTotal" resultType="java.lang.Integer">
+        SELECT count(*) FROM information_schema.TABLES WHERE table_schema = (SELECT DATABASE())
+        <if test="name != null and name != ''">
+            and table_name like concat('%', #{name}, '%')
+        </if>
+        ORDER BY
+        create_time DESC
+    </select>
+
+    <select id="queryColumnsByTable" resultType="com.zero.rainy.gen.model.entity.Column">
+        SELECT
+            column_name columnName,
+            data_type columnType,
+            column_comment `comment`,
+            column_key primaryKey,
+            extra as `extra`
+        FROM
+            information_schema.COLUMNS
+        WHERE
+            table_name = #{name}
+          AND table_schema = (
+            SELECT DATABASE
+                   ())
+        ORDER BY
+            ordinal_position
+    </select>
+</mapper>

@@ -16,6 +16,7 @@
     <modules>
         <module>rainy-sample</module>
         <module>rainy-user</module>
+        <module>rainy-code-gen</module>
     </modules>
 
     <!-- 服务依赖 -->
@@ -40,38 +41,6 @@
             <groupId>com.zero.rainy</groupId>
             <artifactId>rainy-db-spring-boot-starter</artifactId>
         </dependency>
-        <!-- Rainy Feign -->
-<!--        <dependency>-->
-<!--            <groupId>com.zero.rainy</groupId>-->
-<!--            <artifactId>rainy-feign-spring-boot-starter</artifactId>-->
-<!--        </dependency>-->
-        <!-- Rainy gRPC -->
-<!--        <dependency>-->
-<!--            <groupId>com.zero.rainy</groupId>-->
-<!--            <artifactId>rainy-grpc-spring-boot-starter</artifactId>-->
-<!--        </dependency>-->
-        <!-- Rainy WebClient -->
-<!--        <dependency>-->
-<!--            <groupId>com.zero.rainy</groupId>-->
-<!--            <artifactId>rainy-webclient-spring-boot-starter</artifactId>-->
-<!--        </dependency>-->
-        <!-- Spring Cloud nacos -->
-<!--        <dependency>-->
-<!--            <groupId>com.alibaba.cloud</groupId>-->
-<!--            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>-->
-<!--        </dependency>-->
-
-        <!-- Rainy Message -->
-        <dependency>
-            <groupId>com.zero.rainy</groupId>
-            <artifactId>rainy-message-spring-boot-starter</artifactId>
-        </dependency>
-        <!-- Rainy Cache -->
-        <dependency>
-            <groupId>com.zero.rainy</groupId>
-            <artifactId>rainy-cache-spring-boot-starter</artifactId>
-        </dependency>
-
         <!-- Rainy Web -->
         <dependency>
             <groupId>com.zero.rainy</groupId>

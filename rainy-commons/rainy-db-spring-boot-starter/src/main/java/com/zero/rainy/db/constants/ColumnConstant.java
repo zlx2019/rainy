@@ -6,7 +6,7 @@ package com.zero.rainy.db.constants;
  * @author Zero.
  * <p> Created on 2024/9/22 11:05 </p>
  */
-public interface Columns {
+public interface ColumnConstant {
 
     /**
      * 主键
@@ -37,4 +37,16 @@ public interface Columns {
      * 修改者
      */
     String UPDATER = "updateUser";
+
+    /**
+     * 状态
+     */
+    String STATUS = "status";
+
+    /**
+     * 逻辑删除位
+     */
+    String DELETED = "deleted";
+
+
 }

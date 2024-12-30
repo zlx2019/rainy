@@ -2,7 +2,7 @@ package com.zero.rainy.db.ext.hooks;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.zero.rainy.core.holder.UserContextHolder;
-import com.zero.rainy.db.constants.Columns;
+import com.zero.rainy.db.constants.ColumnConstant;
 import com.zero.rainy.db.utils.IdUtils;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.ibatis.reflection.MetaObject;
@@ -25,10 +25,10 @@ public class SupplementEntityHook implements MetaObjectHandler {
      */
     @Override
     public void insertFill(MetaObject metaObject) {
-        setFieldValByName(Columns.ID, IdUtils.getNextId(), metaObject);
+        setFieldValByName(ColumnConstant.ID, IdUtils.getNextId(), metaObject);
         LocalDateTime nowTime = LocalDateTime.now();
-        this.strictInsertFill(metaObject, Columns.CREATE_TIME, LocalDateTime.class, nowTime);
-        this.strictInsertFill(metaObject, Columns.UPDATE_TIME, LocalDateTime.class, nowTime);
+        this.strictInsertFill(metaObject, ColumnConstant.CREATE_TIME, LocalDateTime.class, nowTime);
+        this.strictInsertFill(metaObject, ColumnConstant.UPDATE_TIME, LocalDateTime.class, nowTime);
         Optional.ofNullable(UserContextHolder.getUser())
                 .ifPresent(user-> {
 //                    this.strictInsertFill(metaObject, CREATOR, Long.class, Long.valueOf(user));
@@ -43,7 +43,7 @@ public class SupplementEntityHook implements MetaObjectHandler {
     @Override
     public void updateFill(MetaObject metaObject) {
         // 抹除掉之前的值
-        metaObject.setValue(Columns.UPDATE_TIME, null);
-        this.strictUpdateFill(metaObject, Columns.UPDATE_TIME, LocalDateTime::now, LocalDateTime.class);
+        metaObject.setValue(ColumnConstant.UPDATE_TIME, null);
+        this.strictUpdateFill(metaObject, ColumnConstant.UPDATE_TIME, LocalDateTime::now, LocalDateTime.class);
     }
 }
