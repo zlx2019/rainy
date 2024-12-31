@@ -2,6 +2,7 @@ package com.zero.rainy.core.spring;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.aop.framework.AopContext;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.config.BeanFactoryPostProcessor;
@@ -18,8 +19,9 @@ import org.springframework.stereotype.Component;
  * @author Zero.
  * <p> Created on 2024/8/28 14:03 </p>
  */
-@Component
 @Slf4j
+@Component
+@SuppressWarnings("all")
 public class SpringContextUtil implements ApplicationContextAware, BeanFactoryPostProcessor {
     @Getter
     private static ApplicationContext applicationContext;
@@ -52,8 +54,75 @@ public class SpringContextUtil implements ApplicationContextAware, BeanFactoryPo
     }
 
 
+    /**
+     * 根据Class类型获取对应的Bean实例
+     *
+     * @param clazz Bean Class
+     * @param <T>   Bean 原型
+     * @return      Bean 实例
+     */
     public static <T> T getBean(Class<T> clazz) {
         return getBeanFactory().getBean(clazz);
+    }
+
+    /**
+     * 根据Name 获取Bean
+     *
+     * @param beanName Bean 名称
+     * @param <T>      Bean 原型
+     * @return         Bean 实例
+     */
+    public static <T> T getBean(String beanName) {
+        getBeanFactory().getBeanDefinitionCount();
+        return (T) getBeanFactory().getBean(beanName);
+    }
+
+    /**
+     * 根据BeanType及BeanName 获取Bean
+     *
+     * @param beanName Bean 名称
+     * @param clazz    Bean Class
+     * @param <T>      Bean 原型
+     * @return         Bean 实例
+     */
+    public static <T> T getBean(String beanName, Class<T> clazz) {
+        return getBeanFactory().getBean(beanName, clazz);
+    }
+
+    /**
+     * 根据Bean Name 获取Bean的原型
+     *
+     * @param beanName Bean名称
+     * @return         Bean原型
+     */
+    public static Class<?> getBeanType(String beanName) {
+        return getBeanFactory().getType(beanName);
+    }
+
+    /**
+     * IOC是否包含该名称的Bean
+     *
+     * @param beanName bean名称
+     * @return         是/否
+     */
+    public static boolean containsBean(String beanName) {
+        return getBeanFactory().containsBean(beanName);
+    }
+
+
+    /**
+     * 获取当前 Bean 的代理对象.
+     * @param self  Bean this
+     */
+    public static <T> T getAopProxy(T self){
+        return (T) AopContext.currentProxy();
+    }
+
+    /**
+     * 根据Key 获取配置属性
+     */
+    public static String getEnvironmentConfig(String key){
+        return applicationContext.getEnvironment().getRequiredProperty(key);
     }
 
     /**

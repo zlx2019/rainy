@@ -21,11 +21,6 @@
 
     <!-- 服务依赖 -->
     <dependencies>
-        <!-- Rainy 日志 -->
-        <dependency>
-            <groupId>com.zero.rainy</groupId>
-            <artifactId>rainy-log-spring-boot-starter</artifactId>
-        </dependency>
         <!-- Rainy 配置 -->
         <dependency>
             <groupId>com.zero.rainy</groupId>
