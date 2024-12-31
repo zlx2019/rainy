@@ -1,0 +1,25 @@
+package ${package}.${moduleName}.model.dto;
+import com.zero.rainy.core.model.dto.BaseDTO;
+
+import java.io.Serial;
+import java.io.Serializable;
+
+/**
+ * ${ClassName} DTO
+ *
+ * @author ${author}
+ * <p> Created on ${createdAt} </p>
+ */
+public class ${ClassName}DTO extends BaseDTO implements Serializable{
+    @Serial
+    private static final long serialVersionUID = 1L;
+
+#foreach($column in $columns)
+    #if("$!column.comment" != "")
+        /**
+         * ${column.comment}
+         */
+    #end
+    private $column.attrType $column.attrNameCamelCase;
+#end
+}

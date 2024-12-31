@@ -19,5 +19,5 @@ public class WithLockEntity<T extends Model<?>> extends SuperEntity<T> {
      * 乐观锁标识
      */
     @Version
-    private int version;
+    private Integer version;
 }

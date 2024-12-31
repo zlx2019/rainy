@@ -20,7 +20,7 @@ import java.util.List;
 @Getter
 @Setter
 @Accessors(chain = true)
-public class Pages<T> implements Serializable {
+public class PageResult<T> implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
@@ -46,11 +46,11 @@ public class Pages<T> implements Serializable {
     private Collection<T> list;
 
     /**
-     * 将 {@link IPage} 分页结果集，转换为 {@link Pages} 响应体
+     * 将 {@link IPage} 分页结果集，转换为 {@link PageResult} 响应体
      * @param page  分页数据
      */
-    public static <T> Pages<T> of(IPage<T> page) {
-        return new Pages<T>()
+    public static <T> PageResult<T> of(IPage<T> page) {
+        return new PageResult<T>()
                 .setTotal(page.getTotal())
                 .setPage(page.getCurrent())
                 .setPageSize(page.getSize())
@@ -58,8 +58,8 @@ public class Pages<T> implements Serializable {
                 .setList(page.getRecords());
     }
 
-    public static <V> Pages<V> of(IPage<?> page, Collection<V> list) {
-        return new Pages<V>()
+    public static <V> PageResult<V> of(IPage<?> page, Collection<V> list) {
+        return new PageResult<V>()
                 .setTotal(page.getTotal())
                 .setPage(page.getCurrent())
                 .setPageSize(page.getSize())
@@ -67,12 +67,12 @@ public class Pages<T> implements Serializable {
                 .setList(list);
     }
 
-    public static <T,V> Pages<V> of(IPage<T> page, Class<V> voClass) {
+    public static <T,V> PageResult<V> of(IPage<T> page, Class<V> voClass) {
         List<V> list = CloneUtils.copyProperties(page.getRecords(), voClass);
         return of(page, list);
     }
 
-    public static <T> Pages<T> empty() {
-        return new Pages<T>();
+    public static <T> PageResult<T> empty() {
+        return new PageResult<T>();
     }
 }

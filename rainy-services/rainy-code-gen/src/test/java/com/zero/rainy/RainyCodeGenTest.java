@@ -30,6 +30,6 @@ public class RainyCodeGenTest {
         columnBos.forEach(System.out::println);
         Table table = tableInfos.getFirst();
         table.setColumns(columnBos);
-        GeneratorUtils.generate(table, "system");
+        GeneratorUtils.generate(table, "system", "Zero.");
     }
 }

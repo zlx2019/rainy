@@ -1,24 +1,25 @@
 package com.zero.rainy.sample.controller;
 
-import com.zero.rainy.cache.limiting.LimitType;
-import com.zero.rainy.cache.limiting.Limiter;
-import com.zero.rainy.cache.template.CacheTemplate;
-import com.zero.rainy.core.config.GlobalDynamicConfig;
-import com.zero.rainy.core.model.entity.Sample;
-import com.zero.rainy.core.model.Pages;
+import com.zero.rainy.core.model.PageResult;
+import com.zero.rainy.core.model.PageableQuery;
 import com.zero.rainy.core.model.Result;
-import com.zero.rainy.core.model.request.PageableQueryRequest;
-import com.zero.rainy.sample.pojo.vo.LimitVo;
+import com.zero.rainy.core.model.dto.group.Create;
+import com.zero.rainy.core.model.dto.group.Update;
+import com.zero.rainy.core.model.entity.Sample;
+import com.zero.rainy.core.utils.CloneUtils;
+import com.zero.rainy.sample.model.dto.SampleDTO;
+import com.zero.rainy.sample.model.vo.SampleVo;
 import com.zero.rainy.sample.service.ISampleService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.concurrent.TimeUnit;
+import java.util.List;
 
 /**
- *
+ * Sample API 示例
  *
  * @author Zero.
  * <p> Created on 2024/9/1 22:34 </p>
@@ -29,47 +30,58 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("/sample")
 public class SampleController {
     private final ISampleService sampleService;
-    private final CacheTemplate cacheTemplate;
-    private final GlobalDynamicConfig globalDynamicConfig;
 
     /**
-     * 分页查询
-     * @param pqr 分页参数
+     * 查询所有记录
      */
     @GetMapping
-    public Result<Void> list(@Valid PageableQueryRequest pqr) {
-        return Result.ok();
+    public Result<List<SampleVo>> list(){
+        return Result.ok(sampleService.list(SampleVo.class));
     }
 
     /**
-     * Post 请求分页查询
-     * @param pageableQueryRequest 分页参数
+     * 根据ID查询记录
+     * @param id    ID主键
      */
-    @PostMapping
-    public Result<Void> listAll(@RequestBody @Valid PageableQueryRequest pageableQueryRequest){
-        return Result.ok();
+    @GetMapping("/{id}")
+    public Result<SampleVo> findById(@PathVariable Long id){
+        Sample sample = sampleService.getById(id);
+        return Result.ok(CloneUtils.copyProperties(sample, SampleVo.class));
     }
 
     /**
-     * 分页查询列表
+     * 分页查询记录
      * @param query 分页参数
-     *
-     * @return {@link Sample}
      */
     @GetMapping("/page")
-    public Result<Pages<Sample>> page(@Valid PageableQueryRequest query){
-        return Result.ok(sampleService.pages(query));
+    public Result<PageResult<SampleVo>> list(@Valid PageableQuery query) {
+        return Result.ok(sampleService.pages(query, SampleVo.class));
     }
 
-    @Limiter(limitType = LimitType.API, limits = 10, limitTime = 1, timeUnit = TimeUnit.MINUTES)
-    @GetMapping("/limit")
-    public Result<?> limit(String name, int age){
-        return Result.ok();
+    /**
+     * 新增记录
+     * @param dto   新增数据
+     */
+    @PostMapping
+    public Result<Boolean> save(@RequestBody @Validated(Create.class) SampleDTO dto){
+        return Result.ok(sampleService.save(dto));
     }
 
-    @Limiter(limitType = LimitType.KEY_WORD, key = "test", limits = 10, limitTime = 1, timeUnit = TimeUnit.MINUTES)
-    @PostMapping("/limit/post")
-    public Result<LimitVo> limitPost(@RequestBody LimitVo vo){
-        return Result.ok(vo);
+    /**
+     * 根据ID修改记录
+     * @param dto   修改数据
+     */
+    @PatchMapping
+    public Result<SampleVo> updateById(@RequestBody @Validated(Update.class) SampleDTO dto){
+        return Result.ok(sampleService.updateById(dto));
+    }
+
+    /**
+     * 根据ID删除记录
+     * @param id    ID主键
+     */
+    @DeleteMapping("/{id}")
+    public Result<Boolean> deleteById(@PathVariable Long id){
+        return Result.ok(sampleService.removeById(id));
     }
 }

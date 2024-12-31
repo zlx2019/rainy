@@ -1,12 +1,30 @@
 package ${package}.${moduleName}.controller;
 
+import com.zero.rainy.core.model.Result;
+import com.zero.rainy.core.utils.CloneUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import ${package}.${moduleName}.model.vo.${classNameVo};
+import ${package}.${moduleName}.model.dto.${classNameDTO};
+
+#if(${hasBigDecimal})
+import java.math.BigDecimal;
+#end
+#if(${hasLocalDateTime})
+import java.time.LocalDateTime;
+#end
+#if(${hasLocalDate})
+import java.time.LocalDate;
+#end
+
+import java.util.List;
 
 /**
- * ${comment} on Controller
+ * ${ClassName} Controller
  *
  * @author ${author}
  * <p> Created on ${createdAt} </p>
@@ -15,6 +33,25 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequiredArgsConstructor
 @RequestMapping("/${requestPath}")
-public class ${className}Controller {
-    private final ${className}Service ${classname}Service;
+public class ${ClassName}Controller {
+    private final I${ClassName}Service ${classname}Service;
+
+    /**
+     * 查询所有记录
+     */
+    @GetMapping
+    public Result<List<${ClassName}Vo>> list(){
+        return Result.ok(${classname}Service.list(${ClassName}Vo.class));
+    }
+
+    /**
+     * 根据ID查询记录
+     * @param id    ID主键
+     */
+    @GetMapping("/{id}")
+    public Result<${ClassName}Vo> findById(@PathVariable("id") Long id){
+        return Result.ok(CloneUtils.copyProperties(
+                ${classname}Service.getById(id), ${ClassName}Vo.class
+        ));
+    }
 }

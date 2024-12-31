@@ -34,7 +34,8 @@ public class SuperEntity <T extends Model<?>> extends Model<T> implements Serial
      *  0: 正常
      *  1: 锁定不可用
      */
-    private Status status = Status.NORMAL;
+    @TableField(fill = FieldFill.INSERT)
+    private Status status;
 
     /**
      * 逻辑删除

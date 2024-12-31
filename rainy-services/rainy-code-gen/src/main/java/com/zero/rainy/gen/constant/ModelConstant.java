@@ -13,6 +13,8 @@ public interface ModelConstant {
     // 模板
     String TEMPLATE_PATH = "templates/";
     String FILE_NAME_MODEL = "Model.java.vm";
+    String FILE_NAME_VO = "Vo.java.vm";
+    String FILE_NAME_DTO = "DTO.java.vm";
     String FILE_NAME_MAPPER = "Mapper.java.vm";
     String FILE_NAME_MAPPER_XML = "Mapper.xml.vm";
     String FILE_NAME_SERVICE = "Service.java.vm";

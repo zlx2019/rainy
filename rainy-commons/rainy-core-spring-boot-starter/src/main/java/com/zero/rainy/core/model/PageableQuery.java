@@ -1,4 +1,4 @@
-package com.zero.rainy.core.model.request;
+package com.zero.rainy.core.model;
 
 import com.zero.rainy.core.constant.Constant;
 import com.zero.rainy.core.enums.OrderBy;
@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
-public class PageableQueryRequest {
+public class PageableQuery {
 
     /**
      * 页码

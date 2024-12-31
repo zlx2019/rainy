@@ -12,8 +12,9 @@ import com.zero.rainy.core.constant.Constant;
 import com.zero.rainy.core.model.entity.supers.SuperEntity;
 import com.zero.rainy.core.model.entity.supers.WithLockEntity;
 import com.zero.rainy.core.enums.OrderBy;
-import com.zero.rainy.core.model.request.PageableQueryRequest;
+import com.zero.rainy.core.model.PageableQuery;
 import com.zero.rainy.core.utils.AssertUtils;
+import com.zero.rainy.core.utils.CloneUtils;
 import com.zero.rainy.db.constants.ColumnConstant;
 import com.zero.rainy.db.ext.mapper.SuperMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +37,7 @@ public class SuperServiceImpl<M extends SuperMapper<T>,T extends SuperEntity<T>>
     private static final int BATCH_MAX = 1000;
 
     @Override
-    public IPage<T> page(PageableQueryRequest query, Wrapper<T> wrapper) {
+    public IPage<T> page(PageableQuery query, Wrapper<T> wrapper) {
         wrapper = Optional.ofNullable(wrapper).orElseGet(this::lambdaWrapper);
         if (wrapper instanceof LambdaQueryWrapper<? extends T> lqw){
             LocalDateTime begin = query.getBegin();
@@ -64,6 +65,15 @@ public class SuperServiceImpl<M extends SuperMapper<T>,T extends SuperEntity<T>>
             }
         }
         return this.page(new Page<>(query.getPage(), query.getPageSize()), wrapper);
+    }
+
+    @Override
+    public <V> List<V> list(Wrapper<T> wrp, Class<V> voClass) {
+        List<T> list = super.list(wrp);
+        if (list.isEmpty()){
+            return List.of();
+        }
+        return CloneUtils.copyProperties(list, voClass);
     }
 
     @Override

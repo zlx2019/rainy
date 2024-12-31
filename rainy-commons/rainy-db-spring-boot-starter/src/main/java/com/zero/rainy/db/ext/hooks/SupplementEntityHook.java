@@ -1,6 +1,7 @@
 package com.zero.rainy.db.ext.hooks;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
+import com.zero.rainy.core.enums.supers.Status;
 import com.zero.rainy.core.holder.UserContextHolder;
 import com.zero.rainy.db.constants.ColumnConstant;
 import com.zero.rainy.db.utils.IdUtils;
@@ -29,6 +30,7 @@ public class SupplementEntityHook implements MetaObjectHandler {
         LocalDateTime nowTime = LocalDateTime.now();
         this.strictInsertFill(metaObject, ColumnConstant.CREATE_TIME, LocalDateTime.class, nowTime);
         this.strictInsertFill(metaObject, ColumnConstant.UPDATE_TIME, LocalDateTime.class, nowTime);
+        this.strictInsertFill(metaObject, ColumnConstant.STATUS, Status.class, Status.NORMAL);
         Optional.ofNullable(UserContextHolder.getUser())
                 .ifPresent(user-> {
 //                    this.strictInsertFill(metaObject, CREATOR, Long.class, Long.valueOf(user));

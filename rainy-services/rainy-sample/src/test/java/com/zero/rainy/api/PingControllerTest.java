@@ -11,7 +11,7 @@ import static org.hamcrest.CoreMatchers.is;
  * @author Zero.
  * <p> Created on 2024/12/26 11:28 </p>
  */
-public class PingResourceTest extends AssuredAbstractsApiTest {
+public class PingControllerTest extends AssuredAbstractsApiTest {
     @Test
     public void test(){
         given()

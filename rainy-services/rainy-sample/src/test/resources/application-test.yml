@@ -1,0 +1,22 @@
+# 单测使用 H2 DB
+
+spring:
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb;MODE=MySQL;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=TRUE
+    username: sa
+    password:
+  sql:
+    init:
+      schema-locations: classpath:db/schema.sql
+#      data-locations: classpath:db/data.sql
+      mode: always
+
+
+# 防止环境报错
+rocketmq:
+  name-server: 47.94.213.132:9876
+  producer:
+    group: rainy_default_producer
+  consumer:
+    group: rainy_default_consumer

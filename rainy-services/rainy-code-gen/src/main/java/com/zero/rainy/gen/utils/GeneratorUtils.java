@@ -41,7 +41,7 @@ public class GeneratorUtils implements ModelConstant {
      * @param table      数据表信息
      * @param moduleName 所属模块名称
      */
-    public static void generate(Table table, String moduleName) {
+    public static void generate(Table table, String moduleName, String author) {
         if (Objects.isNull(table) || table.getColumns().isEmpty()) {
             return;
         }
@@ -99,7 +99,7 @@ public class GeneratorUtils implements ModelConstant {
         data.put("tableName", tableBo.getTableName());
         data.put("comment", tableBo.getComment());
         data.put("primaryKey", tableBo.getPrimaryKey());
-        data.put("className", tableBo.getClassNamePascalCase());
+        data.put("ClassName", tableBo.getClassNamePascalCase());
         data.put("classname", tableBo.getClassNameCamelCase());
 
         String requestPath = tableBo.getClassNameCamelCase();
@@ -112,7 +112,7 @@ public class GeneratorUtils implements ModelConstant {
 
         data.put(MODULE, moduleName);
         data.put(PACKAGE, config.getString(PACKAGE));
-        data.put(AUTHOR, config.getString(AUTHOR));
+        data.put(AUTHOR, author);
         data.put(CREATED_AT, FormatterUtils.format(new Date()));
         VelocityContext context = new VelocityContext(data);
         // 渲染模板
@@ -159,8 +159,10 @@ public class GeneratorUtils implements ModelConstant {
     private static List<String> getTemplates() {
         List<String> templates = new ArrayList<>();
         templates.add(TEMPLATE_PATH + FILE_NAME_MODEL);
-//        templates.add(TEMPLATE_PATH+FILE_NAME_MAPPER);
-//        templates.add(TEMPLATE_PATH+FILE_NAME_MAPPER_XML);
+        templates.add(TEMPLATE_PATH + FILE_NAME_VO);
+        templates.add(TEMPLATE_PATH + FILE_NAME_DTO);
+        templates.add(TEMPLATE_PATH+FILE_NAME_MAPPER);
+        templates.add(TEMPLATE_PATH+FILE_NAME_MAPPER_XML);
 //        templates.add(TEMPLATE_PATH+FILE_NAME_SERVICE);
 //        templates.add(TEMPLATE_PATH+FILE_NAME_SERVICE_IMPL);
         templates.add(TEMPLATE_PATH + FILE_NAME_CONTROLLER);

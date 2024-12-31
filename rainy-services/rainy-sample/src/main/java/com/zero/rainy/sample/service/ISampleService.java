@@ -2,6 +2,8 @@ package com.zero.rainy.sample.service;
 
 import com.zero.rainy.core.model.entity.Sample;
 import com.zero.rainy.db.ext.service.ISuperService;
+import com.zero.rainy.sample.model.dto.SampleDTO;
+import com.zero.rainy.sample.model.vo.SampleVo;
 
 /**
  * @author Zero.
@@ -9,4 +11,13 @@ import com.zero.rainy.db.ext.service.ISuperService;
  */
 public interface ISampleService extends ISuperService<Sample> {
 
+    /**
+     * 新增记录
+     */
+    Boolean save(SampleDTO dto);
+
+    /**
+     * 根据ID修改记录
+     */
+    SampleVo updateById(SampleDTO dto);
 }

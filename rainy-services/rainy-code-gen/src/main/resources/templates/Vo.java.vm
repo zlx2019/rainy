@@ -1,11 +1,10 @@
-package ${package}.core.model.entity;
+package ${package}.${moduleName}.model.vo;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import lombok.AllArgsConstructor;
+import com.zero.rainy.core.model.vo.BaseVo;
 import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.EqualsAndHashCode;
 #if(${hasBigDecimal})
+import java.io.Serial;
 import java.math.BigDecimal;
 #end
 #if(${hasLocalDateTime})
@@ -14,26 +13,25 @@ import java.time.LocalDateTime;
 #if(${hasLocalDate})
 import java.time.LocalDate;
 #end
+import java.io.Serializable;
 
 /**
- * ${ClassName} - ${comment}
+ * ${ClassName} Vo
  *
  * @author ${author}
  * <p> Created on ${createdAt} </p>
  */
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
-@TableName("${tableName}")
 @EqualsAndHashCode(callSuper = true)
-public class ${ClassName} extends SuperEntity<${ClassName}>{
+public class ${ClassName}Vo extends BaseVo implements Serializable {
+    @Serial
     private static final long serialVersionUID = 1L;
 
 #foreach($column in $columns)
     #if("$!column.comment" != "")
-    /**
-     * ${column.comment}
-     */
+        /**
+         * ${column.comment}
+         */
     #end
     private $column.attrType $column.attrNameCamelCase;
 #end
