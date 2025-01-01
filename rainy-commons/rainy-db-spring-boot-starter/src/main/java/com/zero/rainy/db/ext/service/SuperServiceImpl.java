@@ -18,12 +18,14 @@ import com.zero.rainy.core.utils.CloneUtils;
 import com.zero.rainy.db.constants.ColumnConstant;
 import com.zero.rainy.db.ext.mapper.SuperMapper;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import java.util.function.Function;
 
 /**
  * 通用 Service {@link ISuperService} 实现类. 通用抽象方法的实现.
@@ -32,6 +34,7 @@ import java.util.Optional;
  * <p> Created on 2024/8/27 18:54 </p>
  */
 @Slf4j
+@SuppressWarnings("all")
 public class SuperServiceImpl<M extends SuperMapper<T>,T extends SuperEntity<T>> extends ServiceImpl<M,T> implements ISuperService<T> {
 
     private static final int BATCH_MAX = 1000;
@@ -69,11 +72,22 @@ public class SuperServiceImpl<M extends SuperMapper<T>,T extends SuperEntity<T>>
 
     @Override
     public <V> List<V> list(Wrapper<T> wrp, Class<V> voClass) {
-        List<T> list = super.list(wrp);
-        if (list.isEmpty()){
+        return this.wraps(super.list(wrp), voClass, null);
+    }
+
+    @Override
+    public final <V> List<V> list(Wrapper<T> wrp, Class<V> voClass, Function<T, V> transform) {
+        return this.wraps(super.list(wrp), voClass, transform);
+    }
+
+    private <V> List<V> wraps(List<T> records, Class<V> voClass, Function<T, V> transform) {
+        if (records.isEmpty()){
             return List.of();
         }
-        return CloneUtils.copyProperties(list, voClass);
+        if (Objects.nonNull(transform)){
+            return records.stream().map(transform).toList();
+        }
+        return CloneUtils.copyProperties(records, voClass);
     }
 
     @Override

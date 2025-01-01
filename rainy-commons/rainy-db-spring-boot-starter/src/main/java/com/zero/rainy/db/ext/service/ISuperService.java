@@ -11,6 +11,7 @@ import com.zero.rainy.core.model.PageResult;
 import com.zero.rainy.core.model.PageableQuery;
 
 import java.util.List;
+import java.util.function.Function;
 
 /**
  * 通用 Service 基于{@link IService}进行扩展。
@@ -26,7 +27,6 @@ public interface ISuperService<T extends SuperEntity<T>> extends IService<T> {
     default PageResult<T> pages(PageableQuery query) {
         return PageResult.of(this.page(query, null));
     }
-
 
     default PageResult<T> pages(PageableQuery query, Wrapper<T> wrapper) {
         return PageResult.of(this.page(query, wrapper));
@@ -54,13 +54,30 @@ public interface ISuperService<T extends SuperEntity<T>> extends IService<T> {
 
 
     /**
-     * 查询所有记录，映射为Vo
+     * 查询所有记录，并通过反射转换为Vo实体.
+     *
+     * @param wrp       查询条件
+     * @param voClass   Vo泛型
      */
     <V> List<V> list(Wrapper<T> wrp, Class<V> voClass);
 
     default <V> List<V> list(Class<V> voClass) {
         return this.list(null, voClass);
     }
+
+    /**
+     * 查询所有记录，并通过转换器映射为Vo实体.
+     *
+     * @param wrp           查询条件
+     * @param voClass       Vo泛型
+     * @param transform     转换函数
+     */
+    <V> List<V> list(Wrapper<T> wrp, Class<V> voClass, Function<T, V> transform);
+
+    default <V> List<V> list(Class<V> voClass, Function<T, V> transform){
+        return this.list(null, voClass, transform);
+    }
+
 
     /**
      * 通过乐观锁更新.

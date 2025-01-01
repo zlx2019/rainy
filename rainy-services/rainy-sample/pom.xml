@@ -36,13 +36,6 @@
         <!--            <groupId>com.alibaba.cloud</groupId>-->
         <!--            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>-->
         <!--        </dependency>-->
-
-        <!-- Rainy 日志 -->
-        <dependency>
-            <groupId>com.zero.rainy</groupId>
-            <artifactId>rainy-log-spring-boot-starter</artifactId>
-        </dependency>
-
         <!-- Rainy Message -->
         <dependency>
             <groupId>com.zero.rainy</groupId>
