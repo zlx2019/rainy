@@ -32,4 +32,9 @@ public interface SampleConvert {
      * entity to Vo
      */
     SampleVo toVo(Sample entity);
+
+    /**
+     * DTO to Vo
+     */
+    SampleVo toVo(SampleDTO dto);
 }

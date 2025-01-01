@@ -2,11 +2,13 @@ package com.zero.rainy.core.handler;
 
 import com.zero.rainy.core.enums.supers.ResponseCodes;
 import com.zero.rainy.core.exception.BusinessException;
+import com.zero.rainy.core.exception.RecordNotFoundException;
 import com.zero.rainy.core.exception.RequestLimitException;
 import com.zero.rainy.core.model.Result;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
@@ -70,6 +72,15 @@ public class DefaultExceptionAdvice {
     public Result<?> noResourceFoundExceptionHandler(NoResourceFoundException e) {
         log.error("Resource Not Found [{}] - [{}]", e.getHttpMethod(), e.getResourcePath());
         return exceptionHandler(ResponseCodes.RESOURCE_NOT_FOUND);
+    }
+
+    /**
+     * 数据表记录未找到
+     */
+    @ExceptionHandler(RecordNotFoundException.class)
+    public Result<?> recordNotFoundExceptionHandler(RecordNotFoundException e) {
+        String message = StringUtils.defaultIfBlank(e.getMessage(), ResponseCodes.BUSINESS_DATA_NOT_FOUND.getCode().message());
+        return Result.fail(ResponseCodes.BUSINESS_DATA_NOT_FOUND.getCode().code(), message);
     }
 
     /**

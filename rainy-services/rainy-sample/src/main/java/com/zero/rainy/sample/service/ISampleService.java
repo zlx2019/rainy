@@ -12,11 +12,6 @@ import com.zero.rainy.sample.model.vo.SampleVo;
 public interface ISampleService extends ISuperService<Sample> {
 
     /**
-     * 新增记录
-     */
-    Boolean save(SampleDTO dto);
-
-    /**
      * 根据ID修改记录
      */
     SampleVo updateById(SampleDTO dto);

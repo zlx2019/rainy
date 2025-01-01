@@ -34,13 +34,14 @@ import java.util.List;
 @RequestMapping("/sample")
 public class SampleController {
     private final ISampleService sampleService;
+    private final SampleConvert convert;
 
     /**
      * 查询所有记录
      */
     @GetMapping
     public Result<List<SampleVo>> list(){
-        return Result.ok(sampleService.list(SampleVo.class, SampleConvert.INSTANCE::toVo));
+        return Result.ok(sampleService.list(SampleVo.class, convert::toVo));
     }
 
     /**
@@ -49,8 +50,7 @@ public class SampleController {
      */
     @GetMapping("/{id}")
     public Result<SampleVo> findById(@PathVariable Long id){
-        Sample sample = sampleService.getById(id);
-        return Result.ok(CloneUtils.copyProperties(sample, SampleVo.class));
+        return Result.ok(convert.toVo(sampleService.getById(id)));
     }
 
     /**
@@ -68,7 +68,7 @@ public class SampleController {
      */
     @PostMapping
     public Result<Boolean> save(@RequestBody @Validated(Create.class) SampleDTO dto){
-        return Result.ok(sampleService.save(dto));
+        return Result.ok(sampleService.save(convert.toEntity(dto)));
     }
 
     /**

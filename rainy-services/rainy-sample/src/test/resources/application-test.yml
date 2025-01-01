@@ -1,6 +1,6 @@
-# 单测使用 H2 DB
-
 spring:
+  application:
+    name: sample-test
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:testdb;MODE=MySQL;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=TRUE
@@ -9,9 +9,16 @@ spring:
   sql:
     init:
       schema-locations: classpath:db/schema.sql
-#      data-locations: classpath:db/data.sql
+      #      data-locations: classpath:db/data.sql
       mode: always
-
+  data:
+    redis:
+      host: 192.168.1.223
+      port: 6379
+      database: 0
+      connect-timeout: 3s
+      timeout: 3s
+      password: root1234
 
 # 防止环境报错
 rocketmq:
