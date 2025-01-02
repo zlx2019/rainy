@@ -8,6 +8,9 @@ import ${package}.core.model.entity.${ClassName};
 import ${package}.${moduleName}.mapper.${ClassName}Mapper;
 import ${package}.${moduleName}.service.I${ClassName}Service;
 import ${package}.${moduleName}.model.converts.${ClassName}Convert;
+import ${package}.${moduleName}.model.vo.${ClassName}Vo;
+import ${package}.${moduleName}.model.dto.${ClassName}DTO;
+import ${package}.core.exception.RecordNotFoundException;
 
 import java.util.Objects;
 

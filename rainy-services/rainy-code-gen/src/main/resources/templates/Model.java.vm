@@ -1,6 +1,7 @@
 package ${package}.core.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
+import ${package}.core.model.entity.supers.SuperEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.Getter;

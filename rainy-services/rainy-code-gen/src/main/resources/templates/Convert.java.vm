@@ -4,6 +4,7 @@ import ${package}.core.model.entity.${ClassName};
 import ${package}.${moduleName}.model.vo.${ClassName}Vo;
 import ${package}.${moduleName}.model.dto.${ClassName}DTO;
 import org.mapstruct.Mapper;
+import org.mapstruct.factory.Mappers;
 import org.mapstruct.MappingConstants;
 import org.mapstruct.NullValuePropertyMappingStrategy;
 
