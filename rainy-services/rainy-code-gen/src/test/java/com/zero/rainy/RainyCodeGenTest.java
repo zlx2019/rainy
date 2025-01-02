@@ -21,7 +21,7 @@ public class RainyCodeGenTest {
 
     @Test
     public void test(){
-        List<Table> tableInfos = mapper.selectAllTables("config");
+        List<Table> tableInfos = mapper.selectAllTables(List.of("config"));
         tableInfos.forEach(System.out::println);
         Assertions.assertFalse(tableInfos.isEmpty());
 

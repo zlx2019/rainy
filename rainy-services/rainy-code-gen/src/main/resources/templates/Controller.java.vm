@@ -74,7 +74,6 @@ public class ${ClassName}Controller {
 
     /**
      * 根据ID修改记录
-     * @param dto   修改数据
      */
     @PatchMapping
     public Result<Boolean> updateById(@RequestBody @Validated(Update) ${ClassName}DTO dto){
@@ -83,7 +82,6 @@ public class ${ClassName}Controller {
 
     /**
      * 根据ID删除记录
-     * @param id    ID主键
      */
     @DeleteMapping("/{id}")
     public Result<Boolean> deleteById(@PathVariable Long id){

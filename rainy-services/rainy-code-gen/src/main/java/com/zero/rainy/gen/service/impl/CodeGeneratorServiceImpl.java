@@ -1,5 +1,6 @@
 package com.zero.rainy.gen.service.impl;
 
+import cn.hutool.core.io.IoUtil;
 import com.zero.rainy.core.exception.BusinessException;
 import com.zero.rainy.core.utils.AssertUtils;
 import com.zero.rainy.core.utils.CloneUtils;
@@ -36,20 +37,34 @@ public class CodeGeneratorServiceImpl implements CodeGeneratorService {
 
     @Override
     public byte[] generate(GenerateDTO dto) {
-        String tableName = dto.getName();
-        List<Table> tables = mapper.selectAllTables(tableName);
+        String tableName = dto.getTables().getFirst();
+        // 获取表信息
+        List<Table> tables = mapper.selectAllTables(dto.getTables());
         AssertUtils.isTrue(tables.isEmpty(), new BusinessException("table does not exist"));
-        Table tableInfo = tables.getFirst();
-        List<Column> columns = mapper.selectColumnsByTable(tableName);
-        Table table = new Table();
-        table.setTableName(tableInfo.getTableName());
-        table.setColumns(columns);
-        table.setComment(tableInfo.getComment());
 
-        // 创建Zip
-        ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
-        ZipOutputStream zip = new ZipOutputStream(outputStream);
-        GeneratorUtils.generate(table, dto.getPackageName(), dto.getModule(), dto.getAuthor(), zip);
-        return outputStream.toByteArray();
+        // 创建Zip压缩包
+        ByteArrayOutputStream outputStream = null;
+        ZipOutputStream zip = null;
+        try {
+            outputStream = new ByteArrayOutputStream();
+            zip = new ZipOutputStream(outputStream);
+            for (Table tableInfo : tables) {
+                // 获取列信息
+                List<Column> columns = mapper.selectColumnsByTable(tableName);
+                Table table = new Table();
+                table.setTableName(tableInfo.getTableName());
+                table.setColumns(columns);
+                table.setComment(tableInfo.getComment());
+                // 生成代码
+                GeneratorUtils.generate(table, dto.getPackageName(), dto.getModuleName(), dto.getAuthor(), zip);
+            }
+            zip.finish();
+            return outputStream.toByteArray();
+        }catch (Exception e){
+            throw new BusinessException("代码生成异常.", e);
+        }finally {
+            IoUtil.close(zip);
+            IoUtil.close(outputStream);
+        }
     }
 }

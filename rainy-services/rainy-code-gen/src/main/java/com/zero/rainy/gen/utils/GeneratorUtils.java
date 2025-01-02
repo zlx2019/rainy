@@ -13,6 +13,7 @@ import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.configuration.ConfigurationException;
 import org.apache.commons.configuration.PropertiesConfiguration;
+import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.WordUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.velocity.Template;
@@ -20,7 +21,6 @@ import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
 import java.io.File;
-import java.io.IOException;
 import java.io.StringWriter;
 import java.math.BigDecimal;
 import java.nio.charset.StandardCharsets;
@@ -44,10 +44,12 @@ public class GeneratorUtils implements ModelConstant {
     /**
      * 代码生成.
      *
-     * @param table      数据表信息
-     * @param moduleName 所属模块名称
+     * @param table         表名称
+     * @param packageName   基础包名
+     * @param moduleName    所属模块名称
+     * @param author        创建人
      */
-    public static void generate(Table table, String packageName, String moduleName, String author, ZipOutputStream zip) {
+    public static void generate(Table table, String packageName, String moduleName, String author, ZipOutputStream zip) throws Exception {
         if (Objects.isNull(table) || table.getColumns().isEmpty()) {
             return;
         }
@@ -56,7 +58,6 @@ public class GeneratorUtils implements ModelConstant {
         String tablePrefix = config.getString(TABLE_PREFIX);
         // 表名 -> 类名
         String className = tableNameToJavaName(table.getTableName(), tablePrefix);
-
         boolean hasBigDecimal = false;
         boolean hasLocalDateTime = false;
         boolean hasLocalDate = false;
@@ -117,34 +118,26 @@ public class GeneratorUtils implements ModelConstant {
         data.put("hashLocalDate", hasLocalDate);
 
         data.put(MODULE, moduleName);
-        data.put(PACKAGE, config.getString(PACKAGE));
+        data.put(PACKAGE, packageName);
         data.put(AUTHOR, author);
         data.put(CREATED_AT, FormatterUtils.format(new Date()));
         VelocityContext context = new VelocityContext(data);
         // 渲染模板
         List<String> templates = getTemplates();
-        for (String templateName : templates) {
-            StringWriter writer = null;
-            try {
+        StringWriter writer = null;
+        try {
+            for (String templateName : templates) {
                 // 模板渲染
                 writer = new StringWriter();
                 Template template = Velocity.getTemplate(templateName, "UTF-8");
                 template.merge(context, writer);
-
-                // 生成文件名
-                String fileName = getFileName(templateName, tableBo.getClassNamePascalCase(), packageName, moduleName);
-
                 // 创建 zip 条目
-                zip.putNextEntry(new ZipEntry(fileName));
-                byte[] bytes = writer.toString().getBytes(StandardCharsets.UTF_8);
-                zip.write(bytes);
+                zip.putNextEntry(new ZipEntry(getFileName(templateName, tableBo.getClassNamePascalCase(), packageName, moduleName)));
+                IOUtils.write(writer.toString(), zip, StandardCharsets.UTF_8);
                 zip.closeEntry();
-            } catch (IOException e) {
-                log.error("代码生成异常", e);
-                throw new RuntimeException(e);
-            }finally {
-                IoUtil.close(writer);
             }
+        }finally {
+            IoUtil.close(writer);
         }
     }
 
@@ -246,7 +239,6 @@ public class GeneratorUtils implements ModelConstant {
         if (template.contains(FILE_NAME_MAPPER_XML)) {
             return "main" + File.separator + "resources" + File.separator  + "mapper" + File.separator + className + "Mapper.xml";
         }
-
-        return null;
+        return packagePath + File.separator  + className + ".java";
     }
 }

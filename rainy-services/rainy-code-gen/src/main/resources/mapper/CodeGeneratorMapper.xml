@@ -5,20 +5,24 @@
 
     <select id="selectAllTables" resultType="com.zero.rainy.gen.model.entity.Table">
         SELECT
-            table_name tableName,
-            ENGINE engine,
-            table_comment `comment`,
-            create_time createTime
+        table_name tableName,
+        ENGINE engine,
+        table_comment `comment`,
+        create_time createTime
         FROM
-            information_schema.TABLES
+        information_schema.TABLES
         WHERE
-            table_schema = (SELECT DATABASE())
-        <if test="name != null and name != ''">
-            and table_name like concat('%', #{name}, '%')
+        table_schema = (SELECT DATABASE())
+        <if test="tables != null and tables.size() > 0">
+            AND table_name IN
+            <foreach collection="tables" item="tableName" open="(" separator="," close=")">
+                #{tableName}
+            </foreach>
         </if>
         ORDER BY
-            create_time DESC
+        create_time DESC
     </select>
+
     <select id="tablesTotal" resultType="java.lang.Integer">
         SELECT count(*) FROM information_schema.TABLES WHERE table_schema = (SELECT DATABASE())
         <if test="name != null and name != ''">
@@ -45,4 +49,5 @@
         ORDER BY
             ordinal_position
     </select>
+
 </mapper>

@@ -18,7 +18,7 @@ public interface CodeGeneratorMapper extends SuperMapper {
     /**
      * 查询所有表信息
      */
-    List<Table> selectAllTables(@Param("name") String tableName);
+    List<Table> selectAllTables(@Param("tables") List<String> tables);
 
     /**
      * 查询数据库的总表数

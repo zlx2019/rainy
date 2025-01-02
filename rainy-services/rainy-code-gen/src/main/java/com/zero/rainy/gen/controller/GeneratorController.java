@@ -39,7 +39,7 @@ public class GeneratorController {
      * 根据数据表生成代码.
      */
     @GetMapping
-    public ResponseEntity<byte[]> generate(@Valid GenerateDTO dto){
+    public ResponseEntity<byte[]> generate(@Valid GenerateDTO dto) {
         byte[] bytes = generatorService.generate(dto);
         return ResponseEntity.ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=generated.zip")
