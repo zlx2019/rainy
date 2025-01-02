@@ -10,6 +10,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.FieldError;
 import org.springframework.web.HttpRequestMethodNotSupportedException;
@@ -135,6 +136,17 @@ public class DefaultExceptionAdvice {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public Result<?> httpMessageNotReadableExceptionHandler(MethodArgumentTypeMismatchException e) {
         log.error("======> [{}] '{}' can not convert to [{}] 类型", e.getPropertyName(), e.getValue(), e.getParameter().getParameterType().getName());
+        return Result.fail(ResponseCodes.PARAM_NOT_VALID);
+    }
+
+
+    /**
+     * 请求正文异常
+     */
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    public Result<?> httpMessageNotReadableExceptionHandler(HttpMessageNotReadableException e) {
+        log.error("=====> 非法的请求正文.");
         return Result.fail(ResponseCodes.PARAM_NOT_VALID);
     }
 

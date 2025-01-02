@@ -7,9 +7,9 @@ import org.springframework.stereotype.Service;
 import ${package}.core.model.entity.${ClassName};
 import ${package}.${moduleName}.mapper.${ClassName}Mapper;
 import ${package}.${moduleName}.service.I${ClassName}Service;
-import
+import ${package}.${moduleName}.model.converts.${ClassName}Convert;
 
-import java.util.Objects; ${package}.${moduleName}.model.converts.${ClassName}Convert;
+import java.util.Objects;
 
 
 /**
