@@ -76,7 +76,7 @@ public class ${ClassName}Controller {
      * 根据ID修改记录
      */
     @PatchMapping
-    public Result<Boolean> updateById(@RequestBody @Validated(Update) ${ClassName}DTO dto){
+    public Result<Boolean> updateById(@RequestBody @Validated(Update.class) ${ClassName}DTO dto){
         return Result.ok(${classname}Service.updateById(dto));
     }
 
