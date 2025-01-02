@@ -60,7 +60,7 @@ public class DefaultExceptionAdvice {
         log.error("系统业务异常: {} - ", e.getMessage(), e);
         return Optional.ofNullable(e.getCode())
                 .map(Result::fail)
-                .orElseGet(()-> Result.fail(ResponseCodes.Business.getCode()));
+                .orElseGet(()-> Result.fail(ResponseCodes.Business.getCode().code(), StringUtils.defaultIfBlank(e.getMessage(), ResponseCodes.Business.getCode().message())));
     }
 
     /**

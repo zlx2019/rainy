@@ -1,15 +1,10 @@
 package com.zero.rainy.sample.controller;
 
-import com.baomidou.mybatisplus.core.conditions.Wrapper;
-import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
-import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.zero.rainy.core.model.PageResult;
 import com.zero.rainy.core.model.PageableQuery;
 import com.zero.rainy.core.model.Result;
 import com.zero.rainy.core.model.dto.group.Create;
 import com.zero.rainy.core.model.dto.group.Update;
-import com.zero.rainy.core.model.entity.Sample;
-import com.zero.rainy.core.utils.CloneUtils;
 import com.zero.rainy.sample.model.converts.SampleConvert;
 import com.zero.rainy.sample.model.dto.SampleDTO;
 import com.zero.rainy.sample.model.vo.SampleVo;
@@ -59,7 +54,7 @@ public class SampleController {
      */
     @GetMapping("/page")
     public Result<PageResult<SampleVo>> list(@Valid PageableQuery query) {
-        return Result.ok(sampleService.pages(query, SampleVo.class));
+        return Result.ok(sampleService.pages(query, SampleVo.class, convert::toVo));
     }
 
     /**

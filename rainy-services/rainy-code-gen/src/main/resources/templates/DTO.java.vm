@@ -1,5 +1,8 @@
 package ${package}.${moduleName}.model.dto;
+
 import com.zero.rainy.core.model.dto.BaseDTO;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -10,6 +13,8 @@ import java.io.Serializable;
  * @author ${author}
  * <p> Created on ${createdAt} </p>
  */
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class ${ClassName}DTO extends BaseDTO implements Serializable{
     @Serial
     private static final long serialVersionUID = 1L;

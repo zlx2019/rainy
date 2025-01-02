@@ -35,10 +35,15 @@ public interface ISuperService<T extends SuperEntity<T>> extends IService<T> {
     default <V> PageResult<V> pages(PageableQuery query, Class<V> voClass) {
         return PageResult.of(this.page(query, null), voClass);
     }
+    default <V> PageResult<V> pages(PageableQuery query, Class<V> voClass, Function<T, V> transform) {
+        return this.pages(query, null, voClass, transform);
+    }
 
     default <V> PageResult<V> pages(PageableQuery query, Wrapper<T> wrapper, Class<V> voClass) {
         return PageResult.of(this.page(query, wrapper), voClass);
     }
+
+    <V> PageResult<V> pages(PageableQuery query, Wrapper<T> wrapper, Class<V> voClass, Function<T, V> transform);
 
     default IPage<T> page(PageableQuery query) {
         return this.page(query, null);

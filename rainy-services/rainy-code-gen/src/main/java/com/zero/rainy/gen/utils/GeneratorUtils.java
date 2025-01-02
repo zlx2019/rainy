@@ -1,5 +1,6 @@
 package com.zero.rainy.gen.utils;
 
+import cn.hutool.core.io.IoUtil;
 import com.zero.rainy.core.utils.FormatterUtils;
 import com.zero.rainy.db.constants.ColumnConstant;
 import com.zero.rainy.gen.constant.ModelConstant;
@@ -18,11 +19,16 @@ import org.apache.velocity.Template;
 import org.apache.velocity.VelocityContext;
 import org.apache.velocity.app.Velocity;
 
+import java.io.File;
+import java.io.IOException;
 import java.io.StringWriter;
 import java.math.BigDecimal;
+import java.nio.charset.StandardCharsets;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.*;
+import java.util.zip.ZipEntry;
+import java.util.zip.ZipOutputStream;
 
 /**
  * 代码生成工具
@@ -41,7 +47,7 @@ public class GeneratorUtils implements ModelConstant {
      * @param table      数据表信息
      * @param moduleName 所属模块名称
      */
-    public static void generate(Table table, String moduleName, String author) {
+    public static void generate(Table table, String packageName, String moduleName, String author, ZipOutputStream zip) {
         if (Objects.isNull(table) || table.getColumns().isEmpty()) {
             return;
         }
@@ -92,7 +98,7 @@ public class GeneratorUtils implements ModelConstant {
         }
         // 设置 资源加载器
         Properties props = new Properties();
-        props.put("file.resource.loader.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
+        props.put("resource.loader.file.class", "org.apache.velocity.runtime.resource.loader.ClasspathResourceLoader");
         Velocity.init(props);
         //封装模板数据
         Map<String, Object> data = new HashMap<>();
@@ -117,11 +123,28 @@ public class GeneratorUtils implements ModelConstant {
         VelocityContext context = new VelocityContext(data);
         // 渲染模板
         List<String> templates = getTemplates();
-        for (String name : templates) {
-            StringWriter writer = new StringWriter();
-            Template template = Velocity.getTemplate(name, "UTF-8");
-            template.merge(context, writer);
-            System.out.println(writer.toString());
+        for (String templateName : templates) {
+            StringWriter writer = null;
+            try {
+                // 模板渲染
+                writer = new StringWriter();
+                Template template = Velocity.getTemplate(templateName, "UTF-8");
+                template.merge(context, writer);
+
+                // 生成文件名
+                String fileName = getFileName(templateName, tableBo.getClassNamePascalCase(), packageName, moduleName);
+
+                // 创建 zip 条目
+                zip.putNextEntry(new ZipEntry(fileName));
+                byte[] bytes = writer.toString().getBytes(StandardCharsets.UTF_8);
+                zip.write(bytes);
+                zip.closeEntry();
+            } catch (IOException e) {
+                log.error("代码生成异常", e);
+                throw new RuntimeException(e);
+            }finally {
+                IoUtil.close(writer);
+            }
         }
     }
 
@@ -161,10 +184,11 @@ public class GeneratorUtils implements ModelConstant {
         templates.add(TEMPLATE_PATH + FILE_NAME_MODEL);
         templates.add(TEMPLATE_PATH + FILE_NAME_VO);
         templates.add(TEMPLATE_PATH + FILE_NAME_DTO);
+        templates.add(TEMPLATE_PATH + FILE_NAME_CONVERT);
         templates.add(TEMPLATE_PATH+FILE_NAME_MAPPER);
         templates.add(TEMPLATE_PATH+FILE_NAME_MAPPER_XML);
-//        templates.add(TEMPLATE_PATH+FILE_NAME_SERVICE);
-//        templates.add(TEMPLATE_PATH+FILE_NAME_SERVICE_IMPL);
+        templates.add(TEMPLATE_PATH+FILE_NAME_SERVICE);
+        templates.add(TEMPLATE_PATH+FILE_NAME_SERVICE_IMPL);
         templates.add(TEMPLATE_PATH + FILE_NAME_CONTROLLER);
         return templates;
     }
@@ -178,5 +202,51 @@ public class GeneratorUtils implements ModelConstant {
                         ColumnConstant.STATUS,
                         ColumnConstant.DELETED)
                 .contains(columnName);
+    }
+
+    /**
+     * 获取类文件全路径名
+     * @param template      模板名称
+     * @param className     实体类名称   -> User
+     * @param packageName   基础包名    -> com.zero.rainy
+     * @param moduleName    模块名称    -> user
+     * @return                        -> com.zero.rainy.user.xxx.User
+     */
+    public static String getFileName(String template, String className, String packageName, String moduleName) {
+        // 类库前缀
+        String packagePath = "main" + File.separator + "java" + File.separator;
+        if (StringUtils.isNotBlank(packageName)) {
+            // 拼接基础包名 + 模块名
+            packagePath += packageName.replace(".", File.separator) + File.separator + moduleName + File.separator;
+        }
+        if (template.contains(FILE_NAME_MODEL)) {
+            return packagePath + "model" + File.separator + className + ".java";
+        }
+        if (template.contains(FILE_NAME_MAPPER)) {
+            return packagePath + "mapper" + File.separator + className + "Mapper.java";
+        }
+        if (template.contains(FILE_NAME_SERVICE)) {
+            return packagePath + "service" + File.separator + "I" + className + "Service.java";
+        }
+        if (template.contains(FILE_NAME_SERVICE_IMPL)) {
+            return packagePath + "service" + File.separator + "impl" + File.separator + className + "ServiceImpl.java";
+        }
+        if (template.contains(FILE_NAME_CONTROLLER)) {
+            return packagePath + "controller" + File.separator + className + "Controller.java";
+        }
+        if (template.contains(FILE_NAME_DTO)){
+            return packagePath + "model" + File.separator + "dto" + File.separator + className + "DTO.java";
+        }
+        if (template.contains(FILE_NAME_VO)){
+            return packagePath + "model" + File.separator + "vo" + File.separator + className + "Vo.java";
+        }
+        if (template.contains(FILE_NAME_CONVERT)){
+            return packagePath + "model" + File.separator + "converts" + File.separator + className + "Convert.java";
+        }
+        if (template.contains(FILE_NAME_MAPPER_XML)) {
+            return "main" + File.separator + "resources" + File.separator  + "mapper" + File.separator + className + "Mapper.xml";
+        }
+
+        return null;
     }
 }

@@ -1,5 +1,6 @@
 package ${package}.${moduleName}.mapper;
 
+import ${package}.core.model.entity.${ClassName};
 import com.zero.rainy.db.ext.mapper.SuperMapper;
 import org.apache.ibatis.annotations.Mapper;
 

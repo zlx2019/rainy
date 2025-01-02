@@ -22,7 +22,7 @@ import java.util.concurrent.TimeUnit;
 @RestController
 @RequestMapping("/user")
 @RequiredArgsConstructor
-public class UserController {
+public class UserBarController {
 //    private final SampleService client;
 
 //    @GetMapping("/index")

@@ -1,5 +1,7 @@
 package com.zero.rainy.gen.constant;
 
+import java.io.File;
+
 /**
  * @author Zero.
  * <p> Created on 2024/12/30 18:28 </p>
@@ -15,6 +17,7 @@ public interface ModelConstant {
     String FILE_NAME_MODEL = "Model.java.vm";
     String FILE_NAME_VO = "Vo.java.vm";
     String FILE_NAME_DTO = "DTO.java.vm";
+    String FILE_NAME_CONVERT = "Convert.java.vm";
     String FILE_NAME_MAPPER = "Mapper.java.vm";
     String FILE_NAME_MAPPER_XML = "Mapper.xml.vm";
     String FILE_NAME_SERVICE = "Service.java.vm";
@@ -25,5 +28,8 @@ public interface ModelConstant {
     String TABLE_PREFIX = "tablePrefix";
     String UNKNOWN_TYPE = "unknownType";
     String PRIMARY_KEY = "PRI";
+
+
+    String SEP = File.separator;
 
 }

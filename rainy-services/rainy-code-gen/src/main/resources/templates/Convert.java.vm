@@ -1,0 +1,39 @@
+package ${package}.${moduleName}.model.converts;
+
+import ${package}.core.model.entity.${ClassName};
+import ${package}.${moduleName}.model.vo.${ClassName}Vo;
+import ${package}.${moduleName}.model.dto.${ClassName}DTO;
+import org.mapstruct.Mapper;
+import org.mapstruct.MappingConstants;
+import org.mapstruct.NullValuePropertyMappingStrategy;
+
+/**
+ * ${ClassName} Convert
+ *
+ * @author ${author}
+ * <p> Created on ${createdAt} </p>
+ */
+@Mapper(componentModel = MappingConstants.ComponentModel.SPRING, nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
+public interface ${ClassName}Convert{
+    ${ClassName}Convert INSTANCE = Mappers.getMapper(${ClassName}Convert.class);
+
+    /**
+     * DTO to entity
+     */
+    ${ClassName} toEntity(${ClassName}DTO dto);
+
+    /**
+     * entity to DTO
+     */
+    ${ClassName}DTO toDTO(${ClassName} entity);
+
+    /**
+     * entity to Vo
+     */
+    ${ClassName}Vo toVo(${ClassName} entity);
+
+    /**
+     * DTO to Vo
+     */
+    ${ClassName}Vo toVo(${ClassName}DTO dto);
+}

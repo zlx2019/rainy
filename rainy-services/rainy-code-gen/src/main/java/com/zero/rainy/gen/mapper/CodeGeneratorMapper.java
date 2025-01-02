@@ -18,7 +18,7 @@ public interface CodeGeneratorMapper extends SuperMapper {
     /**
      * 查询所有表信息
      */
-    List<Table> queryAllTables(@Param("name") String tableName);
+    List<Table> selectAllTables(@Param("name") String tableName);
 
     /**
      * 查询数据库的总表数
@@ -29,5 +29,5 @@ public interface CodeGeneratorMapper extends SuperMapper {
      * 根据表查询所有的列信息
      * @param tableName 表名
      */
-    List<Column> queryColumnsByTable(@Param("name") String tableName);
+    List<Column> selectColumnsByTable(@Param("name") String tableName);
 }

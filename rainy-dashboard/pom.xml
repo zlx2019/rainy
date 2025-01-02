@@ -38,5 +38,9 @@
             <groupId>org.apache.rocketmq</groupId>
             <artifactId>rocketmq-tools</artifactId>
         </dependency>
+        <dependency>
+            <groupId>com.zero.rainy</groupId>
+            <artifactId>rainy-db-spring-boot-starter</artifactId>
+        </dependency>
     </dependencies>
 </project>

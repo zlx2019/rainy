@@ -9,16 +9,16 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import com.google.common.collect.Lists;
 import com.zero.rainy.core.constant.Constant;
+import com.zero.rainy.core.enums.OrderBy;
+import com.zero.rainy.core.model.PageResult;
+import com.zero.rainy.core.model.PageableQuery;
 import com.zero.rainy.core.model.entity.supers.SuperEntity;
 import com.zero.rainy.core.model.entity.supers.WithLockEntity;
-import com.zero.rainy.core.enums.OrderBy;
-import com.zero.rainy.core.model.PageableQuery;
 import com.zero.rainy.core.utils.AssertUtils;
 import com.zero.rainy.core.utils.CloneUtils;
 import com.zero.rainy.db.constants.ColumnConstant;
 import com.zero.rainy.db.ext.mapper.SuperMapper;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.ArrayUtils;
 import org.springframework.util.StringUtils;
 
 import java.time.LocalDateTime;
@@ -38,6 +38,13 @@ import java.util.function.Function;
 public class SuperServiceImpl<M extends SuperMapper<T>,T extends SuperEntity<T>> extends ServiceImpl<M,T> implements ISuperService<T> {
 
     private static final int BATCH_MAX = 1000;
+
+    @Override
+    public <V> PageResult<V> pages(PageableQuery query, Wrapper<T> wrapper, Class<V> voClass, Function<T, V> transform) {
+        IPage<T> page = this.page(query, wrapper);
+        List<V> wraps = this.wraps(page.getRecords(), voClass, transform);
+        return PageResult.of(page, wraps);
+    }
 
     @Override
     public IPage<T> page(PageableQuery query, Wrapper<T> wrapper) {

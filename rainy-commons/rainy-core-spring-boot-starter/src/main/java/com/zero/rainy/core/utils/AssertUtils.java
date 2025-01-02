@@ -65,6 +65,12 @@ public class AssertUtils {
         }
     }
 
+    public static void isTrue(boolean expr, RuntimeException e){
+        if (expr){
+            throw e;
+        }
+    }
+
     /**
      * 断言: 两个字符串不一致 抛出异常
      * @param str1    文本1

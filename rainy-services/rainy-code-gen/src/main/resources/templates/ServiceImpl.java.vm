@@ -1,0 +1,35 @@
+package ${package}.${moduleName}.service.impl;
+
+import com.zero.rainy.db.ext.service.SuperServiceImpl;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import ${package}.core.model.entity.${ClassName};
+import ${package}.${moduleName}.mapper.${ClassName}Mapper;
+import ${package}.${moduleName}.service.I${ClassName}Service;
+import
+
+import java.util.Objects; ${package}.${moduleName}.model.converts.${ClassName}Convert;
+
+
+/**
+ * ${ClassName} Service
+ *
+ * @author ${author}
+ * <p> Created on ${createdAt} </p>
+ */
+@Slf4j
+@Service
+@RequiredArgsConstructor
+public class ${ClassName}ServiceImpl extends SuperServiceImpl<${ClassName}Mapper, ${ClassName}> implements I${ClassName}Service {
+    private final ${ClassName}Mapper ${classname}Mapper;
+    private final ${ClassName}Convert ${classname}Convert;
+
+    @Override
+    public boolean updateById(${ClassName}DTO dto){
+        if (Objects.isNull(super.getById(dto.getId()))){
+            throw new RecordNotFoundException(String.valueOf(dto.getId()));
+        }
+        return super.updateById(${classname}Convert.toEntity(dto));
+    }
+}

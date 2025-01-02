@@ -1,0 +1,20 @@
+package ${package}.${moduleName}.service;
+
+import ${package}.core.model.entity.${ClassName};
+import ${package}.${moduleName}.model.dto.${ClassName}DTO;
+import com.zero.rainy.db.ext.service.ISuperService;
+
+
+/**
+ * ${ClassName} Service
+ *
+ * @author ${author}
+ * <p> Created on ${createdAt} </p>
+ */
+public interface I${ClassName}Service extends ISuperService<${ClassName}> {
+
+    /**
+     * 根据ID修改记录
+    */
+    boolean updateById(${ClassName}DTO dto);
+}

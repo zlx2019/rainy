@@ -3,7 +3,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.zero.rainy.gen.mapper.CodeGeneratorMapper">
 
-    <select id="queryAllTables" resultType="com.zero.rainy.gen.model.entity.Table">
+    <select id="selectAllTables" resultType="com.zero.rainy.gen.model.entity.Table">
         SELECT
             table_name tableName,
             ENGINE engine,
@@ -28,7 +28,7 @@
         create_time DESC
     </select>
 
-    <select id="queryColumnsByTable" resultType="com.zero.rainy.gen.model.entity.Column">
+    <select id="selectColumnsByTable" resultType="com.zero.rainy.gen.model.entity.Column">
         SELECT
             column_name columnName,
             data_type columnType,
