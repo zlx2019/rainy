@@ -36,6 +36,7 @@ public class SampleController {
      */
     @GetMapping
     public Result<List<SampleVo>> list(){
+        log.info("sample list");
         return Result.ok(sampleService.list(SampleVo.class, convert::toVo));
     }
 

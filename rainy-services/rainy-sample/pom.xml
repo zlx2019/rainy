@@ -32,10 +32,10 @@
         <!--            <artifactId>rainy-webclient-spring-boot-starter</artifactId>-->
         <!--        </dependency>-->
         <!-- Spring Cloud nacos -->
-        <!--        <dependency>-->
-        <!--            <groupId>com.alibaba.cloud</groupId>-->
-        <!--            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>-->
-        <!--        </dependency>-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
         <!-- Rainy Message -->
         <dependency>
             <groupId>com.zero.rainy</groupId>

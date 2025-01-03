@@ -4,3 +4,10 @@ spring:
     url: jdbc:p6spy:mysql://127.0.0.1:3306/rainy?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
     username: root
     password: root
+  cloud:
+    # 服务注册中心
+    nacos:
+      discovery:
+        server-addr: 192.168.95.130:8848
+        group: rainy-dev
+        namespace: 910a91d6-39cc-4677-8ce9-d320846a36c7

@@ -9,6 +9,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
@@ -73,6 +74,17 @@ public class DefaultExceptionAdvice {
     public Result<?> noResourceFoundExceptionHandler(NoResourceFoundException e) {
         log.error("Resource Not Found [{}] - [{}]", e.getHttpMethod(), e.getResourcePath());
         return exceptionHandler(ResponseCodes.RESOURCE_NOT_FOUND);
+    }
+
+    /**
+     * 数据库数据完整性错误
+     * @param e 错误信息
+     */
+    @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
+    @ExceptionHandler(DataIntegrityViolationException.class)
+    public Result<?> sqlExceptionHandler(DataIntegrityViolationException e) {
+        log.error("数据完整性错误: {}", e.getMessage());
+        return exceptionHandler(ResponseCodes.DATABASE_ERROR, e.getCause().getMessage());
     }
 
     /**
@@ -152,5 +164,9 @@ public class DefaultExceptionAdvice {
 
     private Result<?> exceptionHandler (ResponseCodes code){
         return Result.fail(code);
+    }
+
+    private Result<?> exceptionHandler (ResponseCodes code, String message){
+        return Result.fail(code.getCode().code(), message);
     }
 }

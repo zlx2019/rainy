@@ -2,6 +2,7 @@ package com.zero.rainy;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
  * 模板服务 启动类.
@@ -11,7 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 //@EnableDynamicConfig
 @SpringBootApplication
-//@EnableDiscoveryClient
+@EnableDiscoveryClient
 //@EnableFeignClients
 public class RainySampleApplication {
     public static void main(String[] args) {

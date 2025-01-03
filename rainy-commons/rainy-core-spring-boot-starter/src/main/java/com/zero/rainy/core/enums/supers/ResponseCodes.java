@@ -29,6 +29,9 @@ public enum ResponseCodes {
     CODEC_ERROR(of(10005, "编解码错误")),
     REQUEST_LIMIT(of(10006, "请求过于频繁")),
 
+    /* 数据库相关错误 */
+    DATABASE_ERROR(of(11001, "数据库错误")),
+
     /* 认证授权相关 */
     USER_UNAUTHORIZED(of(20001, "用户未登录")),
     USER_NO_PERMISSION(of(20002, "用户没有权限")),

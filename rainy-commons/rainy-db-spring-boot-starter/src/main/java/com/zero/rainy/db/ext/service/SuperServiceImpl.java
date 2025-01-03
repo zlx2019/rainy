@@ -72,6 +72,8 @@ public class SuperServiceImpl<M extends SuperMapper<T>,T extends SuperEntity<T>>
                     }
                 }
                 lqw.last(sql.toString());
+            }else {
+                lqw.orderByDesc(T::getCreateTime);
             }
         }
         return this.page(new Page<>(query.getPage(), query.getPageSize()), wrapper);
