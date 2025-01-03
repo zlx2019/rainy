@@ -16,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
- * 代码生成
+ * Generator API
  *
  * @author Zero.
  * <p> Created on 2024/12/30 15:06 </p>
@@ -31,7 +31,7 @@ public class GeneratorController {
      * 查询所有数据表
      */
     @GetMapping("/tables")
-    public Result<List<TableVo>> tables(){
+    public Result<List<TableVo>> tables() {
         return Result.ok(generatorService.queryAll());
     }
 

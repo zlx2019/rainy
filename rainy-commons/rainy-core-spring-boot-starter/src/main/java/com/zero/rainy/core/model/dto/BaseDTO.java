@@ -15,6 +15,9 @@ import lombok.Setter;
 @Setter
 public class BaseDTO {
 
+    /**
+     * 业务数据ID
+     */
     @NotNull(message = "primary key cannot be null", groups = Update.class)
     private Long id;
 }

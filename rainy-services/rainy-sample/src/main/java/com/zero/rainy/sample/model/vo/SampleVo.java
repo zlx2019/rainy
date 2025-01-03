@@ -20,7 +20,13 @@ public class SampleVo extends BaseVo implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
-
+    /**
+     * 名称
+     */
     private String name;
+
+    /**
+     * 年龄
+     */
     private int age;
 }

@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 /**
- * Sample API 示例
+ * Sample API
  *
  * @author Zero.
  * <p> Created on 2024/9/1 22:34 </p>
@@ -68,7 +68,7 @@ public class SampleController {
 
     /**
      * 根据ID修改记录
-     * @param dto   修改数据
+     * @param dto   请求体
      */
     @PatchMapping
     public Result<SampleVo> updateById(@RequestBody @Validated(Update.class) SampleDTO dto){

@@ -24,9 +24,15 @@ public class SampleDTO extends BaseDTO implements Serializable {
     @Serial
     private static final long serialVersionUID = 1L;
 
+    /**
+     * 名称
+     */
     @NotBlank(message = "must not be empty", groups = Create.class)
     private String name;
 
+    /**
+     * 年龄
+     */
     @NotNull(message = "must not be null", groups = Create.class)
     @Range(message = "must be between 10 and 80", min = 10, max = 80, groups = Create.class)
     private int age;
