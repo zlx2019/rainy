@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.zero.rainy</groupId>
+        <artifactId>rainy-commons</artifactId>
+        <version>v1.0.0</version>
+    </parent>
+    <artifactId>rainy-nacos-spring-boot-starter</artifactId>
+    <packaging>jar</packaging>
+    <version>${rainy.version}</version>
+    <name>Rainy Nacos Discovery</name>
+    <description>
+        Rainy - 服务注册组件
+    </description>
+    <developers>
+        <developer>
+            <name>Zero</name>
+            <email>zero9501@outlook.com</email>
+            <url>https://github.com/zlx2019</url>
+        </developer>
+    </developers>
+    <dependencies>
+        <!-- SpringCloud Nacos -->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter</artifactId>
+            <optional>true</optional>
+        </dependency>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <optional>true</optional>
+        </dependency>
+    </dependencies>
+
+</project>

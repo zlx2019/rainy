@@ -23,5 +23,6 @@
         <module>rainy-cache-spring-boot-starter</module>
         <module>rainy-web-spring-boot-starter</module>
         <module>rainy-test-spring-boot-starter</module>
+        <module>rainy-nacos-spring-boot-starter</module>
     </modules>
 </project>
