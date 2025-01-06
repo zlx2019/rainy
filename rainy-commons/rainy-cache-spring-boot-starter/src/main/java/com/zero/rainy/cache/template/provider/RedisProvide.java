@@ -6,16 +6,15 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.redis.connection.RedisStringCommands;
-import org.springframework.data.redis.core.ListOperations;
-import org.springframework.data.redis.core.RedisCallback;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.ValueOperations;
+import org.springframework.data.redis.core.*;
 import org.springframework.data.redis.core.types.Expiration;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
 import java.time.Duration;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -37,6 +36,9 @@ public class RedisProvide implements CacheTemplate {
     }
     private ListOperations<String, Object> opsList(){
         return template.opsForList();
+    }
+    private ZSetOperations<String, Object> opsZSet(){
+        return template.opsForZSet();
     }
     private RedisSerializer<String> keySerializer() {
         return template.getStringSerializer();
@@ -165,6 +167,95 @@ public class RedisProvide implements CacheTemplate {
         }
         return list.stream().filter(Objects::nonNull)
                 .map(value-> convertValue(value, clazz)).collect(Collectors.toList());
+    }
+
+    /**
+     * 向 Zset 中添加元素
+     *
+     * @param key   key
+     * @param value 元素值
+     * @param score 分值
+     */
+    @Override
+    public <T> boolean zAdd(String key, T value, Double score) {
+        return opsZSet().add(key, value, score);
+    }
+
+    /**
+     * 向 Zset 中添加批量元素
+     */
+    @Override
+    public Long zAdd(String key, List<DefaultTypedTuple<Object>> tuples) {
+        Set<ZSetOperations.TypedTuple<Object>> sets = new HashSet<>(tuples);
+        return opsZSet().add(key, sets);
+    }
+
+    /**
+     * 根据分值范围删除元素
+     *
+     * @param key   key
+     * @param begin 起始分值
+     * @param end   结束分值
+     */
+    @Override
+    public  Long zRemByScore(String key, double begin, double end) {
+        return opsZSet().removeRangeByScore(key, begin, end);
+    }
+
+    /**
+     * 获取 ZSet 中的元素数量
+     *
+     * @param key
+     * @return
+     */
+    @Override
+    public Long zCard(String key) {
+        return opsZSet().zCard(key);
+    }
+
+    /**
+     * 格努分值范围统计元素数量
+     *
+     * @param key
+     * @param begin
+     * @param end
+     */
+    @Override
+    public Long zCount(String key, double begin, double end) {
+        return opsZSet().count(key, begin, end);
+    }
+
+    /**
+     * 从 ZSet 中根据分值从大到小弹出一批元素.
+     *
+     * @param key   key
+     * @param count 弹出的元素数量
+     */
+    @Override
+    public <T> List<T> zPopMax(String key, Integer count, Class<T> clazz) {
+        Set<ZSetOperations.TypedTuple<Object>> set = opsZSet().popMax(key, count);
+        if (CollectionUtils.isNotEmpty(set)){
+            return set.stream().filter(Objects::nonNull)
+                    .map(value -> convertValue(value, clazz)).toList();
+        }
+        return List.of();
+    }
+
+    /**
+     * 从 ZSet 中根据分值从小到大弹出一批元素.
+     *
+     * @param key   key
+     * @param count 弹出的元素数量
+     */
+    @Override
+    public <T> List<T> zPopMin(String key, Integer count, Class<T> clazz) {
+        Set<ZSetOperations.TypedTuple<Object>> set = opsZSet().popMin(key, count);
+        if (CollectionUtils.isNotEmpty(set)){
+            return set.stream()
+                    .filter(Objects::nonNull)
+                    .map(value-> convertValue(value, clazz)).toList();
+        }
+        return List.of();
     }
 
     /**

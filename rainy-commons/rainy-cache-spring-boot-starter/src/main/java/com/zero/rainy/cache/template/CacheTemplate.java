@@ -1,5 +1,8 @@
 package com.zero.rainy.cache.template;
 
+import org.apache.commons.collections4.CollectionUtils;
+import org.springframework.data.redis.core.DefaultTypedTuple;
+
 import java.time.Duration;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -92,4 +95,75 @@ public interface CacheTemplate {
      * 从 List 右侧弹出多个元素
      */
     <T> List<T> rPop(final String key, int count, final Class<T> clazz);
+
+    /**
+     * 向 Zset 中添加元素
+     *
+     * @param key   key
+     * @param value 元素值
+     * @param score 分值
+     */
+    <T> boolean zAdd(final String key, final T value, final Double score);
+
+
+    /**
+     * 向 Zset 中添加批量元素
+     *
+     * @param key key
+     * @param tuples 元素列表
+     */
+    Long zAdd(final String key, final List<DefaultTypedTuple<Object>> tuples);
+
+    /**
+     * 根据分值范围删除元素
+     *
+     * @param key   key
+     * @param begin 起始分值
+     * @param end   结束分值
+     */
+    Long zRemByScore(final String key, double begin, double end);
+
+    /**
+     * 删除小于指定数值的所有元素
+     * @param key   key
+     * @param end   阈值
+     */
+    default Long zRemByScore(final String key, double end){
+        return this.zRemByScore(key, Double.NEGATIVE_INFINITY, end);
+    }
+
+    /**
+     * 获取 ZSet 中的元素数量
+     * @param key
+     */
+    Long zCard(final String key);
+
+    /**
+     * 格努分值范围统计元素数量
+     */
+    Long zCount(final String key, double begin, double end);
+
+    /**
+     * 从 ZSet 中根据分值从大到小弹出一批元素.
+     *
+     * @param key   key
+     * @param count 弹出的元素数量
+     */
+    <T> List<T> zPopMax(final String key, final Integer count, final Class<T> clazz);
+
+    default  <T> T zPopMax(final String key, final Class<T> clazz){
+        List<T> list = this.zPopMax(key, 1, clazz);
+        return CollectionUtils.isEmpty(list) ? null : list.getFirst();
+    }
+
+    /**
+     * 从 ZSet 中根据分值从小到大弹出一批元素.
+     * @param key   key
+     * @param count 弹出的元素数量
+     */
+    <T> List<T> zPopMin(final String key, final Integer count, final Class<T> clazz);
+    default  <T> T zPopMin(final String key, final Class<T> clazz){
+        List<T> list = this.zPopMin(key, 1, clazz);
+        return CollectionUtils.isEmpty(list) ? null : list.getFirst();
+    }
 }
