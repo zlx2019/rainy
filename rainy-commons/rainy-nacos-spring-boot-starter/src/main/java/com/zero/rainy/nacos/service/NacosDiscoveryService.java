@@ -8,7 +8,6 @@ import com.alibaba.nacos.api.naming.pojo.Instance;
 import jakarta.annotation.PostConstruct;
 import jakarta.annotation.PreDestroy;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -20,7 +19,6 @@ import java.util.concurrent.TimeUnit;
  * <p> Created on 2025/1/5 18:10 </p>
  */
 @Slf4j
-@Service
 public class NacosDiscoveryService {
     private final NacosServiceManager manager;
     private final NamingService namingService;

@@ -12,6 +12,7 @@ import org.springframework.cloud.openfeign.EnableFeignClients;
  * <p> Created on 2024/8/27 13:33 </p>
  */
 //@EnableDynamicConfig
+
 @SpringBootApplication
 @EnableDiscoveryClient
 @EnableFeignClients

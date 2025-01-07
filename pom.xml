@@ -35,7 +35,7 @@
         <commons-collections4.version>4.4</commons-collections4.version>
         <guava.version>33.2.0-jre</guava.version>
         <rocketmq-spring-boot.version>2.3.0</rocketmq-spring-boot.version>
-        <rocketmq.version>5.1.4</rocketmq.version>
+        <rocketmq.version>5.2.0</rocketmq.version>
         <commons-configuration.version>1.10</commons-configuration.version>
         <commons-io.version>2.17.0</commons-io.version>
         <mapstruct.version>1.6.3</mapstruct.version>
@@ -141,6 +141,11 @@
             <dependency>
                 <groupId>org.apache.rocketmq</groupId>
                 <artifactId>rocketmq-tools</artifactId>
+                <version>${rocketmq.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.rocketmq</groupId>
+                <artifactId>rocketmq-common</artifactId>
                 <version>${rocketmq.version}</version>
             </dependency>
 

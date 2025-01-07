@@ -11,7 +11,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.BeanCreationException;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 
 import java.util.Properties;
 
@@ -22,7 +21,6 @@ import java.util.Properties;
  * <p> Created on 2025/1/5 19:00 </p>
  */
 @Slf4j
-@Configuration
 @RequiredArgsConstructor
 @EnableConfigurationProperties(NacosDiscoveryProperties.class)
 public class NacosConfigure {
