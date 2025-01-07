@@ -11,6 +11,6 @@ import org.springframework.context.annotation.Import;
  * <p> Created on 2024/9/4 14:22 </p>
  */
 @Import({WebClientConfigure.class, ClientProxyFactory.class})
-public class WebClientAutoConfigurer {
+public class WebClientAutoConfiguration {
 
 }

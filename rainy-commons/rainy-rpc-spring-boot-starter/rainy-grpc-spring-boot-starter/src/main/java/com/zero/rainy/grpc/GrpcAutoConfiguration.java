@@ -10,6 +10,6 @@ import org.springframework.context.annotation.Import;
  * <p> Created on 2024/9/5 15:56 </p>
  */
 @Import(GrpcConfigure.class)
-public class GrpcAutoConfigurer {
+public class GrpcAutoConfiguration {
     
 }

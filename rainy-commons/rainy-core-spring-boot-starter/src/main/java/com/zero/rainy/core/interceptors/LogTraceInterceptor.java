@@ -26,7 +26,7 @@ public class LogTraceInterceptor implements HandlerInterceptor {
         String traceId = request.getHeader(Constant.TRACE_ID_HEADER_KEY);
         if (StrUtil.isNotBlank(traceId)){
             // 设置到日志上下文
-            MDC.put(Constant.LOG_TRACE_KEY, traceId);
+            MDC.put(Constant.TRACE_ID_LOG_KEY, traceId);
         }
         return true;
     }
@@ -36,6 +36,6 @@ public class LogTraceInterceptor implements HandlerInterceptor {
      */
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        MDC.remove(Constant.LOG_TRACE_KEY);
+        MDC.remove(Constant.TRACE_ID_LOG_KEY);
     }
 }

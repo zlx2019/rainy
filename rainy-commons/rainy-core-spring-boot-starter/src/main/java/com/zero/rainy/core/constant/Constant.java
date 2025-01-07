@@ -42,9 +42,14 @@ public interface Constant {
     String TRACE_ID_HEADER_KEY = "x-traceId-header";
 
     /**
+     * 链路追踪ID，在消息头中的Key
+     */
+    String TRACE_ID_MESSAGE_KEY = "LOG_TRACE_ID";
+
+    /**
      * 链路追踪ID 在日志上下文中的key
      */
-    String LOG_TRACE_KEY = "traceId";
+    String TRACE_ID_LOG_KEY = "traceId";
 
     /**
      * 调用方服务标识 在请求头中的 Key

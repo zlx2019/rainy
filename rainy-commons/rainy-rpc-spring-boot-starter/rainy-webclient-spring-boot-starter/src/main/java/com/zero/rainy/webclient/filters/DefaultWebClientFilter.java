@@ -31,7 +31,7 @@ public class DefaultWebClientFilter implements ExchangeFilterFunction {
         // 对请求信息进行包装
         ClientRequest.Builder nextRequest = ClientRequest.from(clientRequest);
         // 传递 traceID
-        Optional.ofNullable(MDC.get(Constant.LOG_TRACE_KEY))
+        Optional.ofNullable(MDC.get(Constant.TRACE_ID_LOG_KEY))
                 .filter(StringUtils::isNoneBlank)
                 .ifPresent(traceId-> nextRequest.header(Constant.TRACE_ID_HEADER_KEY, traceId));
         // 传递UserID

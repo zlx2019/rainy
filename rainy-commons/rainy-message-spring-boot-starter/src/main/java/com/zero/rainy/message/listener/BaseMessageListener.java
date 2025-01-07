@@ -1,16 +1,19 @@
 package com.zero.rainy.message.listener;
 
+import com.zero.rainy.core.constant.Constant;
 import com.zero.rainy.core.model.message.supers.BaseMessage;
 import com.zero.rainy.core.model.message.supers.DelayMessage;
 import com.zero.rainy.message.template.MessageTemplate;
 import com.zero.rainy.message.template.provider.RocketMQProvider;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.ObjectUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.apache.rocketmq.spring.support.RocketMQMessageConverter;
 import org.apache.rocketmq.spring.support.RocketMQUtil;
+import org.slf4j.MDC;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.messaging.Message;
@@ -123,6 +126,10 @@ public abstract class BaseMessageListener <T extends BaseMessage> implements Roc
         String messageId = ext.getMsgId();
         String keys = ext.getKeys();
         String topic = ext.getTopic();
+        String traceId = ext.getProperties().get(Constant.TRACE_ID_MESSAGE_KEY);
+        if (StringUtils.isNotBlank(traceId)){
+            MDC.put(Constant.TRACE_ID_LOG_KEY, traceId);
+        }
         if (!clazz.isInstance(messageValue)){
             log.error("TOPIC: [{}] MESSAGE-ID: [{}] KEYS: [{}] cannot be processed cause: message must not convert to [{}]",
                     topic, messageId, keys, clazz.getName());

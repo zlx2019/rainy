@@ -10,6 +10,6 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
  * <p> Created on 2024/9/1 22:03 </p>
  */
 @EnableConfigurationProperties(LoggerProperties.class)
-public class LoggerAutoConfigure {
+public class LoggerAutoConfiguration {
 
 }

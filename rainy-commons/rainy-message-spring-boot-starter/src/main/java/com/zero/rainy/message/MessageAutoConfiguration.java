@@ -10,6 +10,6 @@ import org.springframework.context.annotation.Import;
  * <p> Created on 2024/9/27 16:02 </p>
  */
 @Import(RocketMQConfigure.class)
-public class MessageAutoConfigure {
+public class MessageAutoConfiguration {
 
 }

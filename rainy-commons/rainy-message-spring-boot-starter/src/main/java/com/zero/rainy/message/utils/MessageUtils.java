@@ -1,21 +1,19 @@
 package com.zero.rainy.message.utils;
 
-import cn.hutool.core.util.RandomUtil;
+import cn.hutool.core.util.IdUtil;
+import com.zero.rainy.core.constant.Constant;
 import com.zero.rainy.core.model.message.supers.BaseMessage;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.rocketmq.spring.support.RocketMQHeaders;
+import org.slf4j.MDC;
 import org.springframework.messaging.Message;
-import org.springframework.messaging.MessageHeaders;
-import org.springframework.messaging.support.GenericMessage;
 import org.springframework.messaging.support.MessageBuilder;
 
 import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Objects;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 /**
  * 消息相关工具类
@@ -58,7 +56,12 @@ public class MessageUtils {
         }else {
             key = generateMessageKey();
         }
-        return MessageBuilder.withPayload(payload).setHeader(RocketMQHeaders.KEYS, key).build();
+        MessageBuilder<T> builder = MessageBuilder.withPayload(payload).setHeader(RocketMQHeaders.KEYS, key);
+        String traceId = MDC.get(Constant.TRACE_ID_LOG_KEY);
+        if (StringUtils.isNotBlank(traceId)) {
+            builder.setHeader(Constant.TRACE_ID_MESSAGE_KEY, traceId);
+        }
+        return builder.build();
     }
     public static <T> Collection<Message<T>> buildMessage(Collection<T> payloads) {
         return payloads.stream()
@@ -68,6 +71,6 @@ public class MessageUtils {
     }
 
     private static String generateMessageKey(){
-        return RandomUtil.randomString(DEFAULT_KEY_LENGTH);
+        return IdUtil.fastUUID();
     }
 }

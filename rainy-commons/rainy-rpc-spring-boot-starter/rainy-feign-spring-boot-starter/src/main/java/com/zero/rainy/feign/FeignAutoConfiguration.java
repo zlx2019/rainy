@@ -10,6 +10,6 @@ import org.springframework.context.annotation.Import;
  * <p> Created on 2024/9/3 15:42 </p>
  */
 @Import(FeignConfigure.class)
-public class FeignAutoConfigurer {
+public class FeignAutoConfiguration {
 
 }

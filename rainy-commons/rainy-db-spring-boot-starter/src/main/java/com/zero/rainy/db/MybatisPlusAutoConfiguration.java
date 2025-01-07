@@ -10,6 +10,6 @@ import org.springframework.context.annotation.Import;
  * <p> Created on 2024/8/27 18:12 </p>
  */
 @Import(MybatisPlusConfig.class)
-public class MybatisPlusAutoConfigure {
+public class MybatisPlusAutoConfiguration {
 
 }

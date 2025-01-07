@@ -34,7 +34,7 @@ public class FeignRequestInterceptor implements RequestInterceptor {
                 .filter(StringUtils::isNoneBlank)
                 .ifPresent(user-> next.header(Constant.USER_ID_HEADER_KEY, user));
         // 传递 traceId
-        Optional.ofNullable(MDC.get(Constant.LOG_TRACE_KEY))
+        Optional.ofNullable(MDC.get(Constant.TRACE_ID_LOG_KEY))
                 .filter(StringUtils::isNoneBlank)
                 .ifPresent(traceId-> next.header(Constant.TRACE_ID_HEADER_KEY, traceId));
     }

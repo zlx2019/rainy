@@ -17,10 +17,10 @@
 
     <dependencies>
         <!-- Rainy Feign -->
-<!--        <dependency>-->
-<!--            <groupId>com.zero.rainy</groupId>-->
-<!--            <artifactId>rainy-feign-spring-boot-starter</artifactId>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>com.zero.rainy</groupId>
+            <artifactId>rainy-feign-spring-boot-starter</artifactId>
+        </dependency>
         <!-- Rainy gRPC -->
         <!--        <dependency>-->
         <!--            <groupId>com.zero.rainy</groupId>-->
@@ -32,10 +32,10 @@
         <!--            <artifactId>rainy-webclient-spring-boot-starter</artifactId>-->
         <!--        </dependency>-->
         <!-- Spring Cloud nacos -->
-<!--        <dependency>-->
-<!--            <groupId>com.zero.rainy</groupId>-->
-<!--            <artifactId>rainy-nacos-spring-boot-starter</artifactId>-->
-<!--        </dependency>-->
+        <dependency>
+            <groupId>com.zero.rainy</groupId>
+            <artifactId>rainy-nacos-spring-boot-starter</artifactId>
+        </dependency>
         <!-- Rainy Message -->
         <dependency>
             <groupId>com.zero.rainy</groupId>

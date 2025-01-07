@@ -2,6 +2,8 @@ package com.zero.rainy;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.openfeign.EnableFeignClients;
 
 /**
  * 模板服务 启动类.
@@ -11,8 +13,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 //@EnableDynamicConfig
 @SpringBootApplication
-//@EnableDiscoveryClient
-//@EnableFeignClients
+@EnableDiscoveryClient
+@EnableFeignClients
 public class RainySampleApplication {
     public static void main(String[] args) {
         SpringApplication.run(RainySampleApplication.class, args);

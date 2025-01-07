@@ -1,5 +1,6 @@
 package com.zero.rainy.gateway.filter;
 
+import cn.hutool.core.util.IdUtil;
 import com.zero.rainy.core.constant.Constant;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
@@ -24,7 +25,7 @@ public class RequestContextTraceFilter implements GlobalFilter {
      */
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        String traceId = RandomStringUtils.random(18, true, false).toLowerCase();
+        String traceId = IdUtil.fastUUID();
         ServerHttpRequest request = exchange.getRequest()
                 .mutate()
                 .header(Constant.TRACE_ID_HEADER_KEY, traceId)

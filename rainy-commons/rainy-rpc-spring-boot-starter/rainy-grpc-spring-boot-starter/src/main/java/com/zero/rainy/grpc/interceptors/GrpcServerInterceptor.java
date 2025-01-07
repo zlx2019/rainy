@@ -37,14 +37,14 @@ public class GrpcServerInterceptor implements ServerInterceptor {
         // 链路追踪标识
         Optional.ofNullable(metadata.get(TRACE_KEY))
                 .filter(StringUtils::isNoneBlank)
-                .ifPresent(traceId-> MDC.put(Constant.LOG_TRACE_KEY, traceId));
+                .ifPresent(traceId-> MDC.put(Constant.TRACE_ID_LOG_KEY, traceId));
         // 对调用请求进行包装，注册请求结束回调钩子
         ForwardingServerCall.SimpleForwardingServerCall<ReqT, RespT> call = new ForwardingServerCall.SimpleForwardingServerCall<>(serverCall) {
             // 请求执行结束，清理资源
             @Override
             public void close(Status status, Metadata trailers) {
                 UserContextHolder.clear();
-                MDC.remove(Constant.LOG_TRACE_KEY);
+                MDC.remove(Constant.TRACE_ID_LOG_KEY);
                 super.close(status, trailers);
             }
         };

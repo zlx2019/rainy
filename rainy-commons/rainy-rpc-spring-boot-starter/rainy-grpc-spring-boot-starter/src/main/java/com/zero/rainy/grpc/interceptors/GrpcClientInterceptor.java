@@ -43,7 +43,7 @@ public class GrpcClientInterceptor implements ClientInterceptor {
                         .filter(StringUtils::isNoneBlank)
                         .ifPresent(user-> headers.put(USER_KEY, user));
                 // 传递 tradeID
-                Optional.ofNullable(MDC.get(Constant.LOG_TRACE_KEY))
+                Optional.ofNullable(MDC.get(Constant.TRACE_ID_LOG_KEY))
                         .filter(StringUtils::isNoneBlank)
                         .ifPresent(trace-> headers.put(TRACE_KEY, trace));
 
