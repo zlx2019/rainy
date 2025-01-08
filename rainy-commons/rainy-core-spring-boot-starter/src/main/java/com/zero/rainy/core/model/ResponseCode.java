@@ -1,25 +1,40 @@
 package com.zero.rainy.core.model;
 
-import com.zero.rainy.core.constant.Constant;
 import org.springframework.http.HttpStatus;
 
 /**
- * 统一响应码抽象类
- *
- * @param code    响应码，一般指业务错误码。
- * @param message 响应消息，业务错误消息。
- *
+ * 统一响应码接口: [业务响应码 | 响应消息 | HTTP状态码]
  * @author Zero.
- * <p> Created on 2024/9/16 02:17 </p>
+ * <p> Created on 2025/1/8 20:17 </p>
  */
-public record ResponseCode(int code, String message, HttpStatus httpStatus) {
-    public static ResponseCode of(String message){
-        return of(Constant.FAIL, message);
+public interface ResponseCode {
+    int SUCCESS = 0;
+    String SUCCESS_MSG = "success";
+    int FAIL = 1;
+    String FAIL_MSG = "failed";
+
+    /**
+     * 业务响应码/错误码
+     */
+    default int getCode(){
+        return FAIL;
     }
-    public static ResponseCode of(int code, String message) {
-        return new ResponseCode(code, message, HttpStatus.OK);
+    /**
+     * 响应消息
+     */
+    default String getMessage(){
+        return FAIL_MSG;
     }
-    public static ResponseCode of(int code, String message, HttpStatus httpStatus) {
-        return new ResponseCode(code, message, httpStatus);
+    /**
+     * 描述
+     */
+    default String getDesc(){
+        return "";
+    }
+    /**
+     * HTTP 状态码
+     */
+    default HttpStatus getStatus(){
+        return HttpStatus.OK;
     }
 }

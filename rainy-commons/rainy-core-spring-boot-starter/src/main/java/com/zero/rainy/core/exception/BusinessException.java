@@ -1,6 +1,5 @@
 package com.zero.rainy.core.exception;
 
-import com.zero.rainy.core.enums.supers.ResponseCodes;
 import com.zero.rainy.core.model.ResponseCode;
 import lombok.Getter;
 
@@ -17,9 +16,9 @@ public class BusinessException extends RuntimeException {
     public BusinessException() {
         super();
     }
-    public BusinessException(ResponseCodes codes) {
-        super();
-        this.code = codes.getCode();
+    public BusinessException(ResponseCode code) {
+        super(code.getDesc());
+        this.code = code;
     }
     public BusinessException(String message) {
         super(message);
@@ -30,7 +29,7 @@ public class BusinessException extends RuntimeException {
     public BusinessException(String message, Throwable cause) {
         super(message, cause);
     }
-    public static BusinessException of(ResponseCodes code) {
+    public static BusinessException of(ResponseCode code) {
         return new BusinessException(code);
     }
 }

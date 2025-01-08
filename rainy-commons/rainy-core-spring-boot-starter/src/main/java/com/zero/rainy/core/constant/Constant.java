@@ -10,6 +10,8 @@ public interface Constant {
 
     /**
      * 基础业务请求响应码
+     * SUCCESSFUL
+     * 失败的
      */
     int SUCCESS = 0;
     int FAIL = 1;

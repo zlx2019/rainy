@@ -1,9 +1,10 @@
 package com.zero.rainy.core.handler;
 
-import com.zero.rainy.core.enums.supers.ResponseCodes;
+import com.zero.rainy.core.enums.GlobalResponseCode;
 import com.zero.rainy.core.exception.BusinessException;
 import com.zero.rainy.core.exception.RecordNotFoundException;
 import com.zero.rainy.core.exception.RequestLimitException;
+import com.zero.rainy.core.model.ResponseCode;
 import com.zero.rainy.core.model.Result;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -46,7 +47,7 @@ public class DefaultExceptionAdvice {
     @ResponseStatus(HttpStatus.INTERNAL_SERVER_ERROR)
     public Result<?> exceptionHandler (Exception e, HttpServletRequest request){
         log.error("系统未知异常: {}", e.getMessage(), e);
-        return exceptionHandler(ResponseCodes.Unknown);
+        return exceptionHandler(GlobalResponseCode.SERVER_INTERNAL_ERROR);
     }
 
     /**
@@ -162,11 +163,11 @@ public class DefaultExceptionAdvice {
         return Result.fail(ResponseCodes.PARAM_NOT_VALID);
     }
 
-    private Result<?> exceptionHandler (ResponseCodes code){
+    private Result<?> exceptionHandler (ResponseCode code){
         return Result.fail(code);
     }
 
-    private Result<?> exceptionHandler (ResponseCodes code, String message){
+    private Result<?> exceptionHandler (ResponseCode code, String message){
         return Result.fail(code.getCode().code(), message);
     }
 }

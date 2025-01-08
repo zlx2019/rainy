@@ -1,7 +1,6 @@
 package com.zero.rainy.core.model;
 
 import com.zero.rainy.core.constant.Constant;
-import com.zero.rainy.core.enums.supers.ResponseCodes;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -57,13 +56,14 @@ public class Result<T> implements Serializable {
     public static <T> Result<T> fail (int code, String message) {
         return of(code, message, null);
     }
-    public static <T> Result<T> fail (ResponseCode resultCode){
-        return fail(resultCode.code(), resultCode.message());
-    }
-    public static <T> Result<T> fail (ResponseCodes resultCodes){
-        return fail(resultCodes.getCode());
+    public static <T> Result<T> fail (ResponseCode responseCode){
+        return of(responseCode);
     }
     private static <T> Result<T> of(int code, String message, T data){
         return new Result<>(code, message, data);
+    }
+
+    public static <T> Result<T> of(ResponseCode responseCode){
+        return of(responseCode.getCode(), responseCode.getMessage(), null);
     }
 }

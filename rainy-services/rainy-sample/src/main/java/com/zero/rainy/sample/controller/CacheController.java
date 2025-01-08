@@ -68,9 +68,7 @@ public class CacheController {
     public Result<Long> zSetAdd(String key, Integer count) {
         List<DefaultTypedTuple<Object>> list = IntStream.range(0, count)
                 .boxed()
-                .map(i -> {
-                    return new DefaultTypedTuple<Object>(UUID.randomUUID().toString(), i.doubleValue());
-                }).toList();
+                .map(i -> new DefaultTypedTuple<Object>(UUID.randomUUID().toString(), i.doubleValue())).toList();
         Long z = cacheTemplate.zAdd(key, list);
         return Result.ok(z);
     }
