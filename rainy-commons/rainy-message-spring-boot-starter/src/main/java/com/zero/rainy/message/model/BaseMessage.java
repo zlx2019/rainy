@@ -41,10 +41,10 @@ public abstract class BaseMessage {
     protected int useCount = 1;
 
     /**
-     * 消息发送时间, 由消费者获得
+     * 消息发送时间
      */
     @JsonIgnore
-    protected LocalDateTime sendTime;
+    protected LocalDateTime bornTime;
 
     public void incrCount() {
         this.useCount++;

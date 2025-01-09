@@ -146,7 +146,7 @@ public abstract class BaseMessageListener <T extends BaseMessage> implements Roc
         }
         message.setId(messageId);
         message.setKeys(keys);
-        message.setSendTime(LocalDateTimeUtil.of(bornTimestamp, ZoneId.systemDefault()));
+        message.setBornTime(LocalDateTimeUtil.of(bornTimestamp, ZoneId.systemDefault()));
         // 重复消费过滤
         if (filter(message)){
             log.debug("MESSAGE-ID: [{}] KEYS: [{}] has been processed.", messageId, keys);
