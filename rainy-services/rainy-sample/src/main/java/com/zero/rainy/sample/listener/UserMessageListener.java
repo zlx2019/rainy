@@ -1,7 +1,7 @@
 package com.zero.rainy.sample.listener;
 
-import com.zero.rainy.core.model.message.UserDelayMessage;
 import com.zero.rainy.message.listener.BaseMessageListener;
+import com.zero.rainy.sample.model.message.UserDelayMessage;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.common.message.MessageExt;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;

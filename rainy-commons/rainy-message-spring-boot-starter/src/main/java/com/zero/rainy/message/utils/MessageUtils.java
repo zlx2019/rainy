@@ -2,7 +2,7 @@ package com.zero.rainy.message.utils;
 
 import cn.hutool.core.util.IdUtil;
 import com.zero.rainy.core.constant.Constant;
-import com.zero.rainy.core.model.message.supers.BaseMessage;
+import com.zero.rainy.message.model.BaseMessage;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import org.apache.commons.lang3.StringUtils;
@@ -11,7 +11,6 @@ import org.slf4j.MDC;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 
-import java.time.LocalDateTime;
 import java.util.Collection;
 import java.util.Objects;
 
@@ -50,7 +49,6 @@ public class MessageUtils {
         Objects.requireNonNull(payload, "Payload must not be null");
         String key;
         if (payload instanceof BaseMessage message){
-            message.setSendTime(LocalDateTime.now());
             key = StringUtils.isNotBlank(message.getKeys()) ? message.getKeys() : generateMessageKey();
             message.setKeys(key);
         }else {

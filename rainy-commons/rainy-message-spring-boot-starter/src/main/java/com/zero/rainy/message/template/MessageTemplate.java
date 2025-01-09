@@ -1,13 +1,11 @@
 package com.zero.rainy.message.template;
 
 
-import com.zero.rainy.core.model.message.supers.BaseMessage;
-import com.zero.rainy.core.model.message.supers.DelayMessage;
+import com.zero.rainy.message.model.delay.DelayMessage;
 import com.zero.rainy.message.utils.MessageUtils;
 
 import java.time.Duration;
 import java.util.Collection;
-import java.util.List;
 
 /**
  * 消息服务模板接口

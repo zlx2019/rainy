@@ -1,8 +1,9 @@
 package com.zero.rainy.message.listener;
 
+import cn.hutool.core.date.LocalDateTimeUtil;
 import com.zero.rainy.core.constant.Constant;
-import com.zero.rainy.core.model.message.supers.BaseMessage;
-import com.zero.rainy.core.model.message.supers.DelayMessage;
+import com.zero.rainy.message.model.BaseMessage;
+import com.zero.rainy.message.model.delay.DelayMessage;
 import com.zero.rainy.message.template.MessageTemplate;
 import com.zero.rainy.message.template.provider.RocketMQProvider;
 import lombok.extern.slf4j.Slf4j;
@@ -19,6 +20,7 @@ import org.springframework.boot.autoconfigure.condition.ConditionalOnBean;
 import org.springframework.messaging.Message;
 
 import java.time.Duration;
+import java.time.ZoneId;
 
 /**
  * 基础消息监听器抽象封装
@@ -126,7 +128,9 @@ public abstract class BaseMessageListener <T extends BaseMessage> implements Roc
         String messageId = ext.getMsgId();
         String keys = ext.getKeys();
         String topic = ext.getTopic();
+        long bornTimestamp = ext.getBornTimestamp();
         String traceId = ext.getProperties().get(Constant.TRACE_ID_MESSAGE_KEY);
+
         if (StringUtils.isNotBlank(traceId)){
             MDC.put(Constant.TRACE_ID_LOG_KEY, traceId);
         }
@@ -140,6 +144,9 @@ public abstract class BaseMessageListener <T extends BaseMessage> implements Roc
             // TODO print error log
             return;
         }
+        message.setId(messageId);
+        message.setKeys(keys);
+        message.setSendTime(LocalDateTimeUtil.of(bornTimestamp, ZoneId.systemDefault()));
         // 重复消费过滤
         if (filter(message)){
             log.debug("MESSAGE-ID: [{}] KEYS: [{}] has been processed.", messageId, keys);

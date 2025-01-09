@@ -1,6 +1,5 @@
 package com.zero.rainy.message.template.provider;
 
-import com.zero.rainy.core.model.message.supers.BaseMessage;
 import com.zero.rainy.message.template.MessageTemplate;
 import com.zero.rainy.message.utils.MessageUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -11,16 +10,10 @@ import org.apache.rocketmq.client.producer.SendCallback;
 import org.apache.rocketmq.client.producer.SendResult;
 import org.apache.rocketmq.client.producer.SendStatus;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
-import org.apache.rocketmq.spring.support.RocketMQHeaders;
 import org.springframework.messaging.Message;
-import org.springframework.messaging.support.MessageBuilder;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collection;
-import java.util.List;
-import java.util.UUID;
 
 /**
  * RocketMQ 消息服务提供者

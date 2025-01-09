@@ -1,6 +1,6 @@
-package com.zero.rainy.core.model.message;
+package com.zero.rainy.sample.model.message;
 
-import com.zero.rainy.core.model.message.supers.DelayMessage;
+import com.zero.rainy.message.model.delay.DelayMessage;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

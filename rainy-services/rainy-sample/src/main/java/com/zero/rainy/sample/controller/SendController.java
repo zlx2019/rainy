@@ -2,8 +2,7 @@ package com.zero.rainy.sample.controller;
 
 import cn.hutool.core.util.RandomUtil;
 import com.zero.rainy.core.model.Result;
-import com.zero.rainy.core.model.message.TextMessage;
-import com.zero.rainy.core.model.message.UserDelayMessage;
+import com.zero.rainy.message.model.TextMessage;
 import com.zero.rainy.message.template.MessageTemplate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Duration;
-import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 import java.util.stream.IntStream;
@@ -57,10 +54,9 @@ public class SendController {
     @GetMapping("/text")
     public Result<Boolean> sendTextMessage(String topic, String message) {
         TextMessage textMessage = new TextMessage(message);
-        textMessage.setKeys(UUID.randomUUID().toString());
-        textMessage.setSendTime(LocalDateTime.now());
-        SendResult sendResult = rocketMQTemplate.syncSend(topic, MessageBuilder.withPayload(textMessage).build());
-        return Result.ok(sendResult.getSendStatus().equals(SendStatus.SEND_OK));
+        boolean send = messageTemplate.send(topic, textMessage);
+//        SendResult sendResult = rocketMQTemplate.syncSend(topic, MessageBuilder.withPayload(textMessage).build());
+        return Result.ok(send);
     }
 
     @GetMapping("/batch")
@@ -71,21 +67,21 @@ public class SendController {
         return Result.ok(sent);
     }
 
-    /**
-     * 向指定主题 发送 {@link UserDelayMessage} 消息
-     */
-    @GetMapping("/delay/user")
-    public Result<Boolean> sendUserMessage(String topic) {
-        UserDelayMessage userDelayMessage = new UserDelayMessage();
-        userDelayMessage.setUserId(1231312132L);
-        userDelayMessage.setUsername("zero9501@outlook.com");
-        userDelayMessage.setPassword("root@qwedwq");
-        userDelayMessage.setCreateTime(LocalDateTime.now());
-        userDelayMessage.setUpdateTime(LocalDateTime.now());
-        userDelayMessage.setDelay(Duration.ofSeconds(5));
-        log.info("发送成功.");
-        return Result.ok(messageTemplate.sendDelay(topic, userDelayMessage));
-    }
+//    /**
+//     * 向指定主题 发送 {@link UserDelayMessage} 消息
+//     */
+//    @GetMapping("/delay/user")
+//    public Result<Boolean> sendUserMessage(String topic) {
+//        UserDelayMessage userDelayMessage = new UserDelayMessage();
+//        userDelayMessage.setUserId(1231312132L);
+//        userDelayMessage.setUsername("zero9501@outlook.com");
+//        userDelayMessage.setPassword("root@qwedwq");
+//        userDelayMessage.setCreateTime(LocalDateTime.now());
+//        userDelayMessage.setUpdateTime(LocalDateTime.now());
+//        userDelayMessage.setDelay(Duration.ofSeconds(5));
+//        log.info("发送成功.");
+//        return Result.ok(messageTemplate.sendDelay(topic, userDelayMessage));
+//    }
 
     /**
      * 向某个队列发送有序性消息
