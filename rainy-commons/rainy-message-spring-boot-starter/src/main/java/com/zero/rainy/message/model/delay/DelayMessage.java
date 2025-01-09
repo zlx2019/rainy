@@ -1,5 +1,6 @@
 package com.zero.rainy.message.model.delay;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.zero.rainy.message.model.BaseMessage;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -20,5 +21,6 @@ public abstract class DelayMessage extends BaseMessage {
     /**
      * 延迟时间, 默认为 3 秒
      */
+    @JsonIgnore
     private Duration delay = Duration.ofSeconds(3);
 }
