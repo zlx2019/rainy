@@ -57,13 +57,16 @@ public class DefaultExceptionAdvice {
      */
     @ExceptionHandler(BusinessException.class)
     public Result<?> businessExceptionHandler(BusinessException e, HttpServletRequest request, HttpServletResponse response) {
-        if (e.getCode() != null && e.getCode().httpStatus() != null) {
-            response.setStatus(e.getCode().httpStatus().value());
-        }
+        response.setStatus(
+                Optional.ofNullable(e.getCode())
+                        .map(code-> code.getStatus().value())
+                        .orElseGet(HttpStatus.OK::value));
         log.error("系统业务异常: {} - ", e.getMessage(), e);
+        GlobalResponseCode businessCode = GlobalResponseCode.SYSTEM_BUSINESS_ERROR;
         return Optional.ofNullable(e.getCode())
                 .map(Result::fail)
-                .orElseGet(()-> Result.fail(ResponseCodes.Business.getCode().code(), StringUtils.defaultIfBlank(e.getMessage(), ResponseCodes.Business.getCode().message())));
+                .orElseGet(()-> Result.fail(businessCode.getCode(),
+                        StringUtils.defaultIfBlank(e.getMessage(), businessCode.getMessage())));
     }
 
     /**
@@ -74,7 +77,7 @@ public class DefaultExceptionAdvice {
     @ExceptionHandler(NoResourceFoundException.class)
     public Result<?> noResourceFoundExceptionHandler(NoResourceFoundException e) {
         log.error("Resource Not Found [{}] - [{}]", e.getHttpMethod(), e.getResourcePath());
-        return exceptionHandler(ResponseCodes.RESOURCE_NOT_FOUND);
+        return exceptionHandler(GlobalResponseCode.RESOURCE_NOT_FOUND);
     }
 
     /**
@@ -85,7 +88,7 @@ public class DefaultExceptionAdvice {
     @ExceptionHandler(DataIntegrityViolationException.class)
     public Result<?> sqlExceptionHandler(DataIntegrityViolationException e) {
         log.error("数据完整性错误: {}", e.getMessage());
-        return exceptionHandler(ResponseCodes.DATABASE_ERROR, e.getCause().getMessage());
+        return exceptionHandler(GlobalResponseCode.DATABASE_ERROR, e.getCause().getMessage());
     }
 
     /**
@@ -93,8 +96,7 @@ public class DefaultExceptionAdvice {
      */
     @ExceptionHandler(RecordNotFoundException.class)
     public Result<?> recordNotFoundExceptionHandler(RecordNotFoundException e) {
-        String message = StringUtils.defaultIfBlank(e.getMessage(), ResponseCodes.BUSINESS_DATA_NOT_FOUND.getCode().message());
-        return Result.fail(ResponseCodes.BUSINESS_DATA_NOT_FOUND.getCode().code(), message);
+        return Result.fail(GlobalResponseCode.RECORD_NOT_FOUND, e.getMessage());
     }
 
     /**
@@ -104,7 +106,7 @@ public class DefaultExceptionAdvice {
     @ExceptionHandler(RequestLimitException.class)
     public Result<?> requestLimitExceptionHandler(RequestLimitException e, HttpServletRequest request) {
         log.error("Too Many Requests [{}]", request.getRequestURI());
-        return exceptionHandler(ResponseCodes.REQUEST_LIMIT);
+        return exceptionHandler(GlobalResponseCode.REQUEST_LIMIT);
     }
 
     /**
@@ -117,7 +119,7 @@ public class DefaultExceptionAdvice {
         String method = e.getMethod();
         String[] supportedMethods = e.getSupportedMethods();
         log.error("[{}] 不支持 [{}] 请求方式, 允许的请求方式: {}", path, method, supportedMethods);
-        return exceptionHandler(ResponseCodes.METHOD_NOT_SUPPORT);
+        return exceptionHandler(GlobalResponseCode.METHOD_NOT_SUPPORT);
     }
 
     /**
@@ -139,7 +141,7 @@ public class DefaultExceptionAdvice {
             log.error("======> [{}] - {}", fieldName, message);
         }
         log.error("========================================");
-        return Result.fail(ResponseCodes.PARAM_NOT_VALID).setData(errors);
+        return Result.fail(GlobalResponseCode.PARAM_NOT_VALID).setData(errors);
     }
 
     /**
@@ -149,7 +151,7 @@ public class DefaultExceptionAdvice {
     @ExceptionHandler(MethodArgumentTypeMismatchException.class)
     public Result<?> httpMessageNotReadableExceptionHandler(MethodArgumentTypeMismatchException e) {
         log.error("======> [{}] '{}' can not convert to [{}] 类型", e.getPropertyName(), e.getValue(), e.getParameter().getParameterType().getName());
-        return Result.fail(ResponseCodes.PARAM_NOT_VALID);
+        return Result.fail(GlobalResponseCode.PARAM_NOT_VALID);
     }
 
 
@@ -160,14 +162,14 @@ public class DefaultExceptionAdvice {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     public Result<?> httpMessageNotReadableExceptionHandler(HttpMessageNotReadableException e) {
         log.error("=====> 非法的请求正文.");
-        return Result.fail(ResponseCodes.PARAM_NOT_VALID);
+        return Result.fail(GlobalResponseCode.PARAM_NOT_VALID);
     }
 
-    private Result<?> exceptionHandler (ResponseCode code){
-        return Result.fail(code);
+    private Result<?> exceptionHandler (ResponseCode responseCode){
+        return Result.fail(responseCode);
     }
 
-    private Result<?> exceptionHandler (ResponseCode code, String message){
-        return Result.fail(code.getCode().code(), message);
+    private Result<?> exceptionHandler (ResponseCode responseCode, String message){
+        return Result.fail(responseCode.getCode(), message);
     }
 }

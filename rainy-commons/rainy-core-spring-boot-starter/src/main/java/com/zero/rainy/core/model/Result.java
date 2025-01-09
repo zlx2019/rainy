@@ -1,11 +1,11 @@
 package com.zero.rainy.core.model;
 
-import com.zero.rainy.core.constant.Constant;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import lombok.experimental.Accessors;
+import org.apache.commons.lang3.StringUtils;
 
 import java.io.Serial;
 import java.io.Serializable;
@@ -45,19 +45,22 @@ public class Result<T> implements Serializable {
         return ok(null);
     }
     public static <T> Result<T> ok (T data) {
-        return of(Constant.SUCCESS, ResponseCodes.Success.getCode().message(), data);
+        return of(ResponseCode.SUCCESS, ResponseCode.SUCCESS_MSG, data);
     }
     public static <T> Result<T> fail () {
-        return of(Constant.FAIL, null, null);
+        return fail(ResponseCode.FAIL_MSG);
     }
     public static <T> Result<T> fail (String message) {
-        return of(Constant.FAIL, message, null);
+        return fail(ResponseCode.FAIL, message);
     }
     public static <T> Result<T> fail (int code, String message) {
         return of(code, message, null);
     }
     public static <T> Result<T> fail (ResponseCode responseCode){
         return of(responseCode);
+    }
+    public static <T> Result<T> fail (ResponseCode responseCode, String message){
+        return Result.fail(responseCode.getCode(), StringUtils.defaultIfBlank(message, responseCode.getMessage()));
     }
     private static <T> Result<T> of(int code, String message, T data){
         return new Result<>(code, message, data);

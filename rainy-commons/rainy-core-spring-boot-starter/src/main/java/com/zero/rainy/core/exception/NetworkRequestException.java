@@ -1,6 +1,6 @@
 package com.zero.rainy.core.exception;
 
-import com.zero.rainy.core.enums.supers.ResponseCodes;
+import com.zero.rainy.core.enums.GlobalResponseCode;
 import lombok.Getter;
 
 /**
@@ -15,13 +15,13 @@ public class NetworkRequestException extends BusinessException {
     private final String method;
     private final String message;
     public NetworkRequestException(String uri, String method) {
-        super(ResponseCodes.NETWORK_ERROR);
+        super(GlobalResponseCode.NETWORK_REQUEST_ERROR);
         this.uri = uri;
         this.method = method;
         this.message = null;
     }
     public NetworkRequestException(String uri, String method, Exception e) {
-        super(ResponseCodes.NETWORK_ERROR);
+        super(GlobalResponseCode.NETWORK_REQUEST_ERROR);
         this.uri = uri;
         this.method = method;
         this.message = e.getMessage();
