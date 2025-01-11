@@ -188,8 +188,8 @@ public class GeneratorUtils implements ModelConstant {
 
     private static boolean contains(String columnName) {
         return Arrays.asList(ColumnConstant.ID,
-                        ColumnConstant.CREATOR,
-                        ColumnConstant.UPDATER,
+                        ColumnConstant.CREATOR_BY,
+                        ColumnConstant.UPDATER_BY,
                         ColumnConstant.CREATE_AT,
                         ColumnConstant.UPDATE_AT,
                         ColumnConstant.STATUS,
