@@ -1,5 +1,6 @@
 package com.zero.rainy.sample.controller;
 
+import com.zero.rainy.core.model.Only;
 import com.zero.rainy.core.model.PageResult;
 import com.zero.rainy.core.model.PageableQuery;
 import com.zero.rainy.core.model.Result;
@@ -83,5 +84,10 @@ public class SampleController {
     @DeleteMapping("/{id}")
     public Result<Boolean> deleteById(@PathVariable Long id){
         return Result.ok(sampleService.removeById(id));
+    }
+
+    @GetMapping("/test")
+    public Result<Only<String, String>> test(){
+        return Result.ok(Only.of("name", "张三"));
     }
 }

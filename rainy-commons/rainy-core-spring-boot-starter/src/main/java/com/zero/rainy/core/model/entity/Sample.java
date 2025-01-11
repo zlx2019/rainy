@@ -1,7 +1,7 @@
 package com.zero.rainy.core.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.zero.rainy.core.model.entity.supers.WithLockEntity;
+import com.zero.rainy.core.model.entity.supers.SuperEntityExt;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
 @Data
 @EqualsAndHashCode(callSuper = true)
 @TableName("sample")
-public class Sample extends WithLockEntity<Sample> {
+public class Sample extends SuperEntityExt<Sample> {
     private String name;
     private int age;
 }

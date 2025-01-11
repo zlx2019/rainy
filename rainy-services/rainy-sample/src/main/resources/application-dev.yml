@@ -3,7 +3,7 @@ spring:
   # 数据源配置
   datasource:
     driver-class-name: com.p6spy.engine.spy.P6SpyDriver
-    url: jdbc:p6spy:mysql://192.168.10.95/rainy?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+    url: jdbc:p6spy:mysql://127.0.0.1/rainy?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
     username: root
     password: root
     # 连接池
@@ -15,7 +15,7 @@ spring:
       max-lifetime: 1800000     # 连接最大生命周期, 连接超过该时间，一旦空闲就会回收
   data:
     redis:
-      host: 192.168.10.95
+      host: 127.0.0.1
       port: 6379
       database: 0
       connect-timeout: 3s

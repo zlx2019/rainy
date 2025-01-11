@@ -54,10 +54,10 @@ public class SuperServiceImpl<M extends SuperMapper<T>,T extends SuperEntity<T>>
             LocalDateTime end = query.getEnd();
             if (begin != null && end == null){
                 // begin <--> Now
-                lqw.between(T::getUpdateTime, begin, LocalDateTime.now());
+                lqw.between(T::getCreateAt, begin, LocalDateTime.now());
             }else if (end != null && begin != null){
                 // begin <--> end
-                lqw.between(T::getUpdateTime, begin, end);
+                lqw.between(T::getUpdateAt, begin, end);
             }
             String orderCols = query.getOrderly();
             OrderBy orderBy = query.getOrderBy();
@@ -73,7 +73,7 @@ public class SuperServiceImpl<M extends SuperMapper<T>,T extends SuperEntity<T>>
                 }
                 lqw.last(sql.toString());
             }else {
-                lqw.orderByDesc(T::getCreateTime);
+                lqw.orderByDesc(T::getCreateAt);
             }
         }
         return this.page(new Page<>(query.getPage(), query.getPageSize()), wrapper);

@@ -80,7 +80,7 @@ public interface ISuperService<T extends SuperEntity<T>> extends IService<T> {
     <V> List<V> list(Wrapper<T> wrp, Class<V> voClass, Function<T, V> transform);
 
     default <V> List<V> list(Class<V> voClass, Function<T, V> transform){
-        return this.list(this.lambdaWrapper().orderByDesc(T::getCreateTime), voClass, transform);
+        return this.list(this.lambdaWrapper().orderByDesc(T::getCreateAt), voClass, transform);
     }
 
 

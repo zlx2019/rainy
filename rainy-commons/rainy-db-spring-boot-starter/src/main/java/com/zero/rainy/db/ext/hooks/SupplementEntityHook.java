@@ -3,6 +3,7 @@ package com.zero.rainy.db.ext.hooks;
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import com.zero.rainy.core.enums.supers.Status;
 import com.zero.rainy.core.holder.UserContextHolder;
+import com.zero.rainy.core.model.entity.supers.SuperEntityExt;
 import com.zero.rainy.db.constants.ColumnConstant;
 import com.zero.rainy.db.utils.IdUtils;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +19,7 @@ import java.util.Optional;
  * <p> Created on 2024/8/27 18:22 </p>
  */
 @Slf4j
-public class SupplementEntityHook implements MetaObjectHandler {
+public class SupplementEntityHook implements MetaObjectHandler, ColumnConstant {
 
     /**
      * 新增填充
@@ -26,16 +27,18 @@ public class SupplementEntityHook implements MetaObjectHandler {
      */
     @Override
     public void insertFill(MetaObject metaObject) {
-        setFieldValByName(ColumnConstant.ID, IdUtils.getNextId(), metaObject);
+        setFieldValByName(ID, IdUtils.getNextId(), metaObject);
         LocalDateTime nowTime = LocalDateTime.now();
-        this.strictInsertFill(metaObject, ColumnConstant.CREATE_TIME, LocalDateTime.class, nowTime);
-        this.strictInsertFill(metaObject, ColumnConstant.UPDATE_TIME, LocalDateTime.class, nowTime);
-        this.strictInsertFill(metaObject, ColumnConstant.STATUS, Status.class, Status.NORMAL);
-        Optional.ofNullable(UserContextHolder.getUser())
-                .ifPresent(user-> {
-//                    this.strictInsertFill(metaObject, CREATOR, Long.class, Long.valueOf(user));
-//                    this.strictInsertFill(metaObject, UPDATER, Long.class, Long.valueOf(user));
-                });
+        this.strictInsertFill(metaObject, CREATE_AT, LocalDateTime.class, nowTime);
+        this.strictInsertFill(metaObject, UPDATE_AT, LocalDateTime.class, nowTime);
+        this.strictInsertFill(metaObject, STATUS, Status.class, Status.NORMAL);
+        if (metaObject.getOriginalObject() instanceof SuperEntityExt<?>){
+            Optional.ofNullable(UserContextHolder.getUser())
+                    .ifPresent(userId-> {
+                        this.strictInsertFill(metaObject, CREATOR_BY, Long.class, userId);
+                        this.strictInsertFill(metaObject, UPDATER_BY, Long.class, userId);
+                    });
+        }
     }
 
     /**
@@ -45,7 +48,11 @@ public class SupplementEntityHook implements MetaObjectHandler {
     @Override
     public void updateFill(MetaObject metaObject) {
         // 抹除掉之前的值
-        metaObject.setValue(ColumnConstant.UPDATE_TIME, null);
-        this.strictUpdateFill(metaObject, ColumnConstant.UPDATE_TIME, LocalDateTime::now, LocalDateTime.class);
+        metaObject.setValue(UPDATE_AT, null);
+        this.strictUpdateFill(metaObject, UPDATE_AT, LocalDateTime::now, LocalDateTime.class);
+        if (metaObject.getOriginalObject() instanceof SuperEntityExt<?>){
+            metaObject.setValue(UPDATER_BY, null);
+            this.strictUpdateFill(metaObject, UPDATER_BY, Long.class, UserContextHolder.getUser());
+        }
     }
 }

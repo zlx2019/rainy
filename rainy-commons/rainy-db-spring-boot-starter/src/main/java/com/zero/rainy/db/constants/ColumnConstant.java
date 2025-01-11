@@ -7,7 +7,6 @@ package com.zero.rainy.db.constants;
  * <p> Created on 2024/9/22 11:05 </p>
  */
 public interface ColumnConstant {
-
     /**
      * 主键
      */
@@ -19,26 +18,6 @@ public interface ColumnConstant {
     String VERSION = "version";
 
     /**
-     * 创建时间
-     */
-    String CREATE_TIME = "createTime";
-
-    /**
-     * 修改时间
-     */
-    String UPDATE_TIME = "updateTime";
-
-    /**
-     * 创建者
-     */
-    String CREATOR = "creatUser";
-
-    /**
-     * 修改者
-     */
-    String UPDATER = "updateUser";
-
-    /**
      * 状态
      */
     String STATUS = "status";
@@ -48,5 +27,23 @@ public interface ColumnConstant {
      */
     String DELETED = "deleted";
 
+    /**
+     * 创建者
+     */
+    String CREATOR_BY = "createBy";
 
+    /**
+     * 修改者
+     */
+    String UPDATER_BY = "updateBy";
+
+    /**
+     * 创建时间
+     */
+    String CREATE_AT = "createAt";
+
+    /**
+     * 修改时间
+     */
+    String UPDATE_AT = "updateAt";
 }

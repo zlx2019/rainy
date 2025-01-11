@@ -190,8 +190,8 @@ public class GeneratorUtils implements ModelConstant {
         return Arrays.asList(ColumnConstant.ID,
                         ColumnConstant.CREATOR,
                         ColumnConstant.UPDATER,
-                        ColumnConstant.CREATE_TIME,
-                        ColumnConstant.UPDATE_TIME,
+                        ColumnConstant.CREATE_AT,
+                        ColumnConstant.UPDATE_AT,
                         ColumnConstant.STATUS,
                         ColumnConstant.DELETED)
                 .contains(columnName);

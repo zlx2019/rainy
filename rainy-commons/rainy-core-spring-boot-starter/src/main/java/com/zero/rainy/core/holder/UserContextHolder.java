@@ -9,19 +9,22 @@ import com.alibaba.ttl.TransmittableThreadLocal;
  * <p> Created on 2024/8/30 18:50 </p>
  */
 public class UserContextHolder {
-    private static final ThreadLocal<String> CONTEXT = new TransmittableThreadLocal<>();
+    private static final ThreadLocal<Long> CONTEXT = new TransmittableThreadLocal<>();
 
     /**
      * 设置登录用户信息
      */
     public static void setUser(String userId){
+        CONTEXT.set(Long.valueOf(userId));
+    }
+    public static void setUser(Long userId){
         CONTEXT.set(userId);
     }
 
     /**
      * 获取用户信息
      */
-    public static String getUser(){
+    public static Long getUser(){
         return CONTEXT.get();
     }
 

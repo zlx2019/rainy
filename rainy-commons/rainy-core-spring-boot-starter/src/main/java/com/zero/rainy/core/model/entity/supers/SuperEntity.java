@@ -6,8 +6,6 @@ import com.zero.rainy.core.enums.supers.Status;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.io.Serial;
-import java.io.Serializable;
 import java.time.LocalDateTime;
 
 /**
@@ -18,9 +16,7 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
-public class SuperEntity <T extends Model<?>> extends Model<T> implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class SuperEntity <T extends Model<?>> extends Model<T> {
 
     /**
      * 主键ID
@@ -42,19 +38,19 @@ public class SuperEntity <T extends Model<?>> extends Model<T> implements Serial
      * 0 - false: 未删除
      * 1 - true: 已删除
      */
-//    @TableLogic(delval = "true", value = "false")
     @TableLogic
     private Boolean deleted = Boolean.FALSE;
+
 
     /**
      * 创建时间
      */
     @TableField(fill = FieldFill.INSERT)
-    private LocalDateTime createTime;
+    private LocalDateTime createAt;
 
     /**
      * 最后修改时间
      */
     @TableField(fill = FieldFill.INSERT_UPDATE)
-    private LocalDateTime updateTime;
+    private LocalDateTime updateAt;
 }

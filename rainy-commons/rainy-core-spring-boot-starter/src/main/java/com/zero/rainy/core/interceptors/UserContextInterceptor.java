@@ -1,5 +1,6 @@
 package com.zero.rainy.core.interceptors;
 
+import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;
 import com.zero.rainy.core.constant.Constant;
 import com.zero.rainy.core.holder.UserContextHolder;
@@ -28,6 +29,7 @@ public class UserContextInterceptor implements HandlerInterceptor {
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         Optional.ofNullable(request.getHeader(Constant.USER_ID_HEADER_KEY)).filter(StrUtil::isNotBlank).ifPresent(UserContextHolder::setUser);
+        UserContextHolder.setUser(String.valueOf(IdUtil.getSnowflakeNextId()));
         return true;
     }
 
