@@ -34,4 +34,23 @@ public interface Scripts {
             return 0
         end
     """;
+
+
+    /**
+     * 根据一个 score 弹出最大分值的元素
+     */
+    String GET_TASK_SOLUTION_BY_LATEST = """
+        local key = KEYS[1]
+        local threshold_score = tonumber(ARGV[1])
+        -- 获取最大分值元素
+        local max_result = redis.call('ZREVRANGEBYSCORE', key, '+inf', threshold_score, 'WITHSCORES', 'LIMIT', 0, 1)
+        if #max_result > 0 then
+            local max_member = max_result[1]
+            -- 移除(弹出)该元素
+            redis.call('ZREM', key, max_member)
+            return max_member
+        end
+        -- 不存在符合条件的元素
+        return nil
+    """;
 }

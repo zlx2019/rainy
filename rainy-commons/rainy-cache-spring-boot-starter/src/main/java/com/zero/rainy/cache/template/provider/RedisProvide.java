@@ -1,5 +1,6 @@
 package com.zero.rainy.cache.template.provider;
 
+import com.zero.rainy.cache.consts.Scripts;
 import com.zero.rainy.cache.template.CacheTemplate;
 import com.zero.rainy.core.utils.JsonUtils;
 import lombok.RequiredArgsConstructor;
@@ -7,14 +8,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.data.redis.connection.RedisStringCommands;
 import org.springframework.data.redis.core.*;
+import org.springframework.data.redis.core.script.RedisScript;
 import org.springframework.data.redis.core.types.Expiration;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
 import java.time.Duration;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Objects;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
@@ -46,6 +45,8 @@ public class RedisProvide implements CacheTemplate {
     private RedisSerializer valueSerializer() {
         return template.getValueSerializer();
     }
+
+    private final RedisScript<Object> POP_LATEST_TASK_SOULTION_SCRIPT = RedisScript.of(Scripts.GET_TASK_SOLUTION_BY_LATEST, Object.class);
 
     /**
      * 设置缓存
@@ -239,6 +240,17 @@ public class RedisProvide implements CacheTemplate {
                     .map(value -> convertValue(value, clazz)).toList();
         }
         return List.of();
+    }
+
+    /**
+     * 弹出大于 score 分值的最大元素.
+     *
+     * @param key   Key
+     * @param score 不能小于该分值
+     */
+    @Override
+    public Object zPopMaxByScore(String key, double score) {
+        return template.execute(POP_LATEST_TASK_SOULTION_SCRIPT, Collections.singletonList(key), score);
     }
 
     /**

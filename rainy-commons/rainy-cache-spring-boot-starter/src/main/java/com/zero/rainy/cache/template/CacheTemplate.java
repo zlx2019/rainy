@@ -139,9 +139,18 @@ public interface CacheTemplate {
     Long zCard(final String key);
 
     /**
-     * 格努分值范围统计元素数量
+     * 根据分值区间，统计元素数量
      */
     Long zCount(final String key, double begin, double end);
+
+    /**
+     * 统计出大于该分值的元素数量
+     *
+     * @param min 要大于的分值
+     */
+    default Long zCount(final String key, double min){
+        return zCount(key, min, Double.POSITIVE_INFINITY);
+    }
 
     /**
      * 从 ZSet 中根据分值从大到小弹出一批元素.
@@ -155,6 +164,14 @@ public interface CacheTemplate {
         List<T> list = this.zPopMax(key, 1, clazz);
         return CollectionUtils.isEmpty(list) ? null : list.getFirst();
     }
+
+    /**
+     * 弹出大于 score 分值的最大元素.
+     *
+     * @param key   Key
+     * @param score 不能小于该分值
+     */
+    Object zPopMaxByScore(final String key, double score);
 
     /**
      * 从 ZSet 中根据分值从小到大弹出一批元素.

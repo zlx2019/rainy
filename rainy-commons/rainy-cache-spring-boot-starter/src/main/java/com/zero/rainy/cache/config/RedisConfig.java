@@ -1,9 +1,12 @@
 package com.zero.rainy.cache.config;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
+import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.databind.jsontype.impl.LaissezFaireSubTypeValidator;
+import com.fasterxml.jackson.databind.jsontype.TypeResolverBuilder;
 import com.zero.rainy.cache.lock.RedisDistributedLock;
 import com.zero.rainy.cache.subscriber.DynamicConfigSubscriber;
 import com.zero.rainy.cache.template.provider.RedisProvide;
@@ -66,9 +69,27 @@ public class RedisConfig {
     @Bean
     @Primary
     public RedisSerializer<Object> getValueSerializer() {
-        ObjectMapper mapper = JsonUtils.getMapper().copy();
+        ObjectMapper mapper = JsonUtils.getMapper();
+        // 设置可见性
         mapper.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        mapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL);
+        // 自定义类型处理器,保留类型信息，方便序列化
+        TypeResolverBuilder<?> typeResolver = new ObjectMapper.DefaultTypeResolverBuilder(ObjectMapper.DefaultTyping.NON_FINAL) {
+            @Override
+            public boolean useForType(JavaType t) {
+                // 排除集合类型
+                if (t.isCollectionLikeType() || t.isArrayType()) {
+                    return false;
+                }
+                return super.useForType(t);
+            }
+        };
+        typeResolver.init(JsonTypeInfo.Id.CLASS, null);
+        typeResolver.inclusion(JsonTypeInfo.As.PROPERTY);
+        typeResolver.typeProperty("@class");
+        mapper.setDefaultTyping(typeResolver);
+//        mapper.activateDefaultTyping(LaissezFaireSubTypeValidator.instance, ObjectMapper.DefaultTyping.NON_FINAL, JsonTypeInfo.As.PROPERTY);
+        // 忽略 null 值
+        mapper.setSerializationInclusion(JsonInclude.Include.NON_NULL);
         return new Jackson2JsonRedisSerializer<>(mapper, Object.class);
     }
 

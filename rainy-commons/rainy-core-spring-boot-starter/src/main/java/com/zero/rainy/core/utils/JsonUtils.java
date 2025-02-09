@@ -70,7 +70,7 @@ public class JsonUtils {
     }
 
     public static ObjectMapper getMapper() {
-        return MAPPER;
+        return MAPPER.copy();
     }
 
 

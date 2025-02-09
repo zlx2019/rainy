@@ -2,7 +2,6 @@ package com.zero.rainy;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 
 /**
  * 代码生成服务
@@ -10,7 +9,7 @@ import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
  * @author Zero.
  * <p> Created on 2024/12/30 14:21 </p>
  */
-@EnableDiscoveryClient
+//@EnableDiscoveryClient
 @SpringBootApplication
 public class RainyCodeGenApplication {
     public static void main(String[] args) {
