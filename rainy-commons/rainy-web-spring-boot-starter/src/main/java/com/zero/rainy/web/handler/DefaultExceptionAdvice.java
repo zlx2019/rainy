@@ -1,4 +1,4 @@
-package com.zero.rainy.core.handler;
+package com.zero.rainy.web.handler;
 
 import com.zero.rainy.core.enums.GlobalResponseCode;
 import com.zero.rainy.core.exception.BusinessException;
@@ -9,7 +9,6 @@ import com.zero.rainy.core.model.Result;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -62,11 +61,10 @@ public class DefaultExceptionAdvice {
                         .map(code-> code.getStatus().value())
                         .orElseGet(HttpStatus.OK::value));
         log.error("系统业务异常: {} - ", e.getMessage(), e);
-        GlobalResponseCode businessCode = GlobalResponseCode.SYSTEM_BUSINESS_ERROR;
         return Optional.ofNullable(e.getCode())
-                .map(Result::fail)
-                .orElseGet(()-> Result.fail(businessCode.getCode(),
-                        StringUtils.defaultIfBlank(e.getMessage(), businessCode.getMessage())));
+                .map(Result::of)
+                .orElseGet(()-> Result.of(GlobalResponseCode.SYSTEM_BUSINESS_ERROR));
+//                .orElseGet(()-> Result.fail(businessCode.getCode(), StringUtils.defaultIfBlank(e.getMessage(), businessCode.getMessage())));
     }
 
     /**

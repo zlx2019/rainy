@@ -21,7 +21,6 @@ public class UndertowConfig {
         return factory -> {
             factory.addBuilderCustomizers(builder -> {
                 // 工作线程名称
-
                 builder.setWorkerOption(Options.WORKER_NAME, "Work");
             });
         };

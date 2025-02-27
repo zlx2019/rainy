@@ -2,7 +2,6 @@ package com.zero.rainy.gateway.filter;
 
 import cn.hutool.core.util.IdUtil;
 import com.zero.rainy.core.constant.Constant;
-import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.cloud.gateway.filter.GatewayFilterChain;
 import org.springframework.cloud.gateway.filter.GlobalFilter;
 import org.springframework.core.annotation.Order;
@@ -28,7 +27,7 @@ public class RequestContextTraceFilter implements GlobalFilter {
         String traceId = IdUtil.fastUUID();
         ServerHttpRequest request = exchange.getRequest()
                 .mutate()
-                .header(Constant.TRACE_ID_HEADER_KEY, traceId)
+                .header(Constant.TRACE_ID_REQUEST_HEADER_KEY, traceId)
                 .build();
         return chain.filter(exchange.mutate().request(request).build());
     }

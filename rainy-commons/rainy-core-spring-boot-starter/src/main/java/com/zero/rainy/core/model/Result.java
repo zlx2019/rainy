@@ -1,5 +1,6 @@
 package com.zero.rainy.core.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -38,7 +39,7 @@ public class Result<T> implements Serializable {
     /**
      * 响应数据（不存在则忽略序列化）
      */
-    // @JsonInclude(JsonInclude.Include.NON_NULL)
+     @JsonInclude(JsonInclude.Include.NON_NULL)
     private T data;
 
     public static <T> Result<T> ok (){

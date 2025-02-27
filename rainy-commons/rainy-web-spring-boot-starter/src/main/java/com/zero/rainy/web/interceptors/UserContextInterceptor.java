@@ -1,4 +1,4 @@
-package com.zero.rainy.core.interceptors;
+package com.zero.rainy.web.interceptors;
 
 import cn.hutool.core.util.IdUtil;
 import cn.hutool.core.util.StrUtil;

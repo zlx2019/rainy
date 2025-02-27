@@ -1,6 +1,6 @@
-package com.zero.rainy.core.model.dto;
+package com.zero.rainy.web.model.dto;
 
-import com.zero.rainy.core.model.dto.group.Update;
+import com.zero.rainy.web.model.group.Update;
 import jakarta.validation.constraints.NotNull;
 import lombok.Getter;
 import lombok.Setter;

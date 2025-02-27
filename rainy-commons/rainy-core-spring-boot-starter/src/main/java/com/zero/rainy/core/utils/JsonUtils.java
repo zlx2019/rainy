@@ -92,6 +92,8 @@ public class JsonUtils {
         return MAPPER.writeValueAsString(bean);
     }
 
+
+
     /**
      * Json to object by type
      *
@@ -109,6 +111,13 @@ public class JsonUtils {
             return mapper.readValue(value, clazz);
         }
         return MAPPER.readValue(value, clazz);
+    }
+
+    /**
+     * object to class type
+     */
+    public static <T> T unmarshal(Object value, Class<T> clazz) {
+        return MAPPER.convertValue(value, clazz);
     }
 
     /**

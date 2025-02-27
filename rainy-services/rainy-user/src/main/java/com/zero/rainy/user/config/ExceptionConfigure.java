@@ -1,6 +1,6 @@
 package com.zero.rainy.user.config;
 
-import com.zero.rainy.core.handler.DefaultExceptionAdvice;
+import com.zero.rainy.web.handler.DefaultExceptionAdvice;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 
 /**

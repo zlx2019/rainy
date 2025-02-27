@@ -22,7 +22,7 @@ public class GrpcClientInterceptor implements ClientInterceptor {
     /* 用户信息 元数据Key  */
     private static final Metadata.Key<String> USER_KEY = Metadata.Key.of(Constant.USER_ID_HEADER_KEY, Metadata.ASCII_STRING_MARSHALLER);
     /* 链路追踪 元数据Key */
-    private static final Metadata.Key<String> TRACE_KEY = Metadata.Key.of(Constant.TRACE_ID_HEADER_KEY, Metadata.ASCII_STRING_MARSHALLER);
+    private static final Metadata.Key<String> TRACE_KEY = Metadata.Key.of(Constant.TRACE_ID_REQUEST_HEADER_KEY, Metadata.ASCII_STRING_MARSHALLER);
 
     /**
      * 处理要发起的请求

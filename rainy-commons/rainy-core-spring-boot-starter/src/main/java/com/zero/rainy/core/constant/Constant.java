@@ -38,10 +38,16 @@ public interface Constant {
      * 用户ID在请求头中的 key
      */
     String USER_ID_HEADER_KEY = "x-userId-header";
+
     /**
-     * 链路追踪ID，在请求头中的Key
+     * 链路追踪ID，请求头Key
      */
-    String TRACE_ID_HEADER_KEY = "x-traceId-header";
+    String TRACE_ID_REQUEST_HEADER_KEY = "x-traceId-header";
+
+    /**
+     * 请求链路追踪，响应头Key
+     */
+    String TRACE_ID_RESPONSE_HEADER_KEY = "request-trace";
 
     /**
      * 链路追踪ID，在消息头中的Key

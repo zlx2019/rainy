@@ -1,4 +1,4 @@
-package com.zero.rainy.core.config;
+package com.zero.rainy.web.config;
 
 import com.zero.rainy.core.async.AsyncThreadPoolTaskExecutor;
 import org.springframework.context.annotation.Bean;

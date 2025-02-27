@@ -1,7 +1,7 @@
 package com.zero.rainy.sample.model.dto;
 
-import com.zero.rainy.core.model.dto.BaseDTO;
-import com.zero.rainy.core.model.dto.group.Create;
+import com.zero.rainy.web.model.dto.BaseDTO;
+import com.zero.rainy.web.model.group.Create;
 import com.zero.rainy.core.model.entity.Sample;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;

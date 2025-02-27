@@ -1,12 +1,15 @@
-package com.zero.rainy.core.interceptors;
+package com.zero.rainy.web.interceptors;
 
-import cn.hutool.core.util.StrUtil;
+import cn.hutool.core.util.IdUtil;
 import com.zero.rainy.core.constant.Constant;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.MDC;
 import org.springframework.web.servlet.HandlerInterceptor;
+
+import java.util.Optional;
 
 /**
  * 链路追踪拦截器，实现`traceId`的全局传递
@@ -23,11 +26,11 @@ public class LogTraceInterceptor implements HandlerInterceptor {
      */
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) {
-        String traceId = request.getHeader(Constant.TRACE_ID_HEADER_KEY);
-        if (StrUtil.isNotBlank(traceId)){
-            // 设置到日志上下文
-            MDC.put(Constant.TRACE_ID_LOG_KEY, traceId);
+        String traceId = request.getHeader(Constant.TRACE_ID_REQUEST_HEADER_KEY);
+        if (StringUtils.isBlank(traceId)){
+            traceId = IdUtil.fastUUID();
         }
+        MDC.put(Constant.TRACE_ID_LOG_KEY, traceId);
         return true;
     }
 
@@ -36,6 +39,11 @@ public class LogTraceInterceptor implements HandlerInterceptor {
      */
     @Override
     public void afterCompletion(HttpServletRequest request, HttpServletResponse response, Object handler, Exception ex) throws Exception {
-        MDC.remove(Constant.TRACE_ID_LOG_KEY);
+        Optional.ofNullable(MDC.get(Constant.TRACE_ID_LOG_KEY))
+                .ifPresent(traceId -> {
+                    response.setHeader(Constant.TRACE_ID_RESPONSE_HEADER_KEY, traceId);
+                    MDC.remove(Constant.TRACE_ID_LOG_KEY);
+                });
+        System.out.println(MDC.get(Constant.TRACE_ID_LOG_KEY));
     }
 }

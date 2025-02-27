@@ -1,4 +1,4 @@
-package com.zero.rainy.core.model.vo;
+package com.zero.rainy.web.model.vo;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Getter;

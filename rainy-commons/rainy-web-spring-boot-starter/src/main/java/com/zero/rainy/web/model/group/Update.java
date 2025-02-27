@@ -1,4 +1,4 @@
-package com.zero.rainy.core.model.dto.group;
+package com.zero.rainy.web.model.group;
 
 /**
  * 修改行为校验组

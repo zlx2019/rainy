@@ -1,6 +1,6 @@
 package com.zero.rainy.user.model.vo;
 
-import com.zero.rainy.core.model.vo.BaseVo;
+import com.zero.rainy.web.model.vo.BaseVo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import java.io.Serial;

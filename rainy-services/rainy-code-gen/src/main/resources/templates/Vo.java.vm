@@ -1,17 +1,14 @@
 package ${package}.${moduleName}.model.vo;
 
-import com.zero.rainy.core.model.vo.BaseVo;
+import com.zero.rainy.web.model.vo.BaseVo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 #if(${hasBigDecimal})
 import java.io.Serial;
-import java.math.BigDecimal;
 #end
 #if(${hasLocalDateTime})
-import java.time.LocalDateTime;
 #end
 #if(${hasLocalDate})
-import java.time.LocalDate;
 #end
 import java.io.Serializable;
 

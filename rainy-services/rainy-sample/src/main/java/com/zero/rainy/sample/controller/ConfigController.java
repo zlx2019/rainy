@@ -39,6 +39,7 @@ public class ConfigController {
     @Limiter(limitType = LimitType.ARGS)
     @GetMapping("/list")
     public Result<Set<Object>> list() {
+        log.info("list");
         return Result.ok(DynamicConfigContext.getConfigs());
     }
 

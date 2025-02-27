@@ -1,6 +1,6 @@
 package com.zero.rainy.user.model.dto;
 
-import com.zero.rainy.core.model.dto.BaseDTO;
+import com.zero.rainy.web.model.dto.BaseDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import java.math.BigDecimal;

@@ -1,7 +1,7 @@
 package com.zero.rainy.sample.model.vo;
 
 import com.zero.rainy.core.model.entity.Sample;
-import com.zero.rainy.core.model.vo.BaseVo;
+import com.zero.rainy.web.model.vo.BaseVo;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
