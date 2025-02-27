@@ -15,7 +15,7 @@ spring:
       max-lifetime: 1800000     # 连接最大生命周期, 连接超过该时间，一旦空闲就会回收
   data:
     redis:
-      host: 127.0.0.1
+      host: 192.168.5.112
       port: 6379
       database: 0
       connect-timeout: 3s

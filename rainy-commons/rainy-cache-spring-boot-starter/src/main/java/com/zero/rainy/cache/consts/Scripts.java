@@ -53,4 +53,19 @@ public interface Scripts {
         -- 不存在符合条件的元素
         return nil
     """;
+
+    String GET_TASK_SOLUTION_BY_SCORE_AND_MIN = """
+        local key = KEYS[1]
+        local threshold_score = tonumber(ARGV[1])
+        -- 修改为 ZRANGEBYSCORE，并调整分数范围为 [threshold_score, +inf]
+        local min_result = redis.call('ZRANGEBYSCORE', key, threshold_score, '+inf', 'WITHSCORES', 'LIMIT', 0, 1)
+        if #min_result > 0 then
+            local min_member = min_result[1]
+            -- 移除(弹出)该元素
+            redis.call('ZREM', key, min_member)
+            return min_member
+        end
+        -- 不存在符合条件的元素
+        return nil
+        """;
 }

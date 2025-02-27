@@ -146,10 +146,10 @@ public interface CacheTemplate {
     /**
      * 统计出大于该分值的元素数量
      *
-     * @param min 要大于的分值
+     * @param score 要大于的分值
      */
-    default Long zCount(final String key, double min){
-        return zCount(key, min, Double.POSITIVE_INFINITY);
+    default Long zCount(final String key, double score){
+        return zCount(key, score, Double.POSITIVE_INFINITY);
     }
 
     /**

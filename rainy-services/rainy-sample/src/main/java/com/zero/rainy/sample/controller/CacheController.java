@@ -5,13 +5,12 @@ import com.zero.rainy.core.model.Result;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.DefaultTypedTuple;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.Duration;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.stream.IntStream;
@@ -73,6 +72,9 @@ public class CacheController {
         return Result.ok(z);
     }
 
+    /**
+     * 开启指定数量线程，并发从 ZSet 中弹出最大分值元素.
+     */
     @GetMapping("/zSet/pop")
     public Result<Long> zSetPop(String key, Integer threads) {
         List<CompletableFuture<?>> works = new ArrayList<>();
@@ -89,6 +91,50 @@ public class CacheController {
         }
         works.forEach(CompletableFuture::join);
         return Result.ok();
+    }
+
+
+    /**
+     * 统计 ZSet 元素数量
+     */
+    @GetMapping("/zSet/count")
+    public Result<Long> zSetCount(String key, Long score) {
+        if (null == score){
+            return Result.ok(cacheTemplate.zCard(key));
+        }
+        return Result.ok(cacheTemplate.zCount(key, score));
+    }
+
+
+    /**
+     * 开启指定数量线程，并发 从 ZSet 中以从大到小的顺序弹出元素，并且要求分值必须大于指定值。
+     */
+    @GetMapping("/zSet/pop/five_minutes")
+    public Result<Long> zSetPopFiveMinutes(String key,
+                                           Long score,
+                                           @RequestParam(defaultValue = "10") String threads,
+                                           @RequestParam(defaultValue = "100") String quantity) {
+        AtomicInteger count = new AtomicInteger(0);
+        List<CompletableFuture<?>> works = new ArrayList<>();
+        for (int i = 0; i < Integer.parseInt(threads); i++) {
+            Integer tNo = i;
+            works.add(CompletableFuture.runAsync(() -> {
+                int tCount = 0;
+                log.info("线程 {} 开始运行..", tNo);
+                for (int j = 0; j < Integer.parseInt(quantity); j++) {
+                    Object val = cacheTemplate.zPopMaxByScore(key, score.doubleValue());
+                    System.out.println(val);
+                    if (val != null) {
+                        tCount++;
+                    }
+                }
+                log.info("线程 {} 运行结束, count: {}", tNo, tCount);
+                count.addAndGet(tCount);
+            }));
+        }
+        works.forEach(CompletableFuture::join);
+        log.info("所有线程结束，共计获取数量: {}", count.get());
+        return Result.ok(count.longValue());
     }
 
 }

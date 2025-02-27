@@ -4,7 +4,8 @@ package com.zero.rainy.core.model;
 import java.util.*;
 
 /**
- * Only Key-Value
+ * Only
+ *
  * @author Zero.
  * <p> Created on 2025/1/11 15:05 </p>
  */
