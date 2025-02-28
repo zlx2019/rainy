@@ -3,7 +3,6 @@ package com.zero.rainy.web.handler;
 import com.zero.rainy.core.enums.GlobalResponseCode;
 import com.zero.rainy.core.exception.BusinessException;
 import com.zero.rainy.core.exception.RecordNotFoundException;
-import com.zero.rainy.core.exception.RequestLimitException;
 import com.zero.rainy.core.model.ResponseCode;
 import com.zero.rainy.core.model.Result;
 import jakarta.servlet.http.HttpServletRequest;
@@ -100,12 +99,12 @@ public class DefaultExceptionAdvice {
     /**
      * 请求限流异常处理
      */
-    @ResponseStatus(HttpStatus.TOO_MANY_REQUESTS)
-    @ExceptionHandler(RequestLimitException.class)
-    public Result<?> requestLimitExceptionHandler(RequestLimitException e, HttpServletRequest request) {
-        log.error("Too Many Requests [{}]", request.getRequestURI());
-        return exceptionHandler(GlobalResponseCode.REQUEST_LIMIT);
-    }
+//    @ResponseStatus(HttpStatus.TOO_MANY_REQUESTS)
+//    @ExceptionHandler(RequestLimitException.class)
+//    public Result<?> requestLimitExceptionHandler(RequestLimitException e, HttpServletRequest request) {
+//        log.error("Too Many Requests [{}]", request.getRequestURI());
+//        return exceptionHandler(GlobalResponseCode.REQUEST_LIMIT);
+//    }
 
     /**
      * 请求 Method 不支持异常

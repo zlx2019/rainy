@@ -2,6 +2,8 @@ package com.zero.rainy.core.holder;
 
 import com.alibaba.ttl.TransmittableThreadLocal;
 
+import java.util.Optional;
+
 /**
  * 全局服务用户信息上下文
  *
@@ -24,7 +26,13 @@ public class UserContextHolder {
     /**
      * 获取用户信息
      */
-    public static Long getUser(){
+    public static String getUser(){
+        return Optional.ofNullable(CONTEXT.get())
+                .map(String::valueOf)
+                .orElse(null);
+    }
+
+    public static Long getUserId(){
         return CONTEXT.get();
     }
 

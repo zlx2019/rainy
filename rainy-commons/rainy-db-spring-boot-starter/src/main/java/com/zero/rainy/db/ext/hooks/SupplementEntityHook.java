@@ -33,7 +33,7 @@ public class SupplementEntityHook implements MetaObjectHandler, ColumnConstant {
         this.strictInsertFill(metaObject, UPDATE_AT, LocalDateTime.class, nowTime);
         this.strictInsertFill(metaObject, STATUS, Status.class, Status.NORMAL);
         if (metaObject.getOriginalObject() instanceof SuperEntityExt<?>){
-            Optional.ofNullable(UserContextHolder.getUser())
+            Optional.ofNullable(UserContextHolder.getUserId())
                     .ifPresent(userId-> {
                         this.strictInsertFill(metaObject, CREATOR_BY, Long.class, userId);
                         this.strictInsertFill(metaObject, UPDATER_BY, Long.class, userId);
@@ -52,7 +52,7 @@ public class SupplementEntityHook implements MetaObjectHandler, ColumnConstant {
         this.strictUpdateFill(metaObject, UPDATE_AT, LocalDateTime::now, LocalDateTime.class);
         if (metaObject.getOriginalObject() instanceof SuperEntityExt<?>){
             metaObject.setValue(UPDATER_BY, null);
-            this.strictUpdateFill(metaObject, UPDATER_BY, Long.class, UserContextHolder.getUser());
+            this.strictUpdateFill(metaObject, UPDATER_BY, Long.class, UserContextHolder.getUserId());
         }
     }
 }

@@ -22,7 +22,7 @@ public enum GlobalResponseCode implements ResponseCode {
     PARAM_NOT_VALID(10001, "invalid parameters", "缺少必填参数或参数不合法/", HttpStatus.BAD_REQUEST),
     RESOURCE_NOT_FOUND(10004, "Not Found", "资源未找到", HttpStatus.NOT_FOUND),
     METHOD_NOT_SUPPORT(10005, "method not support", "不支持的 Method", HttpStatus.METHOD_NOT_ALLOWED),
-    REQUEST_LIMIT(10006, "Too Many Requests", "请求过于频繁", HttpStatus.TOO_MANY_REQUESTS),
+    REQUEST_LIMIT(10006, "Too Many Requests", "请求被限流", HttpStatus.TOO_MANY_REQUESTS),
 
 
     // 数据相关错误

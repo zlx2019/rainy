@@ -46,8 +46,8 @@ public class RedisProvide implements CacheTemplate {
         return template.getValueSerializer();
     }
 
-    private final RedisScript<Object> POP_LATEST_TASK_SOULTION_SCRIPT = RedisScript.of(Scripts.GET_TASK_SOLUTION_BY_LATEST, Object.class);
-
+    private final RedisScript<Object> POP_LATEST_TASK_SOULTION_SCRIPT = RedisScript.of(Scripts.ZPOP_BY_SCORE_AND_MAX, Object.class);
+    private final RedisScript<Long> INCR_BY_EX_SCRIPT = RedisScript.of(Scripts.INCR_BY_EX, Long.class);
     /**
      * 设置缓存
      *
@@ -109,6 +109,38 @@ public class RedisProvide implements CacheTemplate {
             }
             return conn.commands().set(keys, values, Expiration.from(expire), RedisStringCommands.SetOption.ifAbsent());
         });
+    }
+
+    /**
+     * 递增值
+     *
+     * @param key 键
+     * @return
+     */
+    @Override
+    public Long incr(String key, long delta) {
+        return opsValue().increment(key, delta);
+    }
+
+    @Override
+    public Long incrEx(String key, Duration expire) {
+        return this.incrEx(key, 1, expire);
+    }
+
+    @Override
+    public Long incrEx(String key, long delta, Duration expire) {
+        return template.execute(INCR_BY_EX_SCRIPT, Collections.singletonList(key), delta, expire.toMillis());
+    }
+
+    /**
+     * 递减值
+     *
+     * @param key 键
+     * @return
+     */
+    @Override
+    public Long decr(String key, long delta) {
+        return opsValue().decrement(key);
     }
 
     /**

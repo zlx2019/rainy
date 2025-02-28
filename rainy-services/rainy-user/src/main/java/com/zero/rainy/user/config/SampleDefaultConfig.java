@@ -1,6 +1,6 @@
 package com.zero.rainy.user.config;
 
-import com.zero.rainy.core.config.DefaultConfigurer;
+import com.zero.rainy.web.config.DefaultConfigurer;
 import org.springframework.context.annotation.Configuration;
 
 /**

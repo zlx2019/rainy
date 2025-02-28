@@ -1,12 +1,12 @@
 package com.zero.rainy.sample.controller;
 
 import com.zero.rainy.core.model.Result;
-import com.zero.rainy.limit.LimitType;
-import com.zero.rainy.limit.Limiter;
+import com.zero.rainy.limiter.annotations.ApiLimiter;
+import com.zero.rainy.limiter.enums.LimiterRule;
 import com.zero.rainy.sample.model.vo.LimitVo;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.concurrent.TimeUnit;
+import java.time.temporal.ChronoUnit;
 
 /**
  * 限流测试
@@ -18,13 +18,13 @@ import java.util.concurrent.TimeUnit;
 @RequestMapping("/limit")
 public class LimiterController {
 
-    @Limiter(limitType = LimitType.API, limits = 10, limitTime = 1, timeUnit = TimeUnit.MINUTES)
+    @ApiLimiter(rule = LimiterRule.ARGS, limits = 5)
     @GetMapping("/limit")
     public Result<?> limit(String name, int age){
         return Result.ok();
     }
 
-    @Limiter(limitType = LimitType.KEY_WORD, key = "test", limits = 10, limitTime = 1, timeUnit = TimeUnit.MINUTES)
+    @ApiLimiter(rule = LimiterRule.KEY_WORD, key = "test", limits = 10, timeWindow = 1, timeUnit = ChronoUnit.MINUTES)
     @PostMapping("/limit/post")
     public Result<LimitVo> limitPost(@RequestBody LimitVo vo){
         return Result.ok(vo);

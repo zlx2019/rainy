@@ -37,9 +37,9 @@ public interface Scripts {
 
 
     /**
-     * 根据一个 score 弹出最大分值的元素
+     * 获取大于指定分支的元素中最高分值元素（也就是最新的元素）
      */
-    String GET_TASK_SOLUTION_BY_LATEST = """
+    String ZPOP_BY_SCORE_AND_MAX = """
         local key = KEYS[1]
         local threshold_score = tonumber(ARGV[1])
         -- 获取最大分值元素
@@ -54,7 +54,10 @@ public interface Scripts {
         return nil
     """;
 
-    String GET_TASK_SOLUTION_BY_SCORE_AND_MIN = """
+    /**
+     * 获取大于指定分支的元素中最低分值元素（区间内最旧的元素）
+     */
+    String ZPOP_BY_SCORE_AND_MIN = """
         local key = KEYS[1]
         local threshold_score = tonumber(ARGV[1])
         -- 修改为 ZRANGEBYSCORE，并调整分数范围为 [threshold_score, +inf]
@@ -68,4 +71,30 @@ public interface Scripts {
         -- 不存在符合条件的元素
         return nil
         """;
+
+    /**
+     * 覆盖一个已存在的Key，并且继承它的剩余有效期
+     */
+    String PUT_IF_EXIST_USE_PREV_TTL = """
+            local key = KEYS[1]
+            local value = ARGV[1]
+            local ttl = redis.call('ttl', KEYS[1])
+            if ttl and ttl > 0 then
+                redis.call('setex', KEYS[1], ttl, ARGV[1])
+                return nil
+            end
+            return nil
+            """;
+
+    /**
+     * 自增，如果是首次则设置有效期(ms)
+     */
+    String INCR_BY_EX = """
+            local current = redis.call('incrby', KEYS[1], ARGV[1])
+            if current == tonumber(ARGV[1]) then
+                redis.call('pexpire', KEYS[1], ARGV[2])
+            end
+            return current
+            """;
+
 }

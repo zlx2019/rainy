@@ -67,6 +67,41 @@ public interface CacheTemplate {
      */
     Boolean setNx(final String key, final Object value, Duration expire);
 
+
+    /**
+     * 递增值
+     * @param key 键
+     * @param delta 递增数量
+     * @return
+     */
+    Long incr(final String key, long delta);
+    default Long incr(final String key){
+        return this.incr(key, 1);
+    };
+
+    /**
+     * 按量递增，首次设置为有效期
+     * @param key       键
+     * @param delta     增量
+     * @param expire    有效期
+     * @return          递增后的值
+     */
+    Long incrEx(final String key, long delta, Duration expire);
+
+    Long incrEx(final String key, Duration expire);
+
+
+    /**
+     * 递减值
+     * @param key 键
+     * @param delta 递减数量
+     * @return
+     */
+    Long decr(final String key, long delta);
+    default Long decr(final String key){
+        return this.decr(key, 1);
+    }
+
     /**
      * 向List左侧插入多个元素
      * @param key    列表Key

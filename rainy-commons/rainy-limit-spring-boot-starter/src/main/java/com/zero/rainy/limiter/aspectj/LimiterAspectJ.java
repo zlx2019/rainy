@@ -1,22 +1,26 @@
-package com.zero.rainy.limit;
+package com.zero.rainy.limiter.aspectj;
 
-import com.zero.rainy.cache.constant.Scripts;
-import com.zero.rainy.core.exception.RequestLimitException;
+import com.zero.rainy.cache.enums.RedisKeys;
+import com.zero.rainy.cache.utils.RedisHelper;
+import com.zero.rainy.core.enums.GlobalResponseCode;
+import com.zero.rainy.core.exception.BusinessException;
+import com.zero.rainy.core.holder.UserContextHolder;
 import com.zero.rainy.core.utils.HashUtils;
 import com.zero.rainy.core.utils.JsonUtils;
 import com.zero.rainy.core.utils.RequestUtils;
+import com.zero.rainy.limiter.DistributedLimiter;
+import com.zero.rainy.limiter.StandaloneLimiter;
+import com.zero.rainy.limiter.annotations.ApiLimiter;
+import com.zero.rainy.limiter.enums.LimiterRule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.reflect.MethodSignature;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.core.script.DefaultRedisScript;
 import org.springframework.stereotype.Component;
 
 import java.lang.reflect.Method;
-import java.util.List;
 
 /**
  * 限流器切片处理
@@ -30,10 +34,10 @@ import java.util.List;
 @SuppressWarnings("all")
 @RequiredArgsConstructor
 public class LimiterAspectJ {
-    private final RedisTemplate<String, Object> redisTemplate;
+    private final StandaloneLimiter standaloneLimiter;
+    private final DistributedLimiter distributedLimiter;
     // 表示限流接口本身
     private final String IDENTITY = "identity";
-    private final String LIMIT_KEY_PREFIX = "global:api-limit:";
 
 
     /**
@@ -41,30 +45,31 @@ public class LimiterAspectJ {
      * @param limiter 限流器
      */
     @Before("@annotation(limiter)")
-    public void before(JoinPoint joinPoint, Limiter limiter){
-        String limitKey = generateLimitKey(joinPoint, limiter);
-        DefaultRedisScript<Long> script = new DefaultRedisScript<>(Scripts.LIMIT_SCRIPTS, Long.class);
-        long expire = limiter.timeUnit().toMillis(limiter.limitTime());
-        Long currentLimit = redisTemplate.execute(script, List.of(limitKey), 0, expire);
-        if (currentLimit != null && currentLimit > limiter.limits()){
-            throw new RequestLimitException(limiter.limits(), currentLimit);
+    public void before(JoinPoint joinPoint, ApiLimiter limiter){
+        String hashKey = hashKeys(joinPoint, limiter);
+        boolean permit = switch (limiter.mode()){
+            case STANDALONE -> standaloneLimiter.tryAcquirePermission(hashKey, limiter);
+            case CLUSTER -> distributedLimiter.tryAcquirePermission(RedisHelper.keyBuild(RedisKeys.REQUEST_LIMITER_COUNT, hashKey), limiter);
+        };
+        if (!permit){
+            throw new BusinessException(GlobalResponseCode.REQUEST_LIMIT);
         }
     }
 
     /**
      * 根据限流类型，生成不同的资源标识
      */
-    private String generateLimitKey(JoinPoint joinPoint, Limiter limiter) {
-        StringBuilder sb = new StringBuilder(LIMIT_KEY_PREFIX);
-        String keyword = switch (limiter.limitType()){
+    private String hashKeys(JoinPoint joinPoint, ApiLimiter limiter) {
+        StringBuilder sb = new StringBuilder();
+        String keyword = switch (limiter.rule()){
             // TODO 序列化 后续优化.
             case ARGS -> HashUtils.hash(JsonUtils.marshal(joinPoint.getArgs()));
             case IP -> RequestUtils.getIpAddr();
             case API -> IDENTITY;
-            case TOKEN -> "TODO User ID";
+            case TOKEN -> UserContextHolder.getUser();
             case KEY_WORD -> limiter.key();
         };
-        if (limiter.share() && !LimitType.ARGS.equals(limiter.limitType()) && !LimitType.IP.equals(limiter.limitType())){
+        if (limiter.share() && !LimiterRule.ARGS.equals(limiter.rule()) && !LimiterRule.IP.equals(limiter.rule())){
             return sb.append(keyword).toString();
         }
         MethodSignature signature = (MethodSignature)joinPoint.getSignature();

@@ -22,7 +22,7 @@ public class ConfigTest {
         Config config = new Config();
         config.setConfigKey("global");
         config.setConfigValue("{}");
-        config.setConfigType(ConfigType.JSON);
+        config.setConfigType(ConfigType.YAML);
         Assertions.assertTrue(configService.save(config));
     }
 }

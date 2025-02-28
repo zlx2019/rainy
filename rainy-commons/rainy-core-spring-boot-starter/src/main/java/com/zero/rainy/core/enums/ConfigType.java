@@ -1,6 +1,5 @@
 package com.zero.rainy.core.enums;
 
-import com.baomidou.mybatisplus.annotation.EnumValue;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 
@@ -13,10 +12,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public enum ConfigType {
-    JSON(0),
-    YAML(1),
-    RUST_TOML(2),
-    ;
-    @EnumValue
-    private final int code;
+    JSON,
+    YAML,;
 }

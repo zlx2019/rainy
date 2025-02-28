@@ -13,6 +13,7 @@ import java.time.Duration;
 @Getter
 public enum RedisKeys implements RedisKey{
     TEMPORARY_BLACK_LIST("common", "limit", "temporary-black-list", "临时黑名单"),
+    REQUEST_LIMITER_COUNT("common", "limit", "limit-count", "请求限流计数"),
     ;
     private final String service;
     private final String module;

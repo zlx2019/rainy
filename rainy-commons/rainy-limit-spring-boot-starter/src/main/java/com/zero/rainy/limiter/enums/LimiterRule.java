@@ -1,12 +1,12 @@
-package com.zero.rainy.limit;
+package com.zero.rainy.limiter.enums;
 
 /**
- * 限流类型
+ * 限流规则
  *
  * @author Zero.
  * <p> Created on 2024/11/26 21:42 </p>
  */
-public enum LimitType {
+public enum LimiterRule {
     /**
      * 根据IP限流
      */

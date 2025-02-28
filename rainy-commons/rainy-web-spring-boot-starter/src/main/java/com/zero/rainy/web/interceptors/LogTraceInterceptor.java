@@ -45,6 +45,5 @@ public class LogTraceInterceptor implements HandlerInterceptor {
                     response.setHeader(Constant.TRACE_ID_RESPONSE_HEADER_KEY, traceId);
                     MDC.remove(Constant.TRACE_ID_LOG_KEY);
                 });
-        System.out.println(MDC.get(Constant.TRACE_ID_LOG_KEY));
     }
 }

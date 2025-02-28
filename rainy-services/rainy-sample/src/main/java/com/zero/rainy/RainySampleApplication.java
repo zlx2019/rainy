@@ -1,7 +1,5 @@
 package com.zero.rainy;
 
-import com.zero.rainy.core.helper.YamlHelper;
-import com.zero.rainy.core.utils.JsonUtils;
 import com.zero.rainy.message.template.MessageTemplate;
 import com.zero.rainy.sample.model.properties.TestProperties;
 import lombok.extern.slf4j.Slf4j;
@@ -12,9 +10,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.convert.ConversionService;
-
-import java.nio.file.Files;
-import java.nio.file.Path;
 
 /**
  * 模板服务 启动类.
@@ -36,8 +31,6 @@ public class RainySampleApplication implements CommandLineRunner {
     @Autowired
     private MessageTemplate messageTemplate;
     @Autowired
-    private TestProperties properties;
-    @Autowired
     private ConversionService conversionService;
     @Autowired
     private ConfigurableApplicationContext applicationContext;
@@ -50,13 +43,13 @@ public class RainySampleApplication implements CommandLineRunner {
      */
     @Override
     public void run(String... args) throws Exception {
-        String yaml = Files.readString(Path.of("a.yml"));
-        TestProperties bound = YamlHelper.bind(yaml,"test", TestProperties.class);
-        log.info("{}", bound);
+//        String yaml = Files.readString(Path.of("a.yml"));
+//        TestProperties bound = YamlHelper.bind(yaml,"test", TestProperties.class);
+//        log.info("{}", bound);
 
         // JSON to properties
-        String json = Files.readString(Path.of("a.json"));
-        TestProperties unmarshal = JsonUtils.unmarshal(json, TestProperties.class);
-        log.info("{}", unmarshal);
+//        String json = Files.readString(Path.of("a.json"));
+//        TestProperties unmarshal = JsonUtils.unmarshal(json, TestProperties.class);
+//        log.info("{}", unmarshal);
     }
 }

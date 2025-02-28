@@ -5,8 +5,8 @@ import com.zero.rainy.core.config.GlobalDynamicConfig;
 import com.zero.rainy.core.ext.dynamic.DynamicConfig;
 import com.zero.rainy.core.ext.dynamic.DynamicConfigContext;
 import com.zero.rainy.core.model.Result;
-import com.zero.rainy.limit.LimitType;
-import com.zero.rainy.limit.Limiter;
+import com.zero.rainy.limiter.enums.LimiterRule;
+import com.zero.rainy.limiter.annotations.ApiLimiter;
 import com.zero.rainy.sample.service.IConfigService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -36,7 +36,7 @@ public class ConfigController {
     /**
      * 动态配置列表
      */
-    @Limiter(limitType = LimitType.ARGS)
+    @ApiLimiter(rule = LimiterRule.ARGS)
     @GetMapping("/list")
     public Result<Set<Object>> list() {
         log.info("list");

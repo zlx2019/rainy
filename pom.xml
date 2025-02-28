@@ -6,7 +6,7 @@
     <groupId>com.zero.rainy</groupId>
     <artifactId>rainy</artifactId>
     <packaging>pom</packaging>
-    <version>v1.0.0</version>
+    <version>${revision}</version>
     <name>rainy</name>
     <description>
         Rainy - 项目顶级工程
@@ -23,6 +23,7 @@
     <!-- 全局依赖版本 -->
     <properties>
         <!-- 项目当前版本. -->
+        <revision>v1.0.0</revision>
         <rainy.version>v1.0.0</rainy.version>
         <!--Java Version-->
         <java.version>21</java.version>
