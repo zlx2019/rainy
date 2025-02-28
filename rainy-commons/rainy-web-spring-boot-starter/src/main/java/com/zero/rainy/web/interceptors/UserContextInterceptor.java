@@ -18,6 +18,7 @@ import java.util.Optional;
  * <p> Created on 2024/8/30 18:59 </p>
  */
 @Slf4j
+@SuppressWarnings("all")
 public class UserContextInterceptor implements HandlerInterceptor {
 
     /**

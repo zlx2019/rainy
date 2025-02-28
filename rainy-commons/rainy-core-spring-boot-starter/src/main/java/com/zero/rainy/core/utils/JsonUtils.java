@@ -50,9 +50,14 @@ public class JsonUtils {
         // 禁止将时间类型序列化为时间戳
         MAPPER.disable(SerializationFeature.WRITE_DATES_AS_TIMESTAMPS);
 
+        // 根据 Enum name 反序列化时，忽略大小写
+        MAPPER.configure(MapperFeature.ACCEPT_CASE_INSENSITIVE_ENUMS, true);
+        // 忽略 未知的枚举项，返回null
+        MAPPER.configure(DeserializationFeature.READ_UNKNOWN_ENUM_VALUES_AS_NULL, true);
+
         // 全局序列化命名策略
         // MAPPER.setPropertyNamingStrategy(PropertyNamingStrategies.SNAKE_CASE); // 小写 + _ 命名规则
-        // MAPPER.setPropertyNamingStrategy(PropertyNamingStrategies.LOWER_CAMEL_CASE); // 驼峰, 首字母小写
+//         MAPPER.setPropertyNamingStrategy(PropertyNamingStrategies.LOWER_CAMEL_CASE); // 驼峰, 首字母小写
 
         // 时间类型序列化器
         JavaTimeModule timeModule = new JavaTimeModule();

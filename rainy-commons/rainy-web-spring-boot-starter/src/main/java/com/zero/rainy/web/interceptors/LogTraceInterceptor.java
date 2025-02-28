@@ -18,6 +18,7 @@ import java.util.Optional;
  * <p> Created on 2024/9/1 22:09 </p>
  */
 @Slf4j
+@SuppressWarnings("all")
 public class LogTraceInterceptor implements HandlerInterceptor {
 
     /**

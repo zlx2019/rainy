@@ -1,12 +1,12 @@
 package com.zero.rainy.sample.controller;
 
-import com.zero.rainy.cache.limiting.LimitType;
-import com.zero.rainy.cache.limiting.Limiter;
 import com.zero.rainy.cache.publisher.DynamicConfigPublisher;
 import com.zero.rainy.core.config.GlobalDynamicConfig;
 import com.zero.rainy.core.ext.dynamic.DynamicConfig;
 import com.zero.rainy.core.ext.dynamic.DynamicConfigContext;
 import com.zero.rainy.core.model.Result;
+import com.zero.rainy.limit.LimitType;
+import com.zero.rainy.limit.Limiter;
 import com.zero.rainy.sample.service.IConfigService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;

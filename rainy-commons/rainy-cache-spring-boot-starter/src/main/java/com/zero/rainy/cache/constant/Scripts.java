@@ -1,4 +1,4 @@
-package com.zero.rainy.cache.consts;
+package com.zero.rainy.cache.constant;
 
 /**
  * Redis lua script

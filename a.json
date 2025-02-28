@@ -1,0 +1,10 @@
+{
+  "name": "zhangsan",
+  "age": 18,
+  "address": "北京",
+  "config": {
+    "json": "{name: zhangsan}",
+    "yaml": "dwanjkdnawkjdawjik",
+    "rust_toml": "adwadwadawddawtoml"
+  }
+}

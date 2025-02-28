@@ -1,4 +1,4 @@
-package com.zero.rainy.cache.limiting;
+package com.zero.rainy.limit;
 
 /**
  * 限流类型

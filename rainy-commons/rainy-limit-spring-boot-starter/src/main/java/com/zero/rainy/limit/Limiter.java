@@ -1,4 +1,4 @@
-package com.zero.rainy.cache.limiting;
+package com.zero.rainy.limit;
 
 import java.lang.annotation.*;
 import java.util.concurrent.TimeUnit;

@@ -7,7 +7,7 @@ import com.fasterxml.jackson.annotation.PropertyAccessor;
 import com.fasterxml.jackson.databind.JavaType;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.jsontype.TypeResolverBuilder;
-import com.zero.rainy.cache.lock.RedisDistributedLock;
+import com.zero.rainy.cache.ext.lock.RedisDistributedLock;
 import com.zero.rainy.cache.subscriber.DynamicConfigSubscriber;
 import com.zero.rainy.cache.template.provider.RedisProvide;
 import com.zero.rainy.core.ext.dynamic.DynamicConfigConstant;

@@ -1,6 +1,7 @@
 package com.zero.rainy.core.model.entity;
 
-import com.zero.rainy.core.model.entity.supers.SuperEntity;
+import com.zero.rainy.core.enums.ConfigType;
+import com.zero.rainy.core.model.entity.supers.SuperEntityExt;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
@@ -12,17 +13,23 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class Config extends SuperEntity<Config> {
+public class Config extends SuperEntityExt<Config> {
 
     /**
-     * 配置Key
+     * 配置唯一标识
      */
     private String configKey;
 
     /**
-     * 配置Value (Json格式)
+     * 配置内容
      */
     private String configValue;
+
+    /**
+     * 配置类型
+     * @see ConfigType
+     */
+    private ConfigType configType;
 
     /**
      * 配置备注

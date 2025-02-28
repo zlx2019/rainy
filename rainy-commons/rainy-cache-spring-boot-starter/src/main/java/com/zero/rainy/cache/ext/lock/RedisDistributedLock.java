@@ -1,13 +1,10 @@
-package com.zero.rainy.cache.lock;
+package com.zero.rainy.cache.ext.lock;
 
 import cn.hutool.core.util.RandomUtil;
-import com.zero.rainy.cache.consts.Scripts;
+import com.zero.rainy.cache.constant.Scripts;
 import com.zero.rainy.core.lock.DistributedLock;
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
-import org.springframework.dao.DataAccessException;
-import org.springframework.data.redis.connection.RedisConnection;
 import org.springframework.data.redis.connection.RedisStringCommands;
 import org.springframework.data.redis.connection.ReturnType;
 import org.springframework.data.redis.core.RedisCallback;

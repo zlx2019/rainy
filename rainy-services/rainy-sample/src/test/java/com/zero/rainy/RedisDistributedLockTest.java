@@ -1,6 +1,5 @@
 package com.zero.rainy;
 
-import com.zero.rainy.cache.lock.RedisDistributedLock;
 import com.zero.rainy.core.lock.DistributedLock;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;

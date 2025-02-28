@@ -1,4 +1,4 @@
-package com.zero.rainy.core.spring;
+package com.zero.rainy.core.ext.spring;
 
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;

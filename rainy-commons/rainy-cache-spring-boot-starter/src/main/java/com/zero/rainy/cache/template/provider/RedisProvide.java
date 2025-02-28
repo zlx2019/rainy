@@ -1,6 +1,6 @@
 package com.zero.rainy.cache.template.provider;
 
-import com.zero.rainy.cache.consts.Scripts;
+import com.zero.rainy.cache.constant.Scripts;
 import com.zero.rainy.cache.template.CacheTemplate;
 import com.zero.rainy.core.utils.JsonUtils;
 import lombok.RequiredArgsConstructor;

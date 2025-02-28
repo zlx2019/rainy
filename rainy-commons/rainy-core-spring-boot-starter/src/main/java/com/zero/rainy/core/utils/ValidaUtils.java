@@ -1,6 +1,6 @@
 package com.zero.rainy.core.utils;
 
-import com.zero.rainy.core.spring.SpringContextUtil;
+import com.zero.rainy.core.ext.spring.SpringContextUtil;
 import jakarta.validation.ConstraintViolation;
 import jakarta.validation.ConstraintViolationException;
 import jakarta.validation.Validator;

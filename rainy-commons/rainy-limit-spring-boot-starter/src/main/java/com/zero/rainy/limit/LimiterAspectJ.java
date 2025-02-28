@@ -1,6 +1,6 @@
-package com.zero.rainy.cache.limiting;
+package com.zero.rainy.limit;
 
-import com.zero.rainy.cache.consts.Scripts;
+import com.zero.rainy.cache.constant.Scripts;
 import com.zero.rainy.core.exception.RequestLimitException;
 import com.zero.rainy.core.utils.HashUtils;
 import com.zero.rainy.core.utils.JsonUtils;

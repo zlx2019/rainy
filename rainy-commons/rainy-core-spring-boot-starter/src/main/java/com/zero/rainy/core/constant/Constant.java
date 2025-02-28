@@ -7,14 +7,8 @@ package com.zero.rainy.core.constant;
  * <p> Created on 2024/9/1 22:14 </p>
  */
 public interface Constant {
-
-    /**
-     * 基础业务请求响应码
-     * SUCCESSFUL
-     * 失败的
-     */
-    int SUCCESS = 0;
-    int FAIL = 1;
+    String PROJECT_NAME = "Rainy";
+    String VERSION = "1.0.0";
 
     /**
      * 默认页码、页容量

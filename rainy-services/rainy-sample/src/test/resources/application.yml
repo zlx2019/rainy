@@ -1,28 +1,28 @@
-spring:
-  application:
-    name: sample-test
-  datasource:
-    driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:testdb;MODE=MySQL;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=TRUE
-    username: sa
-    password:
-  sql:
-    init:
-      schema-locations: classpath:db/schema.sql
-      #      data-locations: classpath:db/data.sql
-      mode: always
-  data:
-    redis:
-      host: 127.0.0.1
-      port: 6379
-      database: 0
-      connect-timeout: 3s
-      timeout: 3s
-
-# 防止环境报错
-rocketmq:
-  name-server: 47.94.213.132:9876
-  producer:
-    group: rainy_default_producer
-  consumer:
-    group: rainy_default_consumer
+#spring:
+#  application:
+#    name: sample-test
+#  datasource:
+#    driver-class-name: org.h2.Driver
+#    url: jdbc:h2:mem:testdb;MODE=MySQL;DB_CLOSE_DELAY=-1;DATABASE_TO_LOWER=TRUE
+#    username: sa
+#    password:
+#  sql:
+#    init:
+#      schema-locations: classpath:db/schema.sql
+#      #      data-locations: classpath:db/data.sql
+#      mode: always
+#  data:
+#    redis:
+#      host: 127.0.0.1
+#      port: 6379
+#      database: 0
+#      connect-timeout: 3s
+#      timeout: 3s
+#
+## 防止环境报错
+#rocketmq:
+#  name-server: 47.94.213.132:9876
+#  producer:
+#    group: rainy_default_producer
+#  consumer:
+#    group: rainy_default_consumer

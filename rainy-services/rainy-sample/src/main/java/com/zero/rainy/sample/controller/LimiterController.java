@@ -1,8 +1,8 @@
 package com.zero.rainy.sample.controller;
 
-import com.zero.rainy.cache.limiting.LimitType;
-import com.zero.rainy.cache.limiting.Limiter;
 import com.zero.rainy.core.model.Result;
+import com.zero.rainy.limit.LimitType;
+import com.zero.rainy.limit.Limiter;
 import com.zero.rainy.sample.model.vo.LimitVo;
 import org.springframework.web.bind.annotation.*;
 
