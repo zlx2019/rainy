@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.zero.rainy</groupId>
         <artifactId>rainy</artifactId>
-        <version>v1.0.0</version>
+        <version>${revision}</version>
     </parent>
     <artifactId>rainy-commons</artifactId>
     <packaging>pom</packaging>

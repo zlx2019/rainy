@@ -6,7 +6,7 @@
     <parent>
         <groupId>com.zero.rainy</groupId>
         <artifactId>rainy-commons</artifactId>
-        <version>v1.0.0</version>
+        <version>${revision}</version>
     </parent>
     <artifactId>rainy-test-spring-boot-starter</artifactId>
     <packaging>jar</packaging>

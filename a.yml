@@ -1,8 +1,0 @@
-test:
-  name: zhangsan
-  age: 18
-  address: 北京
-  config:
-    JsoN: "{name: zhangsan}"
-    yaml: "dwanjkdnawkjdawjik"
-    rust-toml: "adwadwadawddawtoml"

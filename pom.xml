@@ -11,6 +11,7 @@
     <description>
         Rainy - 项目顶级工程
     </description>
+
     <!--子模块-->
     <modules>
         <module>rainy-commons</module>
@@ -24,7 +25,6 @@
     <properties>
         <!-- 项目当前版本. -->
         <revision>v1.0.0</revision>
-        <rainy.version>v1.0.0</rainy.version>
         <!--Java Version-->
         <java.version>21</java.version>
         <maven.compiler.source>21</maven.compiler.source>
@@ -70,67 +70,67 @@
             <dependency>
                 <groupId>com.zero.rainy</groupId>
                 <artifactId>rainy-log-spring-boot-starter</artifactId>
-                <version>${rainy.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.zero.rainy</groupId>
                 <artifactId>rainy-config</artifactId>
-                <version>${rainy.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.zero.rainy</groupId>
                 <artifactId>rainy-core-spring-boot-starter</artifactId>
-                <version>${rainy.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.zero.rainy</groupId>
                 <artifactId>rainy-db-spring-boot-starter</artifactId>
-                <version>${rainy.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.zero.rainy</groupId>
                 <artifactId>rainy-api-spring-boot-starter</artifactId>
-                <version>${rainy.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.zero.rainy</groupId>
                 <artifactId>rainy-feign-spring-boot-starter</artifactId>
-                <version>${rainy.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.zero.rainy</groupId>
                 <artifactId>rainy-grpc-spring-boot-starter</artifactId>
-                <version>${rainy.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.zero.rainy</groupId>
                 <artifactId>rainy-webclient-spring-boot-starter</artifactId>
-                <version>${rainy.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.zero.rainy</groupId>
                 <artifactId>rainy-message-spring-boot-starter</artifactId>
-                <version>${rainy.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.zero.rainy</groupId>
                 <artifactId>rainy-limit-spring-boot-starter</artifactId>
-                <version>${rainy.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.zero.rainy</groupId>
                 <artifactId>rainy-cache-spring-boot-starter</artifactId>
-                <version>${rainy.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.zero.rainy</groupId>
                 <artifactId>rainy-web-spring-boot-starter</artifactId>
-                <version>${rainy.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.zero.rainy</groupId>
                 <artifactId>rainy-test-spring-boot-starter</artifactId>
-                <version>${rainy.version}</version>
+                <version>${revision}</version>
             </dependency>
             <dependency>
                 <groupId>com.zero.rainy</groupId>
