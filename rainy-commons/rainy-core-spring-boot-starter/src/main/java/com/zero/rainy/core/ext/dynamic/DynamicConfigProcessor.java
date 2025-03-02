@@ -24,7 +24,7 @@ public class DynamicConfigProcessor implements BeanPostProcessor {
      */
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
-        if (bean instanceof DynamicConfig dynamicConfigBean) {
+        if (bean instanceof DynamicProperties dynamicConfigBean) {
             EnableDynamicConfiguration annotation = dynamicConfigBean.getClass().getAnnotation(EnableDynamicConfiguration.class);
             if (annotation != null) {
                 // 将配置加载到上下文容器
@@ -41,13 +41,13 @@ public class DynamicConfigProcessor implements BeanPostProcessor {
      */
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
-        if (bean instanceof DynamicConfig dynamicConfigBean) {
+        if (bean instanceof DynamicProperties dynamicConfigBean) {
             EnableDynamicConfiguration annotation = dynamicConfigBean.getClass().getAnnotation(EnableDynamicConfiguration.class);
             if (annotation != null) {
                 String key = annotation.value().getKey();
                 String configValue = dynamicConfigManager.getConfigValue(key);
                 if (Objects.nonNull(configValue)) {
-                    DynamicConfig config = JsonUtils.unmarshal(configValue, dynamicConfigBean.getClass());
+                    DynamicProperties config = JsonUtils.unmarshal(configValue, dynamicConfigBean.getClass());
                     BeanUtils.copyProperties(config, dynamicConfigBean);
                 }
             }

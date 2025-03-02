@@ -1,7 +1,7 @@
 package com.zero.rainy.cache.subscriber;
 
 import com.zero.rainy.core.model.entity.Config;
-import com.zero.rainy.core.ext.dynamic.DynamicConfig;
+import com.zero.rainy.core.ext.dynamic.DynamicProperties;
 import com.zero.rainy.core.ext.dynamic.DynamicConfigContext;
 import com.zero.rainy.core.utils.JsonUtils;
 import lombok.RequiredArgsConstructor;
@@ -37,8 +37,8 @@ public class DynamicConfigSubscriber implements MessageListener {
             if (DynamicConfigContext.hasRegistry(configKey)){
                 // 更新配置
                 String configValue = entity.getConfigValue();
-                DynamicConfig config = DynamicConfigContext.getConfig(configKey, DynamicConfig.class);
-                DynamicConfig newConfig = JsonUtils.unmarshal(configValue, config.getClass());
+                DynamicProperties config = DynamicConfigContext.getConfig(configKey, DynamicProperties.class);
+                DynamicProperties newConfig = JsonUtils.unmarshal(configValue, config.getClass());
                 log.info("=================== Dynamic Config Modify ======================");
                 log.info("Key: {}, [{}] --> [{}]", configKey, config, newConfig);
                 log.info("old: {}", configValue);

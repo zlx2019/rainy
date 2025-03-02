@@ -46,7 +46,7 @@ public class StandaloneLimiter implements Limiter, RegistryEventConsumer<RateLim
             .build();
 
     @Override
-    public boolean tryAcquirePermission(String key, ApiLimiter limiter) {
+    public boolean tryAcquire(String key, ApiLimiter limiter) {
         // 构建限流配置
         RateLimiterConfig config = RateLimiterConfig.custom()
                 .limitRefreshPeriod(Duration.of(limiter.timeWindow(), limiter.timeUnit()))
@@ -62,7 +62,7 @@ public class StandaloneLimiter implements Limiter, RegistryEventConsumer<RateLim
     }
 
     @Override
-    public boolean acquirePermission(String key, Duration timeout, ApiLimiter apiLimiter) {
+    public boolean acquire(String key, Duration timeout, ApiLimiter apiLimiter) {
         return false;
     }
 

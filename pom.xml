@@ -19,7 +19,7 @@
         <module>rainy-config</module>
         <module>rainy-gateway</module>
         <module>rainy-dashboard</module>
-        <module>rainy-commons/rainy-limit-spring-boot-starter</module>
+        <module>rainy-commons/rainy-limiter-spring-boot-starter</module>
     </modules>
     <!-- 全局依赖版本 -->
     <properties>
@@ -114,7 +114,7 @@
             </dependency>
             <dependency>
                 <groupId>com.zero.rainy</groupId>
-                <artifactId>rainy-limit-spring-boot-starter</artifactId>
+                <artifactId>rainy-limiter-spring-boot-starter</artifactId>
                 <version>${revision}</version>
             </dependency>
             <dependency>

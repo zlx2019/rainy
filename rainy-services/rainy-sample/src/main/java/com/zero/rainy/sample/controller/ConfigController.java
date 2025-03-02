@@ -2,7 +2,7 @@ package com.zero.rainy.sample.controller;
 
 import com.zero.rainy.cache.publisher.DynamicConfigPublisher;
 import com.zero.rainy.core.config.GlobalDynamicConfig;
-import com.zero.rainy.core.ext.dynamic.DynamicConfig;
+import com.zero.rainy.core.ext.dynamic.DynamicProperties;
 import com.zero.rainy.core.ext.dynamic.DynamicConfigContext;
 import com.zero.rainy.core.model.Result;
 import com.zero.rainy.limiter.enums.LimiterRule;
@@ -58,7 +58,7 @@ public class ConfigController {
     }
 
     @GetMapping("/global")
-    public Result<DynamicConfig> global() {
+    public Result<DynamicProperties> global() {
         return Result.ok(globalDynamicConfig);
     }
 }

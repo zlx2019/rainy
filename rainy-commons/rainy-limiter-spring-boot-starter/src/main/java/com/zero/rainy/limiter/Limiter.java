@@ -16,7 +16,7 @@ public interface Limiter {
      * @param key   限流资源标识
      * @return      是否获取到
      */
-    boolean tryAcquirePermission(String key, ApiLimiter apiLimiter);
+    boolean tryAcquire(String key, ApiLimiter apiLimiter);
 
     /**
      * 获取许可
@@ -24,5 +24,5 @@ public interface Limiter {
      * @param timeout   获取超时时间
      * @return          是否获取到
      */
-    boolean acquirePermission(String key, Duration timeout, ApiLimiter apiLimiter);
+    boolean acquire(String key, Duration timeout, ApiLimiter apiLimiter);
 }

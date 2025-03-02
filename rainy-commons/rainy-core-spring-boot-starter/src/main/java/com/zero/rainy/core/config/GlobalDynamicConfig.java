@@ -2,7 +2,7 @@ package com.zero.rainy.core.config;
 
 import com.zero.rainy.core.annotations.EnableDynamicConfiguration;
 import com.zero.rainy.core.enums.DynamicConfigKeys;
-import com.zero.rainy.core.ext.dynamic.DynamicConfig;
+import com.zero.rainy.core.ext.dynamic.DynamicProperties;
 import lombok.Data;
 
 /**
@@ -13,7 +13,7 @@ import lombok.Data;
  */
 @Data
 @EnableDynamicConfiguration(DynamicConfigKeys.SAMPLE)
-public class GlobalDynamicConfig implements DynamicConfig {
+public class GlobalDynamicConfig implements DynamicProperties {
     private String name;
     private int age = 22;
     private String address;

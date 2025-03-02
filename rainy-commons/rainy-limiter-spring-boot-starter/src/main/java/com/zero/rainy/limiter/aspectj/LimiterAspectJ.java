@@ -48,8 +48,8 @@ public class LimiterAspectJ {
     public void before(JoinPoint joinPoint, ApiLimiter limiter){
         String hashKey = hashKeys(joinPoint, limiter);
         boolean permit = switch (limiter.mode()){
-            case STANDALONE -> standaloneLimiter.tryAcquirePermission(hashKey, limiter);
-            case CLUSTER -> distributedLimiter.tryAcquirePermission(RedisHelper.keyBuild(RedisKeys.REQUEST_LIMITER_COUNT, hashKey), limiter);
+            case STANDALONE -> standaloneLimiter.tryAcquire(hashKey, limiter);
+            case CLUSTER -> distributedLimiter.tryAcquire(RedisHelper.keyBuild(RedisKeys.REQUEST_LIMITER_COUNT, hashKey), limiter);
         };
         if (!permit){
             throw new BusinessException(GlobalResponseCode.REQUEST_LIMIT);

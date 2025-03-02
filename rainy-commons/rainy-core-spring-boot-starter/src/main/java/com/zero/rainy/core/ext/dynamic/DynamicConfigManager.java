@@ -18,7 +18,6 @@ import java.util.concurrent.ConcurrentHashMap;
 public class DynamicConfigManager implements InitializingBean {
     private final NamedParameterJdbcTemplate jdbcTemplate;
     private final Map<String, String> CONFIG_TABLES = new ConcurrentHashMap<>(16);
-    private final String SQL = "SELECT config_key, config_value FROM config WHERE status = :status";
     private final String CONFIG_KEY = "config_key";
     private final String CONFIG_VALUE = "config_value";
 
@@ -35,6 +34,7 @@ public class DynamicConfigManager implements InitializingBean {
 
     public void loadAllDynamicConfigs(){
         MapSqlParameterSource param = new MapSqlParameterSource("status", Status.NORMAL.getCode());
+        String SQL = "SELECT config_key, config_value FROM config WHERE status = :status";
         jdbcTemplate.query(SQL, param, (rs) -> {
             CONFIG_TABLES.put(rs.getString(CONFIG_KEY), rs.getString(CONFIG_VALUE));
         });
