@@ -14,4 +14,13 @@ import lombok.Getter;
 public enum ConfigType {
     JSON,
     YAML,;
+
+    public static ConfigType from(int ordinal) {
+        for (ConfigType value : values()) {
+            if (value.ordinal() == ordinal) {
+                return value;
+            }
+        }
+        throw new IllegalArgumentException("invalid ConfigType ordinal: " + ordinal);
+    }
 }

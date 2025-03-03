@@ -1,6 +1,8 @@
 package com.zero.rainy.core.ext.dynamic;
 
+import com.zero.rainy.core.enums.ConfigType;
 import com.zero.rainy.core.enums.supers.Status;
+import com.zero.rainy.core.helper.YamlHelper;
 import com.zero.rainy.core.utils.JsonUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,9 +27,12 @@ import java.util.concurrent.ConcurrentHashMap;
 @SuppressWarnings({"all"})
 public class DynamicPropertiesManager<T extends DynamicProperties> implements InitializingBean, BeanPostProcessor {
     private final NamedParameterJdbcTemplate jdbcTemplate;
-    private final Map<String, String> CONFIG_CONTENTS = new ConcurrentHashMap<>(32);
+    private final Map<String, DynamicPropertiesBo> CONFIG_CACHES = new ConcurrentHashMap<>(32);
+    private final String ID = "id";
     private final String CONFIG_KEY = "config_key";
     private final String CONFIG_VALUE = "config_value";
+    private final String CONFIG_TYPE = "config_type";
+    private final String STATUS = "status";
 
 
     /**
@@ -46,7 +51,7 @@ public class DynamicPropertiesManager<T extends DynamicProperties> implements In
     @Override
     public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
         if (bean instanceof DynamicProperties propsBean) {
-            DynamicPropertiesMark annotation = propsBean.getClass().getAnnotation(DynamicPropertiesMark.class);
+            DynamicPropertiesKeys annotation = propsBean.getClass().getAnnotation(DynamicPropertiesKeys.class);
             if (annotation != null) {
                 DynamicPropertiesContext.registryConfig(annotation.value(), propsBean);
             }
@@ -61,13 +66,23 @@ public class DynamicPropertiesManager<T extends DynamicProperties> implements In
     @Override
     public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
         if (bean instanceof DynamicProperties propsBean) {
-            DynamicPropertiesMark annotation = propsBean.getClass().getAnnotation(DynamicPropertiesMark.class);
+            DynamicPropertiesKeys annotation = propsBean.getClass().getAnnotation(DynamicPropertiesKeys.class);
             if (annotation != null) {
                 // TODO 处理多配置类型
-                String configValue = this.getConfigValue(annotation.value().getKey());
-                if (Objects.nonNull(configValue)) {
-                    DynamicProperties config = JsonUtils.unmarshal(configValue, propsBean.getClass());
-                    BeanUtils.copyProperties(config, propsBean);
+                DynamicPropertiesBo configBo = this.getConfigValue(annotation.value().getKey());
+                if (Objects.nonNull(configBo)) {
+                    String configValue = configBo.configValue();
+                    DynamicProperties payload = null;
+                    try {
+                        switch (configBo.configType()) {
+                            case JSON -> payload = JsonUtils.unmarshal(configValue, propsBean.getClass());
+                            case YAML -> payload = YamlHelper.bind(configValue, propsBean.getClass());
+                        }
+                        BeanUtils.copyProperties(payload, propsBean);
+                    }catch (Exception e) {
+                        log.error("[DynamicPropertiesManager] 动态注入配置属性异常: {}", e.getMessage());
+                    }
+
                 }
             }
         }
@@ -79,8 +94,8 @@ public class DynamicPropertiesManager<T extends DynamicProperties> implements In
      *
      * @param key 配置唯一标识
      */
-    public String getConfigValue(String key) {
-        return CONFIG_CONTENTS.get(key);
+    public DynamicPropertiesBo getConfigValue(String key) {
+        return CONFIG_CACHES.get(key);
     }
 
     /**
@@ -88,9 +103,15 @@ public class DynamicPropertiesManager<T extends DynamicProperties> implements In
      */
     public void loadAllDynamicConfigs(){
         MapSqlParameterSource param = new MapSqlParameterSource("status", Status.NORMAL.getCode());
-        String SQL = "SELECT config_key, config_value FROM config WHERE status = :status";
+        String SQL = "SELECT id, config_key, config_value, config_type, status FROM config WHERE status = :status AND deleted = 0";
         jdbcTemplate.query(SQL, param, (rs) -> {
-            CONFIG_CONTENTS.put(rs.getString(CONFIG_KEY), rs.getString(CONFIG_VALUE));
+            long id = rs.getLong(ID);
+            String configKey = rs.getString(CONFIG_KEY);
+            String configValue = rs.getString(CONFIG_VALUE);
+            int configType = rs.getInt(CONFIG_TYPE);
+            int status = rs.getInt(STATUS);
+            DynamicPropertiesBo bo = new DynamicPropertiesBo(id, configKey, configValue, ConfigType.from(configType), status);
+            CONFIG_CACHES.put(configKey, bo);
         });
         log.info("[DynamicPropertiesManager] reload all dynamic configs");
     }

@@ -38,8 +38,7 @@ public class ConfigController {
      */
     @ApiLimiter(rule = LimiterRule.ARGS)
     @GetMapping("/list")
-    public Result<Set<Object>> list() {
-        log.info("list");
+    public Result<Set<DynamicProperties>> list() {
         return Result.ok(DynamicPropertiesContext.getConfigs());
     }
 

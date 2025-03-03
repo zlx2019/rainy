@@ -2,6 +2,7 @@ package com.zero.rainy.core.model.entity;
 
 import com.baomidou.mybatisplus.annotation.TableField;
 import com.zero.rainy.core.enums.ConfigType;
+import com.zero.rainy.core.enums.DynamicConfigKey;
 import com.zero.rainy.core.model.entity.supers.SuperEntityExt;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -20,7 +21,7 @@ public class Config extends SuperEntityExt<Config> {
     /**
      * 配置唯一标识
      */
-    private String configKey;
+    private DynamicConfigKey configKey;
 
     /**
      * 配置内容

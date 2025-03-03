@@ -1,6 +1,6 @@
 package com.zero.rainy.core.ext.dynamic;
 
-import com.zero.rainy.core.enums.DynamicConfigKeys;
+import com.zero.rainy.core.enums.DynamicConfigKey;
 import org.springframework.stereotype.Component;
 
 import java.lang.annotation.ElementType;
@@ -17,6 +17,6 @@ import java.lang.annotation.Target;
 @Component
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
-public @interface DynamicPropertiesMark {
-    DynamicConfigKeys value();
+public @interface DynamicPropertiesKeys {
+    DynamicConfigKey value();
 }

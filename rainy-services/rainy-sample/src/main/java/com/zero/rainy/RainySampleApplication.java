@@ -1,13 +1,12 @@
 package com.zero.rainy;
 
+import com.zero.rainy.core.ext.dynamic.EnableDynamicConfigurationProperties;
 import com.zero.rainy.message.template.MessageTemplate;
-import com.zero.rainy.sample.model.properties.TestProperties;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.core.convert.ConversionService;
 
@@ -17,11 +16,9 @@ import org.springframework.core.convert.ConversionService;
  * @author Zero.
  * <p> Created on 2024/8/27 13:33 </p>
  */
-//@EnableDynamicConfig
 @Slf4j
 @SpringBootApplication
-@EnableConfigurationProperties(TestProperties.class)
-
+@EnableDynamicConfigurationProperties
 //@EnableDiscoveryClient
 //@EnableFeignClients
 public class RainySampleApplication implements CommandLineRunner {

@@ -1,6 +1,6 @@
 package com.zero.rainy.core.ext.dynamic;
 
-import com.zero.rainy.core.enums.DynamicConfigKeys;
+import com.zero.rainy.core.enums.DynamicConfigKey;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -19,21 +19,21 @@ import java.util.concurrent.ConcurrentHashMap;
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DynamicPropertiesContext {
-    private static final Map<DynamicConfigKeys, Object> CONFIG_CONTAINER = new ConcurrentHashMap<>(16);
+    private static final Map<DynamicConfigKey, DynamicProperties> CONFIG_CONTAINER = new ConcurrentHashMap<>(16);
 
-    public static void registryConfig(DynamicConfigKeys key, Object config){
+    public static <T extends DynamicProperties> void registryConfig(DynamicConfigKey key, T config){
         if (!hasRegistry(key)){
             CONFIG_CONTAINER.put(key, config);
         }
     }
-    public static boolean hasRegistry(DynamicConfigKeys key){
+    public static boolean hasRegistry(DynamicConfigKey key){
         return CONFIG_CONTAINER.containsKey(key);
     }
-    public static Set<Object> getConfigs(){
+    public static Set<DynamicProperties> getConfigs(){
         return new HashSet<>(CONFIG_CONTAINER.values());
     }
-    public static <T> T getConfig(DynamicConfigKeys key, Class<T> clazz){
-        Object config = CONFIG_CONTAINER.get(key);
+    public static <T extends DynamicProperties> T getConfig(DynamicConfigKey key, Class<T> clazz){
+        DynamicProperties config = CONFIG_CONTAINER.get(key);
         if (clazz.isInstance(config)){
             return clazz.cast(config);
         }
