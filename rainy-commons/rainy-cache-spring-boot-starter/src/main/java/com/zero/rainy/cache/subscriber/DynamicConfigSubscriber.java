@@ -1,8 +1,9 @@
 package com.zero.rainy.cache.subscriber;
 
+import com.zero.rainy.core.enums.DynamicConfigKeys;
 import com.zero.rainy.core.model.entity.Config;
 import com.zero.rainy.core.ext.dynamic.DynamicProperties;
-import com.zero.rainy.core.ext.dynamic.DynamicConfigContext;
+import com.zero.rainy.core.ext.dynamic.DynamicPropertiesContext;
 import com.zero.rainy.core.utils.JsonUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -34,10 +35,11 @@ public class DynamicConfigSubscriber implements MessageListener {
         Object value = redisValueSerializer.deserialize(message.getBody());
         if (value instanceof Config entity){
             String configKey = entity.getConfigKey();
-            if (DynamicConfigContext.hasRegistry(configKey)){
+            DynamicConfigKeys key = DynamicConfigKeys.from(configKey);
+            if (DynamicPropertiesContext.hasRegistry(key)){
                 // 更新配置
                 String configValue = entity.getConfigValue();
-                DynamicProperties config = DynamicConfigContext.getConfig(configKey, DynamicProperties.class);
+                DynamicProperties config = DynamicPropertiesContext.getConfig(key, DynamicProperties.class);
                 DynamicProperties newConfig = JsonUtils.unmarshal(configValue, config.getClass());
                 log.info("=================== Dynamic Config Modify ======================");
                 log.info("Key: {}, [{}] --> [{}]", configKey, config, newConfig);
@@ -46,7 +48,7 @@ public class DynamicConfigSubscriber implements MessageListener {
                 BeanUtils.copyProperties(newConfig, config);
             }else {
                 // 加载新的动态配置
-                DynamicConfigContext.registryConfig(entity.getConfigKey(), entity.getConfigValue());
+                DynamicPropertiesContext.registryConfig(key, entity.getConfigValue());
             }
         }
     }

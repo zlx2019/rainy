@@ -3,7 +3,7 @@ package com.zero.rainy.sample.controller;
 import com.zero.rainy.cache.publisher.DynamicConfigPublisher;
 import com.zero.rainy.core.config.GlobalDynamicConfig;
 import com.zero.rainy.core.ext.dynamic.DynamicProperties;
-import com.zero.rainy.core.ext.dynamic.DynamicConfigContext;
+import com.zero.rainy.core.ext.dynamic.DynamicPropertiesContext;
 import com.zero.rainy.core.model.Result;
 import com.zero.rainy.limiter.enums.LimiterRule;
 import com.zero.rainy.limiter.annotations.ApiLimiter;
@@ -40,7 +40,7 @@ public class ConfigController {
     @GetMapping("/list")
     public Result<Set<Object>> list() {
         log.info("list");
-        return Result.ok(DynamicConfigContext.getConfigs());
+        return Result.ok(DynamicPropertiesContext.getConfigs());
     }
 
     /**

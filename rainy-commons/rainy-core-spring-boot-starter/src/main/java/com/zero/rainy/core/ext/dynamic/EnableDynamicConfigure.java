@@ -13,7 +13,7 @@ import java.lang.annotation.Target;
  */
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
-@Import({DynamicConfigManager.class, DynamicConfigProcessor.class})
-public @interface EnableDynamicProperties {
+@Import({DynamicPropertiesManager.class})
+public @interface EnableDynamicConfigure {
 
 }

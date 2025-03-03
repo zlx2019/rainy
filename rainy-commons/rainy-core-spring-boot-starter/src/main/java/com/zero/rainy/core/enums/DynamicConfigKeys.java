@@ -15,4 +15,13 @@ public enum DynamicConfigKeys {
 
     private final String key;
     private final String desc;
+
+    public static DynamicConfigKeys from(String key) {
+        for (DynamicConfigKeys keys : DynamicConfigKeys.values()) {
+            if (keys.getKey().equalsIgnoreCase(key)) {
+                return keys;
+            }
+        }
+        return null;
+    }
 }

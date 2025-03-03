@@ -14,6 +14,7 @@ import com.zero.rainy.limiter.annotations.ApiLimiter;
 import com.zero.rainy.limiter.enums.LimiterRule;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
@@ -47,6 +48,9 @@ public class LimiterAspectJ {
     @Before("@annotation(limiter)")
     public void before(JoinPoint joinPoint, ApiLimiter limiter){
         String hashKey = hashKeys(joinPoint, limiter);
+        if (StringUtils.isBlank(hashKey)){
+            return;
+        }
         boolean permit = switch (limiter.mode()){
             case STANDALONE -> standaloneLimiter.tryAcquire(hashKey, limiter);
             case CLUSTER -> distributedLimiter.tryAcquire(RedisHelper.keyBuild(RedisKeys.REQUEST_LIMITER_COUNT, hashKey), limiter);
@@ -69,6 +73,9 @@ public class LimiterAspectJ {
             case TOKEN -> UserContextHolder.getUser();
             case KEY_WORD -> limiter.key();
         };
+        if (StringUtils.isBlank(keyword)) {
+            return null;
+        }
         if (limiter.share() && !LimiterRule.ARGS.equals(limiter.rule()) && !LimiterRule.IP.equals(limiter.rule())){
             return sb.append(keyword).toString();
         }
