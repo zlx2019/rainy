@@ -76,7 +76,7 @@ public class DynamicPropertiesManager<T extends DynamicProperties> implements In
                     try {
                         switch (configBo.configType()) {
                             case JSON -> payload = JsonUtils.unmarshal(configValue, propsBean.getClass());
-                            case YAML -> payload = YamlHelper.bind(configValue, propsBean.getClass());
+                            case YAML -> payload = YamlHelper.bind(configValue, annotation.prefix(), propsBean.getClass());
                         }
                         BeanUtils.copyProperties(payload, propsBean);
                     }catch (Exception e) {

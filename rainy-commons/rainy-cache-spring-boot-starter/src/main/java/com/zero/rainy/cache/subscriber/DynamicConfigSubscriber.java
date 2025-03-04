@@ -1,10 +1,11 @@
 package com.zero.rainy.cache.subscriber;
 
 import com.zero.rainy.core.enums.DynamicPropertiesKey;
-import com.zero.rainy.core.helper.YamlHelper;
-import com.zero.rainy.core.model.entity.Config;
 import com.zero.rainy.core.ext.dynamic.DynamicProperties;
 import com.zero.rainy.core.ext.dynamic.DynamicPropertiesContext;
+import com.zero.rainy.core.ext.dynamic.DynamicPropertiesKeys;
+import com.zero.rainy.core.helper.YamlHelper;
+import com.zero.rainy.core.model.entity.Config;
 import com.zero.rainy.core.utils.JsonUtils;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,6 +16,7 @@ import org.springframework.data.redis.serializer.RedisSerializer;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
+import java.util.Objects;
 
 /**
  * 动态配置订阅者
@@ -41,14 +43,17 @@ public class DynamicConfigSubscriber implements MessageListener {
                 // 更新配置
                 String configValue = entity.getConfigValue();
                 DynamicProperties properties = DynamicPropertiesContext.getConfig(configKey, DynamicProperties.class);
+                String prefix = null;
+                DynamicPropertiesKeys annotation = properties.getClass().getAnnotation(DynamicPropertiesKeys.class);
+                if (Objects.nonNull(annotation)){
+                    prefix = annotation.prefix();
+                }
                 DynamicProperties newProperties = null;
                 switch (entity.getConfigType()) {
-                    case JSON -> {
-                        newProperties = JsonUtils.unmarshal(configValue, properties.getClass());
-                    }
+                    case JSON -> newProperties = JsonUtils.unmarshal(configValue, properties.getClass());
                     case YAML -> {
                         try {
-                            newProperties = YamlHelper.bind(configValue, properties.getClass());
+                            newProperties = YamlHelper.bind(configValue, prefix, properties.getClass());
                         } catch (IOException e) {
                             throw new RuntimeException(e);
                         }
@@ -56,7 +61,6 @@ public class DynamicConfigSubscriber implements MessageListener {
                 }
                 log.info("=================== Dynamic Config Modify ======================");
                 log.info("Key: {}, [{}] --> [{}]", configKey, properties, newProperties);
-                log.info("old: {}", configValue);
                 log.info("============================================");
                 BeanUtils.copyProperties(newProperties, properties);
             }

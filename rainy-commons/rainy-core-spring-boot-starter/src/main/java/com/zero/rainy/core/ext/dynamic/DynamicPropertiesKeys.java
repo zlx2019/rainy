@@ -19,4 +19,8 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface DynamicPropertiesKeys {
     DynamicPropertiesKey value();
+    /**
+     * config prefix (similar to prefix in @ConfigurationProperties)
+     */
+    String prefix() default "";
 }

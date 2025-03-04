@@ -18,7 +18,7 @@ import java.util.Map;
 @Slf4j
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
 public class DynamicPropertiesContext {
-    private static final Map<DynamicPropertiesKey, DynamicProperties> CONFIG_CONTAINER = new CopyOnWriteMap<>(new HashMap<>(32));
+    private static final Map<DynamicPropertiesKey, DynamicProperties> CONFIG_CONTAINER = new CopyOnWriteMap<>(new HashMap<>(16));
 
     public static <T extends DynamicProperties> void registryConfig(DynamicPropertiesKey key, T config){
         if (!hasRegistry(key)){

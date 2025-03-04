@@ -2,6 +2,7 @@ package com.zero.rainy.core.helper;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.boot.context.properties.bind.Binder;
 import org.springframework.boot.context.properties.bind.PropertySourcesPlaceholdersResolver;
 import org.springframework.boot.context.properties.source.ConfigurationPropertySource;
@@ -10,7 +11,6 @@ import org.springframework.boot.context.properties.source.MapConfigurationProper
 import org.springframework.boot.env.YamlPropertySourceLoader;
 import org.springframework.core.env.PropertySource;
 import org.springframework.core.io.ByteArrayResource;
-import org.springframework.util.StringUtils;
 
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -31,45 +31,38 @@ public class YamlHelper {
     /**
      * Binds YAML content to a specified class type.
      *
-     * @param yamlContent The YAML content as a string
-     * @param targetClass The class to bind the properties to
-     * @param <T>         The type of class
-     * @return An instance of the class with properties set from the YAML content
+     * @param content     yaml config content
+     * @param clazz       properties type class
      * @throws IOException If the YAML content cannot be parsed
      */
-    public static <T> T bind(String yamlContent, Class<T> targetClass) throws IOException {
-        return bind(yamlContent, "", targetClass);
+    public static <T> T bind(String content, Class<T> clazz) throws IOException {
+        return bind(content, "", clazz);
     }
 
     /**
      * Binds YAML content to a specified class type with a prefix.
      *
-     * @param yamlContent The YAML content as a string
+     * @param content     yaml config content
      * @param prefix      The prefix to use for property binding (similar to prefix in @ConfigurationProperties)
-     * @param targetClass The class to bind the properties to
-     * @param <T>         The type of class
-     * @return An instance of the class with properties set from the YAML content
+     * @param clazz       properties type class
      * @throws IOException If the YAML content cannot be parsed
      */
-    public static <T> T bind(String yamlContent, String prefix, Class<T> targetClass) throws IOException {
-        if (yamlContent == null || targetClass == null) {
+    public static <T> T bind(String content, String prefix, Class<T> clazz) throws IOException {
+        if (content == null || clazz == null) {
             throw new IllegalArgumentException("YAML content and target class cannot be null");
         }
-
         // Parse YAML content to property sources
-        List<PropertySource<?>> propertySources = parseYaml(yamlContent);
+        List<PropertySource<?>> propertySources = parseYaml(content);
 
         // Convert property sources to configuration property sources
-        Iterable<ConfigurationPropertySource> configurationPropertySources =
-                ConfigurationPropertySources.from(propertySources);
+        Iterable<ConfigurationPropertySource> configurationPropertySources = ConfigurationPropertySources.from(propertySources);
 
         // Create a binder with our configuration property sources
-        Binder binder = new Binder(configurationPropertySources,
-                new PropertySourcesPlaceholdersResolver(propertySources));
+        Binder binder = new Binder(configurationPropertySources, new PropertySourcesPlaceholdersResolver(propertySources));
 
         // Bind the properties to an instance of the target class
-        String bindingPrefix = StringUtils.hasText(prefix) ? prefix : "";
-        return binder.bindOrCreate(bindingPrefix, targetClass);
+        String bindingPrefix = StringUtils.defaultIfBlank(prefix, "");
+        return binder.bindOrCreate(bindingPrefix, clazz);
     }
 
     /**
