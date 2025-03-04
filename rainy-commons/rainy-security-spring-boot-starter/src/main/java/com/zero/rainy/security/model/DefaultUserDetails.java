@@ -10,7 +10,7 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * 用户认证信息, 实现于{@link UserDetails}
+ * 用户认证及权限信息, 实现于{@link UserDetails}
  *
  * @author Zero.
  * <p> Created on 2025/3/4 13:28 </p>

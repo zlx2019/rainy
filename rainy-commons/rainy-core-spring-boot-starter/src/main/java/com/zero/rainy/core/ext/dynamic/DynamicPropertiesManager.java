@@ -108,7 +108,7 @@ public class DynamicPropertiesManager<T extends DynamicProperties> implements In
             long id = rs.getLong(ID);
             String configKey = rs.getString(CONFIG_KEY);
             String configValue = rs.getString(CONFIG_VALUE);
-            int configType = rs.getInt(CONFIG_TYPE);
+            String configType = rs.getString(CONFIG_TYPE);
             int status = rs.getInt(STATUS);
             DynamicPropertiesBo bo = new DynamicPropertiesBo(id, configKey, configValue, ConfigType.from(configType), status);
             CONFIG_CACHES.put(configKey, bo);

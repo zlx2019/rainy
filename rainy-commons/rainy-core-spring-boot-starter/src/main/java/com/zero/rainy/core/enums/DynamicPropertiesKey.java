@@ -11,9 +11,10 @@ import lombok.Getter;
  */
 @Getter
 @AllArgsConstructor
-public enum DynamicConfigKey {
+public enum DynamicPropertiesKey {
     GLOBAL("GLOBAL_CONFIG","全局动态配置"),
     SAMPLE("SAMPLE_CONFIG", "sample 服务动态配置"),
+    AUTH("AUTH_CONFIG", "认证授权动态配置"),
     ;
 
     @EnumValue
@@ -21,8 +22,8 @@ public enum DynamicConfigKey {
     private final String key;
     private final String desc;
 
-    public static DynamicConfigKey from(String key) {
-        for (DynamicConfigKey keys : DynamicConfigKey.values()) {
+    public static DynamicPropertiesKey from(String key) {
+        for (DynamicPropertiesKey keys : DynamicPropertiesKey.values()) {
             if (keys.getKey().equalsIgnoreCase(key)) {
                 return keys;
             }

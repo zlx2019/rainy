@@ -1,12 +1,10 @@
 package com.zero.rainy.core.model.entity;
 
-import com.baomidou.mybatisplus.annotation.TableField;
 import com.zero.rainy.core.enums.ConfigType;
-import com.zero.rainy.core.enums.DynamicConfigKey;
+import com.zero.rainy.core.enums.DynamicPropertiesKey;
 import com.zero.rainy.core.model.entity.supers.SuperEntityExt;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.apache.ibatis.type.EnumOrdinalTypeHandler;
 
 /**
  * 动态配置表实体
@@ -21,7 +19,7 @@ public class Config extends SuperEntityExt<Config> {
     /**
      * 配置唯一标识
      */
-    private DynamicConfigKey configKey;
+    private DynamicPropertiesKey configKey;
 
     /**
      * 配置内容
@@ -32,7 +30,7 @@ public class Config extends SuperEntityExt<Config> {
      * 配置类型
      * @see ConfigType
      */
-    @TableField(typeHandler = EnumOrdinalTypeHandler.class)
+//    @TableField(typeHandler = EnumOrdinalTypeHandler.class)
     private ConfigType configType;
 
     /**

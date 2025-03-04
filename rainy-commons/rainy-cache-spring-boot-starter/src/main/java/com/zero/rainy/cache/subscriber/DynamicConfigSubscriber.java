@@ -1,6 +1,7 @@
 package com.zero.rainy.cache.subscriber;
 
-import com.zero.rainy.core.enums.DynamicConfigKey;
+import com.zero.rainy.core.enums.DynamicPropertiesKey;
+import com.zero.rainy.core.helper.YamlHelper;
 import com.zero.rainy.core.model.entity.Config;
 import com.zero.rainy.core.ext.dynamic.DynamicProperties;
 import com.zero.rainy.core.ext.dynamic.DynamicPropertiesContext;
@@ -12,6 +13,7 @@ import org.springframework.data.redis.connection.Message;
 import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.serializer.RedisSerializer;
 
+import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 
 /**
@@ -34,17 +36,29 @@ public class DynamicConfigSubscriber implements MessageListener {
         String messageValue = new String(message.getBody(), StandardCharsets.UTF_8);
         Object value = redisValueSerializer.deserialize(message.getBody());
         if (value instanceof Config entity){
-            DynamicConfigKey configKey = entity.getConfigKey();
+            DynamicPropertiesKey configKey = entity.getConfigKey();
             if (DynamicPropertiesContext.hasRegistry(configKey)){
                 // 更新配置
                 String configValue = entity.getConfigValue();
-                DynamicProperties config = DynamicPropertiesContext.getConfig(configKey, DynamicProperties.class);
-                DynamicProperties newConfig = JsonUtils.unmarshal(configValue, config.getClass());
+                DynamicProperties properties = DynamicPropertiesContext.getConfig(configKey, DynamicProperties.class);
+                DynamicProperties newProperties = null;
+                switch (entity.getConfigType()) {
+                    case JSON -> {
+                        newProperties = JsonUtils.unmarshal(configValue, properties.getClass());
+                    }
+                    case YAML -> {
+                        try {
+                            newProperties = YamlHelper.bind(configValue, properties.getClass());
+                        } catch (IOException e) {
+                            throw new RuntimeException(e);
+                        }
+                    }
+                }
                 log.info("=================== Dynamic Config Modify ======================");
-                log.info("Key: {}, [{}] --> [{}]", configKey, config, newConfig);
+                log.info("Key: {}, [{}] --> [{}]", configKey, properties, newProperties);
                 log.info("old: {}", configValue);
                 log.info("============================================");
-                BeanUtils.copyProperties(newConfig, config);
+                BeanUtils.copyProperties(newProperties, properties);
             }
         }
     }

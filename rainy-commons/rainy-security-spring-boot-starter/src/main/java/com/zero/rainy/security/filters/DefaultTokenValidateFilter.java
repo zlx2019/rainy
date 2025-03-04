@@ -1,6 +1,6 @@
 package com.zero.rainy.security.filters;
 
-import com.zero.rainy.security.properties.SecurityProperties;
+import com.zero.rainy.security.properties.AuthProperties;
 import lombok.extern.slf4j.Slf4j;
 
 /**
@@ -9,7 +9,7 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class DefaultTokenValidateFilter extends TokenValidateFilter {
-    public DefaultTokenValidateFilter(SecurityProperties securityProperties) {
+    public DefaultTokenValidateFilter(AuthProperties securityProperties) {
         super(securityProperties);
     }
 }

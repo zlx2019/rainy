@@ -23,4 +23,13 @@ public enum ConfigType {
         }
         throw new IllegalArgumentException("invalid ConfigType ordinal: " + ordinal);
     }
+
+    public static ConfigType from(String name) {
+        for (ConfigType value : values()) {
+            if (value.name().equals(name)) {
+                return value;
+            }
+        }
+        throw new IllegalArgumentException("invalid ConfigType name: " + name);
+    }
 }

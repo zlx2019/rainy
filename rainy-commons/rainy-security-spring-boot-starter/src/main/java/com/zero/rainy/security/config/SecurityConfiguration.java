@@ -1,10 +1,8 @@
 package com.zero.rainy.security.config;
 
 import com.zero.rainy.security.filters.TokenValidateFilter;
-import com.zero.rainy.security.properties.SecurityProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -33,7 +31,6 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 @EnableWebSecurity
 @EnableMethodSecurity
 @RequiredArgsConstructor
-@EnableConfigurationProperties(SecurityProperties.class)
 public class SecurityConfiguration {
     /** 鉴权失败处理 */
     private final AccessDeniedHandler accessDeniedHandler;

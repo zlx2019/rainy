@@ -7,8 +7,11 @@ import com.auth0.jwt.JWTVerifier;
 import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.interfaces.DecodedJWT;
+import com.zero.rainy.core.ext.spring.SpringContextUtil;
 import com.zero.rainy.security.constant.SecurityConstants;
 import com.zero.rainy.security.model.DefaultUserDetails;
+import com.zero.rainy.security.properties.AuthProperties;
+import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
@@ -17,16 +20,25 @@ import java.time.Duration;
 import java.util.Date;
 
 /**
+ * Token 工具
+ *
  * @author Zero.
  * <p> Created on 2025/3/4 15:22 </p>
  */
-@Component
 @Slf4j
+@Component
 public class TokenHelper {
+    private static final AuthProperties PROPS = SpringContextUtil.getBean(AuthProperties.class);
     /** 加密算法 */
-    private static final Algorithm ALGORITHM = Algorithm.HMAC256("secret");
+    private static Algorithm ALGORITHM;
     /** 校验器 */
-    private static final JWTVerifier VERIFIER = JWT.require(ALGORITHM).build();
+    private static JWTVerifier VERIFIER;
+
+    @PostConstruct
+    public void init() {
+        ALGORITHM = Algorithm.HMAC256(PROPS.getJwt().getSecretKey());
+        VERIFIER = JWT.require(ALGORITHM).build();
+    }
 
     /**
      * 创建 JWT
@@ -50,9 +62,9 @@ public class TokenHelper {
      * @param authentication 用户信息
      * @return  accessToken
      */
-    public static String createToken(Authentication authentication, Duration duration) {
+    public static String createToken(Authentication authentication) {
         if (authentication.getPrincipal() instanceof DefaultUserDetails details) {
-            return createToken(details.getUserId(), details.getUsername(), duration);
+            return createToken(details.getUserId(), details.getUsername(), PROPS.getJwt().getTtl());
         }
         return null;
     }

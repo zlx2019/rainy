@@ -1,24 +1,26 @@
 package com.zero.rainy.security.properties;
 
+import com.zero.rainy.core.enums.DynamicPropertiesKey;
+import com.zero.rainy.core.ext.dynamic.DynamicProperties;
+import com.zero.rainy.core.ext.dynamic.DynamicPropertiesKeys;
 import lombok.Data;
-import org.springframework.boot.context.properties.ConfigurationProperties;
 
 import java.time.Duration;
 import java.util.List;
 
 /**
- * 认证配置属性
+ * 认证动态配置
  *
  * @author Zero.
  * <p> Created on 2025/3/4 14:24 </p>
  */
 @Data
-@ConfigurationProperties(prefix = "security")
-public class SecurityProperties {
+@DynamicPropertiesKeys(DynamicPropertiesKey.AUTH)
+public class AuthProperties implements DynamicProperties {
     /**
      * 白名单
      */
-    private List<String> ignoreUrls = List.of();
+    private List<String> ignoreUrls = List.of("/auth/**");
 
     /**
      * JWT 令牌配置

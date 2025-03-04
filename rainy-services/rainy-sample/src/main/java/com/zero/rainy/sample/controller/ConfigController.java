@@ -2,11 +2,12 @@ package com.zero.rainy.sample.controller;
 
 import com.zero.rainy.cache.publisher.DynamicConfigPublisher;
 import com.zero.rainy.core.config.GlobalDynamicConfig;
+import com.zero.rainy.core.enums.DynamicPropertiesKey;
 import com.zero.rainy.core.ext.dynamic.DynamicProperties;
 import com.zero.rainy.core.ext.dynamic.DynamicPropertiesContext;
 import com.zero.rainy.core.model.Result;
-import com.zero.rainy.limiter.enums.LimiterRule;
 import com.zero.rainy.limiter.annotations.ApiLimiter;
+import com.zero.rainy.limiter.enums.LimiterRule;
 import com.zero.rainy.sample.service.IConfigService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -15,8 +16,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Map;
 import java.util.Optional;
-import java.util.Set;
 
 /**
  * 动态配置控制器
@@ -38,7 +39,7 @@ public class ConfigController {
      */
     @ApiLimiter(rule = LimiterRule.ARGS)
     @GetMapping("/list")
-    public Result<Set<DynamicProperties>> list() {
+    public Result<Map<DynamicPropertiesKey, DynamicProperties>> list() {
         return Result.ok(DynamicPropertiesContext.getConfigs());
     }
 

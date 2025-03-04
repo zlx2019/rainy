@@ -1,7 +1,7 @@
 package com.zero.rainy;
 
 import com.zero.rainy.core.enums.ConfigType;
-import com.zero.rainy.core.enums.DynamicConfigKey;
+import com.zero.rainy.core.enums.DynamicPropertiesKey;
 import com.zero.rainy.core.model.entity.Config;
 import com.zero.rainy.sample.service.IConfigService;
 import org.junit.jupiter.api.Assertions;
@@ -21,7 +21,7 @@ public class ConfigTest {
     @Test
     public void test() {
         Config config = new Config();
-        config.setConfigKey(DynamicConfigKey.SAMPLE);
+        config.setConfigKey(DynamicPropertiesKey.SAMPLE);
         config.setConfigValue("""
 name: 王五
 age: 39

@@ -1,7 +1,6 @@
 package com.zero.rainy.uaa.service.impl;
 
 import com.zero.rainy.security.helper.TokenHelper;
-import com.zero.rainy.security.properties.SecurityProperties;
 import com.zero.rainy.uaa.model.param.LoginParam;
 import com.zero.rainy.uaa.model.vo.LoginVo;
 import com.zero.rainy.uaa.service.IAuthService;
@@ -23,17 +22,16 @@ import org.springframework.stereotype.Service;
 public class AuthServiceImpl implements IAuthService {
     private final IUserService userService;
     private final AuthenticationManager authenticationManager;
-    private final SecurityProperties securityProperties;
+
 
     @Override
     public LoginVo login(LoginParam loginParam) {
-        String account = loginParam.getAccount();
-        String password = loginParam.getPassword();
         // find user by username password
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(account, password);
+        // default from
+        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(loginParam.getAccount(), loginParam.getPassword());
         Authentication authenticate = authenticationManager.authenticate(authentication);
         // create token
-        String token = TokenHelper.createToken(authenticate, securityProperties.getJwt().getTtl());
+        String token = TokenHelper.createToken(authenticate);
         return new LoginVo(token);
     }
 }

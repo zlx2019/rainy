@@ -5,7 +5,7 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.zero.rainy.core.enums.GlobalResponseCode;
 import com.zero.rainy.security.constant.SecurityConstants;
 import com.zero.rainy.security.helper.TokenHelper;
-import com.zero.rainy.security.properties.SecurityProperties;
+import com.zero.rainy.security.properties.AuthProperties;
 import com.zero.rainy.web.utils.ResponseUtils;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -36,8 +36,8 @@ import java.util.List;
 @SuppressWarnings("all")
 public class TokenValidateFilter extends OncePerRequestFilter {
     private final AntPathMatcher matcher = new AntPathMatcher();
-    private final SecurityProperties securityProperties;
-    public TokenValidateFilter(SecurityProperties securityProperties) {
+    private final AuthProperties securityProperties;
+    public TokenValidateFilter(AuthProperties securityProperties) {
         this.securityProperties = securityProperties;
     }
 
@@ -64,17 +64,12 @@ public class TokenValidateFilter extends OncePerRequestFilter {
         try {
             jwt = TokenHelper.parseToken(token);
         }catch (JWTVerificationException e){
-            log.error("[Auth] token is invalid: {}", e.getMessage());
+            log.error("[Auth] token is invalid, Request: {} by: {}", request.getRequestURI(), e.getMessage());
             ResponseUtils.response(response, GlobalResponseCode.UNAUTHORIZED);
             return;
         }
-        String username = jwt.getClaim(SecurityConstants.JWT_CLAIM_USER_NAME).asString();
-//        if (!TokenHelper.validateToken(token)){
-//            log.error("[Auth] token is invalid, Request: {}", request.getRequestURI());
-//            ResponseUtils.response(response, GlobalResponseCode.UNAUTHORIZED);
-//            return;
-//        }
         // 设置用户认证上下文信息
+        String username = jwt.getClaim(SecurityConstants.JWT_CLAIM_USER_NAME).asString();
         // 权限信息
         List<GrantedAuthority> authorities = new ArrayList<>();
         // 认证信息
