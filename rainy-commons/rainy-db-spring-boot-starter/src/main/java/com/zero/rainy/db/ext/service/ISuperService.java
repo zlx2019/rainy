@@ -5,12 +5,16 @@ import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.core.toolkit.Wrappers;
+import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.service.IService;
-import com.zero.rainy.core.model.entity.supers.SuperEntity;
 import com.zero.rainy.core.model.PageResult;
 import com.zero.rainy.core.model.PageableQuery;
+import com.zero.rainy.core.model.Pair;
+import com.zero.rainy.core.model.entity.supers.SuperEntity;
 
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.function.Function;
 
 /**
@@ -103,6 +107,27 @@ public interface ISuperService<T extends SuperEntity<T>> extends IService<T> {
     default boolean batchSave(T... items) {
         return this.batchSave(List.of(items));
     }
+
+    default <V> T getOneBy(SFunction<T, V> field, V value){
+        return this.getOne(lambdaWrapper().eq(field,value));
+    }
+
+    default <V> List<T> listBy(SFunction<T, V> field, V value){
+        return this.list(lambdaWrapper().eq(field,value));
+    }
+
+    default <V> List<T> listBy(Pair<SFunction<T, V>, V> pair){
+        return this.listBy(pair);
+    }
+
+    default List<T> listBy(Pair<SFunction<T, ?>, ?>...pairs){
+        LambdaQueryWrapper<T> wrp = lambdaWrapper();
+        Arrays.stream(pairs)
+                .filter(pair -> (Objects.nonNull(pair.key()) && Objects.nonNull(pair.value())))
+                .forEach(pair -> wrp.eq(pair.key(),pair.value()));
+        return this.list(wrp);
+    }
+
 
 
     default QueryWrapper<T> wrapper() {

@@ -21,10 +21,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.resource.NoResourceFoundException;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
+import java.util.stream.Stream;
 
 /**
  * 全局异常捕获处理
@@ -162,8 +160,31 @@ public class DefaultExceptionAdvice {
         return Result.fail(GlobalResponseCode.PARAM_NOT_VALID);
     }
 
-    private Result<?> exceptionHandler (ResponseCode responseCode){
+    public Result<?> exceptionHandler (ResponseCode responseCode){
         return Result.fail(responseCode);
+    }
+
+
+    protected static BusinessException findBusinessException(Throwable errorChain){
+        return findException(errorChain, BusinessException.class);
+    }
+
+    /**
+     * 从异常链中找出目标类型的异常
+     */
+    protected static <T extends Throwable> T findException(Throwable errorChain, Class<T> clazz){
+        if (errorChain == null){
+            return null;
+        }
+        return Stream.iterate(errorChain, Objects::nonNull, Throwable::getCause)
+                .filter(clazz::isInstance)
+                .map(clazz::cast)
+                .findFirst().orElse(null);
+    }
+
+    protected Result<Void> exceptionHandler(HttpServletResponse response, ResponseCode code){
+        response.setStatus(code.getStatus().value());
+        return Result.of(code);
     }
 
     private Result<?> exceptionHandler (ResponseCode responseCode, String message){

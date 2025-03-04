@@ -1,13 +1,12 @@
 package com.zero.rainy.core.model.entity;
 
-import com.baomidou.mybatisplus.annotation.TableName;
-import com.zero.rainy.core.model.entity.supers.SuperEntity;
+import com.zero.rainy.core.model.entity.supers.SuperEntityExt;
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import java.io.Serial;
 import lombok.EqualsAndHashCode;
-import java.math.BigDecimal;
+import lombok.NoArgsConstructor;
+
+import java.time.LocalDateTime;
 
 /**
  * User - 用户表
@@ -18,22 +17,30 @@ import java.math.BigDecimal;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@TableName("user")
 @EqualsAndHashCode(callSuper = true)
-public class User extends SuperEntity<User>{
-    @Serial
-    private static final long serialVersionUID = 1L;
-
+public class User extends SuperEntityExt<User> {
     /**
-     * 名称
+     * 用户名
      */
-    private String name;
+    protected String username;
     /**
-     * 年龄
+     * 密码
      */
-    private Integer age;
+    protected String password;
     /**
-     * 余额
+     * 用户昵称
      */
-    private BigDecimal balance;
+    private String nickname;
+    /**
+     * 电子邮件
+     */
+    private String email;
+    /**
+     * 手机号码
+     */
+    private String phone;
+    /**
+     * 最后登录时间
+     */
+    private LocalDateTime lastLoginTime;
 }

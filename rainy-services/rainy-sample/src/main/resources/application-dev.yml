@@ -15,7 +15,7 @@ spring:
       max-lifetime: 1800000     # 连接最大生命周期, 连接超过该时间，一旦空闲就会回收
   data:
     redis:
-      host: 127.0.0.1
+      host: 192.168.5.112
       port: 6379
       database: 0
       connect-timeout: 3s
@@ -30,7 +30,7 @@ spring:
 
 rocketmq:
   # RocketMQ NameServer 地址
-  name-server: 127.0.0.1:9876
+  name-server: 47.94.213.132:9876
   # 默认生产者配置
   producer:
     group: rainy_default_producer   # 默认生产组

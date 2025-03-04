@@ -1,0 +1,15 @@
+# Web Server Config
+server:
+  port: 31001
+# Spring Config
+spring:
+  application:
+    name: rainy-uaa
+
+# 认证配置
+security:
+  jwt:
+    secret-key: wadhnuikawhduiwahduiawhduiwaduiwauiadw
+    ttl: 1m
+  ignore-urls:
+    - /auth/**

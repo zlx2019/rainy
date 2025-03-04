@@ -17,6 +17,7 @@
         <module>rainy-sample</module>
         <module>rainy-user</module>
         <module>rainy-code-gen</module>
+        <module>rainy-uaa</module>
     </modules>
 
     <!-- 服务依赖 -->
