@@ -15,7 +15,7 @@ import java.util.List;
  * <p> Created on 2025/3/4 14:24 </p>
  */
 @Data
-@DynamicPropertiesKeys(DynamicPropertiesKey.AUTH)
+@DynamicPropertiesKeys(value = DynamicPropertiesKey.AUTH,prefix = "security")
 public class AuthProperties implements DynamicProperties {
     /**
      * 白名单
@@ -25,14 +25,15 @@ public class AuthProperties implements DynamicProperties {
     /**
      * JWT 令牌配置
      */
-    private JwtProperties jwt;
+    private JwtProperties jwt = new JwtProperties();
 
     @Data
     public static class JwtProperties {
+        private String issuer = "Rainy-Zero";
         /**
          * JWT Secret key
          */
-        private String secretKey;
+        private String secretKey = "";
         /**
          * JWT Survival period
          */

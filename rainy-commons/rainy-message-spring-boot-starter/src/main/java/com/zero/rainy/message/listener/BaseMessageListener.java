@@ -130,6 +130,7 @@ public abstract class BaseMessageListener <T extends BaseMessage> implements Roc
         String topic = ext.getTopic();
         long bornTimestamp = ext.getBornTimestamp();
         String traceId = ext.getProperties().get(Constant.TRACE_ID_MESSAGE_KEY);
+        String broker = ext.getBrokerName();
 
         if (StringUtils.isNotBlank(traceId)){
             MDC.put(Constant.TRACE_ID_LOG_KEY, traceId);
@@ -162,7 +163,7 @@ public abstract class BaseMessageListener <T extends BaseMessage> implements Roc
             long startTime = System.currentTimeMillis();
             boolean businessResult = this.handler(message);
             long costTime = System.currentTimeMillis() - startTime;
-            log.info("【{}】 handle message [{}] - [{}] cost: {} ms | {}", this.getName(), message, keys, costTime,
+            log.info("【{}】 handle message - [{}] - [{}] cost: {} ms | {}", this.getName(), broker, keys, costTime,
                     businessResult ? "success" : "fail");
             if (!businessResult && isEnableRetry()){
                 int maxRetryTimes = this.getMaxRetryTimes();

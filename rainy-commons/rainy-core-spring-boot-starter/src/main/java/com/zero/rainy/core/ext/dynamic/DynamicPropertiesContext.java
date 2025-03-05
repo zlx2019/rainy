@@ -25,12 +25,20 @@ public class DynamicPropertiesContext {
             CONFIG_CONTAINER.put(key, config);
         }
     }
+    public static void prints(){
+        log.info("============================= [DynamicPropertiesContext] ================================");
+        CONFIG_CONTAINER.forEach((k,v)-> log.info("[{}]: {}", k, v));
+        log.info("=========================================================================================");
+    }
+
     public static boolean hasRegistry(DynamicPropertiesKey key){
         return CONFIG_CONTAINER.containsKey(key);
     }
+
     public static Map<DynamicPropertiesKey, DynamicProperties> getConfigs(){
         return CONFIG_CONTAINER;
     }
+
     public static <T extends DynamicProperties> T getConfig(DynamicPropertiesKey key, Class<T> clazz){
         DynamicProperties config = CONFIG_CONTAINER.get(key);
         if (clazz.isInstance(config)){

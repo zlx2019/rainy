@@ -30,7 +30,6 @@ public class Config extends SuperEntityExt<Config> {
      * 配置类型
      * @see ConfigType
      */
-//    @TableField(typeHandler = EnumOrdinalTypeHandler.class)
     private ConfigType configType;
 
     /**

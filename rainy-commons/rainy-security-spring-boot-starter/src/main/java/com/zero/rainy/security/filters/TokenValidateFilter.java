@@ -1,9 +1,7 @@
 package com.zero.rainy.security.filters;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.interfaces.DecodedJWT;
 import com.zero.rainy.core.enums.GlobalResponseCode;
-import com.zero.rainy.security.constant.SecurityConstants;
 import com.zero.rainy.security.helper.TokenHelper;
 import com.zero.rainy.security.properties.AuthProperties;
 import com.zero.rainy.web.utils.ResponseUtils;
@@ -14,7 +12,7 @@ import jakarta.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpHeaders;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Component;
@@ -60,20 +58,17 @@ public class TokenValidateFilter extends OncePerRequestFilter {
             ResponseUtils.response(response, GlobalResponseCode.UNAUTHORIZED);
             return;
         }
-        DecodedJWT jwt;
+        // 解析token，获取认证信息
+        Authentication authentication;
         try {
-            jwt = TokenHelper.parseToken(token);
+            authentication = TokenHelper.extractToken(token);
         }catch (JWTVerificationException e){
             log.error("[Auth] token is invalid, Request: {} by: {}", request.getRequestURI(), e.getMessage());
             ResponseUtils.response(response, GlobalResponseCode.UNAUTHORIZED);
             return;
         }
-        // 设置用户认证上下文信息
-        String username = jwt.getClaim(SecurityConstants.JWT_CLAIM_USER_NAME).asString();
-        // 权限信息
+        // TODO 用户权限信息
         List<GrantedAuthority> authorities = new ArrayList<>();
-        // 认证信息
-        UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         chain.doFilter(request, response);
         return;

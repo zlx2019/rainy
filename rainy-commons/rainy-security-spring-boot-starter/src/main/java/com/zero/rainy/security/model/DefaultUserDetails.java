@@ -27,7 +27,10 @@ public class DefaultUserDetails  implements UserDetails {
      * 密码
      */
     private String password;
-
+    /**
+     * 昵称
+     */
+    private String nickname;
     /**
      * 用户状态
      */
@@ -36,6 +39,7 @@ public class DefaultUserDetails  implements UserDetails {
     public DefaultUserDetails(User user) {
         this.userId = user.getId();
         this.username = user.getUsername();
+        this.nickname = user.getNickname();
         this.password = user.getPassword();
         this.status = user.getStatus();
     }

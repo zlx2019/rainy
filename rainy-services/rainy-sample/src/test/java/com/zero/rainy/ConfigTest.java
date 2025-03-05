@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 /**
  * @author Zero.
  * <p> Created on 2025/2/27 23:28 </p>
@@ -21,13 +23,20 @@ public class ConfigTest {
     @Test
     public void test() {
         Config config = new Config();
-        config.setConfigKey(DynamicPropertiesKey.SAMPLE);
+        config.setConfigKey(DynamicPropertiesKey.AUTH);
         config.setConfigValue("""
-name: 王五
-age: 39
-address: 上海
+jwt:
+  secret-key: wadhnuikawhduiwahduiawhduiwaduiwauiadw
+  ttl: 1m
+ignore-urls:
+  - /auth/**
                 """);
         config.setConfigType(ConfigType.YAML);
         Assertions.assertTrue(configService.save(config));
+    }
+
+    @Test
+    public void test2() {
+        List<Config> list = configService.list();
     }
 }

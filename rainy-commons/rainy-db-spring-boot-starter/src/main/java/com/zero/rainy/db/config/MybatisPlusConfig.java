@@ -1,12 +1,14 @@
 package com.zero.rainy.db.config;
 
 import com.baomidou.mybatisplus.annotation.DbType;
+import com.baomidou.mybatisplus.autoconfigure.ConfigurationCustomizer;
 import com.baomidou.mybatisplus.extension.plugins.MybatisPlusInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.BlockAttackInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.OptimisticLockerInnerInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.inner.PaginationInnerInterceptor;
 import com.zero.rainy.db.ext.hooks.SupplementEntityHook;
 import com.zero.rainy.db.ext.injector.CustomSqlInjector;
+import org.apache.ibatis.type.EnumOrdinalTypeHandler;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Import;
@@ -45,5 +47,15 @@ public class MybatisPlusConfig {
     @Bean
     public CustomSqlInjector customSqlInjector(){
         return new CustomSqlInjector();
+    }
+
+    /**
+     * 注册类型处理器
+     */
+    @Bean
+    public ConfigurationCustomizer configurationCustomizer(){
+        return configuration -> {
+            configuration.setDefaultEnumTypeHandler(EnumOrdinalTypeHandler.class);
+        };
     }
 }

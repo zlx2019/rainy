@@ -14,6 +14,7 @@ import org.springframework.messaging.Message;
 import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.Duration;
@@ -52,11 +53,13 @@ public class SendController {
      * 向指定队列发送 {@link TextMessage} 消息
      */
     @GetMapping("/text")
-    public Result<Boolean> sendTextMessage(String topic, String message) {
-        TextMessage textMessage = new TextMessage(message);
-        boolean send = messageTemplate.send(topic, textMessage);
+    public Result<Boolean> sendTextMessage(String topic, String message, @RequestParam(required = false, defaultValue = "1") Integer times) {
+        for (int i = 0; i < times; i++) {
+            TextMessage textMessage = new TextMessage(message + i);
+            boolean send = messageTemplate.send(topic, textMessage);
+        }
 //        SendResult sendResult = rocketMQTemplate.syncSend(topic, MessageBuilder.withPayload(textMessage).build());
-        return Result.ok(send);
+        return Result.ok(true);
     }
 
     @GetMapping("/batch")
