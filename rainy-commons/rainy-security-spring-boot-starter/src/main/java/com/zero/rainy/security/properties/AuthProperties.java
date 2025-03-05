@@ -33,7 +33,7 @@ public class AuthProperties implements DynamicProperties {
         /**
          * JWT Secret key
          */
-        private String secretKey = "";
+        private String secretKey = "dwankljdawndkljaiw";
         /**
          * JWT Survival period
          */

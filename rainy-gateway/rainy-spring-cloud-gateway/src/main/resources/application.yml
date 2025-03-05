@@ -55,6 +55,10 @@ spring:
           uri: lb://rainy-code-gen
           predicates:
             - Path=/api-code/**
+        - id: auth
+          uri: http://127.0.0.1:31001
+          predicates:
+            - Path=/api-auth/**
       # 全局默认过滤器
       default-filters:
         - StripPrefix=1 # 去除路由匹配的前缀
