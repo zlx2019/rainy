@@ -30,7 +30,7 @@ spring:
 
 rocketmq:
   # RocketMQ NameServer 地址
-  name-server: 47.94.213.132:9876
+  name-server: 192.168.10.215:9876
   # 默认生产者配置
   producer:
     group: rainy_default_producer   # 默认生产组

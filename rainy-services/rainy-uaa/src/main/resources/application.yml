@@ -9,7 +9,10 @@ spring:
 # 认证配置
 security:
   jwt:
-    secret-key: wadhnuikawhduiwahduiawhduiwaduiwauiadw
-    ttl: 1m
+    issuer: Zero
+    access-token-key: "8jyqbg:5bx}51gmV92%8]w*YLpe]RfK*:Z=FUF=f>qsP38,P~9B5HnYU=b@Jzw._K>f-DVFzj0x7-^2Q-yj@YMN?kPdLPT5b09pa"
+    access-token-ttl: 3m
+    refresh-token-key: "ZDY!jsM_fG+#-T8cGiF8ir}8Nb-5PAMh46RX,VY:)f192womcP8kA]_9CyLT#MPjL7:Mj*EyQQ]f^T]ugc:#dd3w6JB4Acf^?N4:"
+    refresh-token-ttl: 5m
   ignore-urls:
     - /auth/**

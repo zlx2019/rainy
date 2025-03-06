@@ -16,6 +16,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Component;
 
+import java.time.Duration;
 import java.util.Date;
 import java.util.UUID;
 
@@ -29,13 +30,20 @@ import java.util.UUID;
 @Component
 public class TokenHelper {
     private static final AuthProperties PROPS = SpringContextUtil.getBean(AuthProperties.class);
-    private static Algorithm ALGORITHM;
-    private static JWTVerifier VERIFIER;
+    private static Algorithm ACCESS_TOKEN_ALGORITHM;
+    private static JWTVerifier ACCESS_TOKEN_VERIFIER;
+
+    private static Algorithm REFRESH_TOKEN_ALGORITHM;
+    private static JWTVerifier REFRESH_TOKEN_VERIFIER;
 
     @PostConstruct
     public void init() {
-        ALGORITHM = Algorithm.HMAC256(PROPS.getJwt().getSecretKey());
-        VERIFIER = JWT.require(ALGORITHM)
+        ACCESS_TOKEN_ALGORITHM = Algorithm.HMAC256(PROPS.getJwt().getAccessTokenKey());
+        ACCESS_TOKEN_VERIFIER = JWT.require(ACCESS_TOKEN_ALGORITHM)
+                .withIssuer(PROPS.getJwt().getIssuer())
+                .build();
+        REFRESH_TOKEN_ALGORITHM = Algorithm.HMAC256(PROPS.getJwt().getRefreshTokenKey());
+        REFRESH_TOKEN_VERIFIER = JWT.require(REFRESH_TOKEN_ALGORITHM)
                 .withIssuer(PROPS.getJwt().getIssuer())
                 .build();
     }
@@ -44,18 +52,19 @@ public class TokenHelper {
      * Create token by userId and userName
      * @param userId   user pf id
      * @param username user of name
+     * @param ttl      survival period
      */
-    public static String createToken(Long userId, String username) {
+    public static String createToken(Long userId, String username, Duration ttl, Algorithm algorithm) {
         Date now = new Date();
         JWTCreator.Builder builder = JWT.create()
                 .withSubject(username)
                 .withJWTId(UUID.randomUUID().toString())
                 .withIssuer(PROPS.getJwt().getIssuer())
                 .withIssuedAt(now)
-                .withExpiresAt(Date.from(now.toInstant().plus(PROPS.getJwt().getTtl())))
+                .withExpiresAt(Date.from(now.toInstant().plus(ttl)))
                 .withClaim(SecurityConstants.JWT_CLAIM_USER_ID, userId)
                 .withClaim(SecurityConstants.JWT_CLAIM_USER_NAME, username);
-        return builder.sign(ALGORITHM);
+        return builder.sign(algorithm);
     }
 
     /**
@@ -63,9 +72,36 @@ public class TokenHelper {
      * @param authentication user basic info
      * @return  accessToken
      */
-    public static String createToken(Authentication authentication) {
+    public static String createAccessToken(Authentication authentication) {
         if (authentication.getPrincipal() instanceof DefaultUserDetails details) {
-            return createToken(details.getUserId(), details.getUsername());
+            return createToken(details.getUserId(), details.getUsername(), PROPS.getJwt().getAccessTokenTtl(), ACCESS_TOKEN_ALGORITHM);
+        }
+        return null;
+    }
+
+    /**
+     * Create token by {@link Authentication} and ttl
+     *
+     * @param authentication user basic info
+     * @param ttl   token ttl
+     * @return      token
+     */
+    public static String createAccessToken(Authentication authentication, Duration ttl) {
+        if (authentication.getPrincipal() instanceof DefaultUserDetails details) {
+            return createToken(details.getUserId(), details.getUsername(), ttl, ACCESS_TOKEN_ALGORITHM);
+        }
+        return null;
+    }
+
+    /**
+     * Create refreshToken
+     *
+     * @param authentication user basic info
+     * @return              refreshToken
+     */
+    public static String createRefreshToken(Authentication authentication) {
+        if (authentication.getPrincipal() instanceof DefaultUserDetails details) {
+            return createToken(details.getUserId(), details.getUsername(), PROPS.getJwt().getRefreshTokenTtl(), REFRESH_TOKEN_ALGORITHM);
         }
         return null;
     }
@@ -76,7 +112,7 @@ public class TokenHelper {
      */
     public static boolean validate(String token) {
         try {
-            parseToken(token);
+            parseAccessToken(token);
             return Boolean.TRUE;
         }catch (JWTVerificationException e) {
             log.error("[Auth] token validated: {}", e.getMessage());
@@ -90,7 +126,7 @@ public class TokenHelper {
      * @return {@link Authentication}
      */
     public static Authentication extractToken(String token) throws JWTVerificationException {
-        DecodedJWT jwt = parseToken(token);
+        DecodedJWT jwt = parseAccessToken(token);
         String username = jwt.getClaim(SecurityConstants.JWT_CLAIM_USER_NAME).asString();
         return new UsernamePasswordAuthenticationToken(username, null, null);
     }
@@ -101,8 +137,25 @@ public class TokenHelper {
      * @param token token
      * @return {@link DecodedJWT}
      */
-    public static DecodedJWT parseToken(String token) throws JWTVerificationException {
-        return VERIFIER.verify(token);
+    public static DecodedJWT parseAccessToken(String token) throws JWTVerificationException {
+        return parseToken(token, ACCESS_TOKEN_VERIFIER);
+    }
+
+    /**
+     * verify and parse refreshToken
+     *
+     * @param token RefreshToken
+     * @return {@link DecodedJWT}
+     */
+    public static DecodedJWT parseRefreshToken(String token) throws JWTVerificationException {
+        return parseToken(token, REFRESH_TOKEN_VERIFIER);
+    }
+
+    /**
+     * parser token
+     */
+    private static DecodedJWT parseToken(String token, JWTVerifier verifier) throws JWTVerificationException {
+        return verifier.verify(token);
     }
 
     public static void main(String[] args) {
