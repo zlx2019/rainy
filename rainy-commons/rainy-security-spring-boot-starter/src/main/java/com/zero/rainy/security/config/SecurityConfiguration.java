@@ -1,11 +1,14 @@
 package com.zero.rainy.security.config;
 
 import com.zero.rainy.security.filters.TokenValidateFilter;
+import com.zero.rainy.security.properties.SecurityProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -38,24 +41,31 @@ public class SecurityConfiguration {
     private final AuthenticationEntryPoint authenticationEntryPoint;
     /** 令牌校验过滤器 */
     private final TokenValidateFilter tokenValidateFilter;
+    /** 认证配置 */
+    private final SecurityProperties securityProperties;
 
-    /**
-     * 配置过滤链
-     */
     @Bean
     public SecurityFilterChain chain(HttpSecurity http) throws Exception {
-        http.authorizeHttpRequests(
-                        requestMatcherRegistry -> requestMatcherRegistry
-                                .requestMatchers("/auth/**").permitAll()
-                                .anyRequest().authenticated()
-                )
-                .exceptionHandling(
-                        exceptionHandlingConfigurer -> exceptionHandlingConfigurer
-                                .authenticationEntryPoint(authenticationEntryPoint)
-                                .accessDeniedHandler(accessDeniedHandler)
-                ).sessionManagement(configurer -> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .csrf(AbstractHttpConfigurer::disable)
-                .headers(headers -> headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable));
+        // CSRF 禁用, 因为不使用Session
+        http.csrf(AbstractHttpConfigurer::disable)
+                // 开启跨域
+                .cors(Customizer.withDefaults())
+                // 使用Token, 无需Session
+                .sessionManagement(configurer-> configurer.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .headers(configurer-> configurer.frameOptions(HeadersConfigurer.FrameOptionsConfig::disable))
+                // 自定义处理器
+                .exceptionHandling(exceptionHandlingConfigurer->
+                        exceptionHandlingConfigurer.accessDeniedHandler(accessDeniedHandler)
+                                .authenticationEntryPoint(authenticationEntryPoint));
+        // 请求权限配置
+        http.authorizeHttpRequests(authorize ->{
+            // 静态资源，可匿名访问
+            authorize.requestMatchers(HttpMethod.GET, "/*.html", "/*.js", "/*.css").permitAll()
+                    // 设置白名单，无需认证
+                    .requestMatchers(securityProperties.getIgnoreUrls().toArray(new String[0])).permitAll();
+            })
+                // 其他所有请求必须认证
+                .authorizeHttpRequests(authorize-> authorize.anyRequest().authenticated());
         http.addFilterBefore(tokenValidateFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

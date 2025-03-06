@@ -21,6 +21,9 @@ public enum GlobalResponseCode implements ResponseCode {
     // Web层错误响应
     PARAM_NOT_VALID(10000, "invalid parameters", "缺少必填参数或参数不合法", HttpStatus.BAD_REQUEST),
     UNAUTHORIZED(10001, "Unauthorized", "未经授权的请求", HttpStatus.UNAUTHORIZED),
+    AUTHORIZED_INVALID(10002, "Invalid token", "无效的授权", HttpStatus.UNAUTHORIZED),
+    AUTHORIZED_EXPIRED(10003, "Expired token", "已过期的授权", HttpStatus.UNAUTHORIZED),
+
     RESOURCE_NOT_FOUND(10004, "Not Found", "资源未找到", HttpStatus.NOT_FOUND),
     METHOD_NOT_SUPPORT(10005, "method not support", "不支持的 Method", HttpStatus.METHOD_NOT_ALLOWED),
     REQUEST_LIMIT(10006, "Too Many Requests", "请求被限流", HttpStatus.TOO_MANY_REQUESTS),

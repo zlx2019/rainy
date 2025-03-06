@@ -4,9 +4,11 @@ import com.zero.rainy.cache.template.CacheTemplate;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ZSetOperations;
 
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.IntStream;
 
@@ -37,5 +39,12 @@ public class RedisTest {
     public void test1(){
         Object val = cacheTemplate.zPopMax("ez-captcha:task:solution-ready-buffer:2025-02-12:ReCaptcha", String.class);
         System.out.println(val);
+    }
+
+    @Test
+    public void testHashPutAll(){
+        HashOperations<String, Object, Object> ops = redisTemplate.opsForHash();
+        Map<String, Object> map = Map.of("namg", "王五","address", "北京");
+        ops.putAll("users-info", map);
     }
 }

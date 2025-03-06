@@ -12,8 +12,9 @@ import org.springframework.http.HttpStatus;
 @Getter
 @AllArgsConstructor
 public enum AuthResponseCode implements ResponseCode {
-
     LOGIN_ERROR(20001, "Login fail, please check the username and password.", "登录失败,用户名或密码错误!"),
+    REFRESH_TOKEN_INVALID(20002, "Invalid RefreshToken", "无效的刷新令牌"),
+    REFRESH_TOKEN_EXPIRED(20003, "RefreshToken expired", "刷新令牌已过期."),
 
     ;
     private final int code;

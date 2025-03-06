@@ -3,6 +3,7 @@ package com.zero.rainy.security.model;
 import com.zero.rainy.core.enums.supers.Status;
 import com.zero.rainy.core.model.entity.User;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -16,6 +17,7 @@ import java.util.List;
  * <p> Created on 2025/3/4 13:28 </p>
  */
 @Data
+@NoArgsConstructor
 public class DefaultUserDetails  implements UserDetails {
 
     private Long userId;
@@ -42,6 +44,11 @@ public class DefaultUserDetails  implements UserDetails {
         this.nickname = user.getNickname();
         this.password = user.getPassword();
         this.status = user.getStatus();
+    }
+
+    public DefaultUserDetails(Long userId, String username) {
+        this.userId = userId;
+        this.username = username;
     }
 
     @Override

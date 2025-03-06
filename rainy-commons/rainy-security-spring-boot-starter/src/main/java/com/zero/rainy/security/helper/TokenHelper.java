@@ -9,11 +9,12 @@ import com.auth0.jwt.interfaces.DecodedJWT;
 import com.zero.rainy.core.ext.spring.SpringContextUtil;
 import com.zero.rainy.security.constant.SecurityConstants;
 import com.zero.rainy.security.model.DefaultUserDetails;
-import com.zero.rainy.security.properties.AuthProperties;
+import com.zero.rainy.security.properties.SecurityProperties;
 import jakarta.annotation.PostConstruct;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
@@ -29,7 +30,7 @@ import java.util.UUID;
 @Slf4j
 @Component
 public class TokenHelper {
-    private static final AuthProperties PROPS = SpringContextUtil.getBean(AuthProperties.class);
+    private static final SecurityProperties PROPS = SpringContextUtil.getBean(SecurityProperties.class);
     private static Algorithm ACCESS_TOKEN_ALGORITHM;
     private static JWTVerifier ACCESS_TOKEN_VERIFIER;
 
@@ -75,6 +76,18 @@ public class TokenHelper {
     public static String createAccessToken(Authentication authentication) {
         if (authentication.getPrincipal() instanceof DefaultUserDetails details) {
             return createToken(details.getUserId(), details.getUsername(), PROPS.getJwt().getAccessTokenTtl(), ACCESS_TOKEN_ALGORITHM);
+        }
+        return null;
+    }
+
+    /**
+     * Create access token by {@link UserDetails}
+     * @param details   user details
+     * @return  accessToken
+     */
+    public static String createAccessToken(UserDetails details){
+        if (details instanceof DefaultUserDetails defaultUserDetails) {
+            return createToken(defaultUserDetails.getUserId(), defaultUserDetails.getUsername(), PROPS.getJwt().getAccessTokenTtl(), ACCESS_TOKEN_ALGORITHM);
         }
         return null;
     }

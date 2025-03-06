@@ -57,7 +57,7 @@ public class DefaultExceptionAdvice {
                 Optional.ofNullable(e.getCode())
                         .map(code-> code.getStatus().value())
                         .orElseGet(HttpStatus.OK::value));
-        log.error("系统业务异常: {} - ", e.getMessage(), e);
+        log.error("系统业务异常: {} ", e.getMessage(), e);
         return Optional.ofNullable(e.getCode())
                 .map(Result::of)
                 .orElseGet(()-> Result.of(GlobalResponseCode.SYSTEM_BUSINESS_ERROR));

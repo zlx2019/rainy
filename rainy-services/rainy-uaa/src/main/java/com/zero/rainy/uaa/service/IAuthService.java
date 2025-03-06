@@ -1,7 +1,10 @@
 package com.zero.rainy.uaa.service;
 
 import com.zero.rainy.uaa.model.param.LoginParam;
+import com.zero.rainy.uaa.model.param.RefreshParam;
 import com.zero.rainy.uaa.model.vo.LoginVo;
+import com.zero.rainy.uaa.model.vo.RefreshVo;
+import jakarta.validation.Valid;
 
 /**
  * 用户认证
@@ -16,4 +19,12 @@ public interface IAuthService {
      * @return {@link LoginVo}
      */
     LoginVo login(LoginParam loginParam);
+
+
+    /**
+     * refresh token
+     * @param refreshParam {@link RefreshParam}
+     * @return  {@link RefreshVo}
+     */
+    RefreshVo refreshToken(@Valid RefreshParam refreshParam);
 }
