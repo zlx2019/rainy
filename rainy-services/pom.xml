@@ -17,7 +17,6 @@
         <module>rainy-sample</module>
         <module>rainy-user</module>
         <module>rainy-code-gen</module>
-        <module>rainy-uaa</module>
     </modules>
 
     <!-- 服务依赖 -->
@@ -80,4 +79,16 @@
             </plugin>
         </plugins>
     </build>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>com.zero.rainy</groupId>
+                <artifactId>rainy-bom</artifactId>
+                <version>${revision}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 </project>

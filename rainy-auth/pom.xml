@@ -8,23 +8,14 @@
         <artifactId>rainy</artifactId>
         <version>${revision}</version>
     </parent>
-    <artifactId>rainy-commons</artifactId>
     <packaging>pom</packaging>
-    <description>
-        Rainy - 公共核心组件父工程
-    </description>
     <modules>
-        <module>rainy-log-spring-boot-starter</module>
-        <module>rainy-core-spring-boot-starter</module>
-        <module>rainy-db-spring-boot-starter</module>
-        <module>rainy-rpc-spring-boot-starter</module>
-        <module>rainy-api-spring-boot-starter</module>
-        <module>rainy-message-spring-boot-starter</module>
-        <module>rainy-cache-spring-boot-starter</module>
-        <module>rainy-web-spring-boot-starter</module>
-        <module>rainy-test-spring-boot-starter</module>
-        <module>rainy-nacos-spring-boot-starter</module>
+        <module>rainy-auth-security</module>
     </modules>
+    <artifactId>rainy-auth</artifactId>
+    <description>
+        Rainy - 认证授权模块
+    </description>
 
     <dependencyManagement>
         <dependencies>
@@ -37,4 +28,5 @@
             </dependency>
         </dependencies>
     </dependencyManagement>
+
 </project>

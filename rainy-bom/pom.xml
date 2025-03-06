@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>com.zero.rainy</groupId>
+        <artifactId>rainy</artifactId>
+        <version>${revision}</version>
+    </parent>
+    <artifactId>rainy-bom</artifactId>
+    <packaging>pom</packaging>
+    <description>
+        Rainy 内部模块版本管理
+    </description>
+    <dependencyManagement>
+        <dependencies>
+            <!-- Log -->
+            <dependency>
+                <groupId>com.zero.rainy</groupId>
+                <artifactId>rainy-log-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- Config -->
+            <dependency>
+                <groupId>com.zero.rainy</groupId>
+                <artifactId>rainy-config</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- Core -->
+            <dependency>
+                <groupId>com.zero.rainy</groupId>
+                <artifactId>rainy-core-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- DB -->
+            <dependency>
+                <groupId>com.zero.rainy</groupId>
+                <artifactId>rainy-db-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- RPC API -->
+            <dependency>
+                <groupId>com.zero.rainy</groupId>
+                <artifactId>rainy-api-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- Feign -->
+            <dependency>
+                <groupId>com.zero.rainy</groupId>
+                <artifactId>rainy-feign-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- GRPC -->
+            <dependency>
+                <groupId>com.zero.rainy</groupId>
+                <artifactId>rainy-grpc-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- WebClient -->
+            <dependency>
+                <groupId>com.zero.rainy</groupId>
+                <artifactId>rainy-webclient-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- 消息服务 -->
+            <dependency>
+                <groupId>com.zero.rainy</groupId>
+                <artifactId>rainy-message-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- 限流 -->
+            <dependency>
+                <groupId>com.zero.rainy</groupId>
+                <artifactId>rainy-limiter-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- 缓存 -->
+            <dependency>
+                <groupId>com.zero.rainy</groupId>
+                <artifactId>rainy-cache-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- Web -->
+            <dependency>
+                <groupId>com.zero.rainy</groupId>
+                <artifactId>rainy-web-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- 单元测试 -->
+            <dependency>
+                <groupId>com.zero.rainy</groupId>
+                <artifactId>rainy-test-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- Nacos -->
+            <dependency>
+                <groupId>com.zero.rainy</groupId>
+                <artifactId>rainy-nacos-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- 认证授权(Spring security) -->
+            <dependency>
+                <groupId>com.zero.rainy</groupId>
+                <artifactId>rainy-security-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+            <!-- 认证授权(Sa-token) -->
+            <dependency>
+                <groupId>com.zero.rainy</groupId>
+                <artifactId>rainy-sa-token-spring-boot-starter</artifactId>
+                <version>${revision}</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
+</project>

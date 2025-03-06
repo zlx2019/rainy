@@ -22,6 +22,9 @@
         <module>rainy-commons/rainy-limiter-spring-boot-starter</module>
         <module>rainy-commons/rainy-sa-token-spring-boot-starter</module>
         <module>rainy-commons/rainy-security-spring-boot-starter</module>
+        <module>rainy-auth</module>
+        <module>rainy-auth/rainy-auth-sa-token</module>
+        <module>rainy-bom</module>
     </modules>
     <!-- 全局依赖版本 -->
     <properties>
@@ -58,6 +61,7 @@
         <maven-jar-plugin.version>3.4.2</maven-jar-plugin.version>
 
         <!-- Mybatis Plus -->
+        <sa-token.version>1.40.0</sa-token.version>
         <mybatis-plus.version>3.5.5</mybatis-plus.version>
         <velocity.version>2.3</velocity.version>
         <!-- SpringBoot -->
@@ -69,84 +73,7 @@
     </properties>
     <!-- 全局依赖版本锁定 -->
     <dependencyManagement>
-        <dependencies><!-- 内部组件版本锁定 -->
-            <dependency>
-                <groupId>com.zero.rainy</groupId>
-                <artifactId>rainy-log-spring-boot-starter</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.zero.rainy</groupId>
-                <artifactId>rainy-config</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.zero.rainy</groupId>
-                <artifactId>rainy-core-spring-boot-starter</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.zero.rainy</groupId>
-                <artifactId>rainy-db-spring-boot-starter</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.zero.rainy</groupId>
-                <artifactId>rainy-api-spring-boot-starter</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.zero.rainy</groupId>
-                <artifactId>rainy-feign-spring-boot-starter</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.zero.rainy</groupId>
-                <artifactId>rainy-grpc-spring-boot-starter</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.zero.rainy</groupId>
-                <artifactId>rainy-webclient-spring-boot-starter</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.zero.rainy</groupId>
-                <artifactId>rainy-message-spring-boot-starter</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.zero.rainy</groupId>
-                <artifactId>rainy-limiter-spring-boot-starter</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.zero.rainy</groupId>
-                <artifactId>rainy-cache-spring-boot-starter</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.zero.rainy</groupId>
-                <artifactId>rainy-web-spring-boot-starter</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.zero.rainy</groupId>
-                <artifactId>rainy-test-spring-boot-starter</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.zero.rainy</groupId>
-                <artifactId>rainy-nacos-spring-boot-starter</artifactId>
-                <version>${revision}</version>
-            </dependency>
-            <dependency>
-                <groupId>com.zero.rainy</groupId>
-                <artifactId>rainy-security-spring-boot-starter</artifactId>
-                <version>${revision}</version>
-            </dependency>
-
-
+        <dependencies>
             <!-- RocketMQ -->
             <dependency>
                 <groupId>org.apache.rocketmq</groupId>
@@ -218,7 +145,17 @@
                 <version>${commons-io.version}</version>
             </dependency>
 
-
+            <!-- SaToken -->
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-spring-boot3-starter</artifactId>
+                <version>${sa-token.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>cn.dev33</groupId>
+                <artifactId>sa-token-redis-jackson</artifactId>
+                <version>${sa-token.version}</version>
+            </dependency>
             <!-- MapStruct -->
             <dependency>
                 <groupId>org.mapstruct</groupId>

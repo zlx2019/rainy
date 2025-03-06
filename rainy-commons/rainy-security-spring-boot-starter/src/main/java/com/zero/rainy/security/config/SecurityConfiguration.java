@@ -57,15 +57,14 @@ public class SecurityConfiguration {
                 .exceptionHandling(exceptionHandlingConfigurer->
                         exceptionHandlingConfigurer.accessDeniedHandler(accessDeniedHandler)
                                 .authenticationEntryPoint(authenticationEntryPoint));
-        // 请求权限配置
-        http.authorizeHttpRequests(authorize ->{
-            // 静态资源，可匿名访问
-            authorize.requestMatchers(HttpMethod.GET, "/*.html", "/*.js", "/*.css").permitAll()
-                    // 设置白名单，无需认证
-                    .requestMatchers(securityProperties.getIgnoreUrls().toArray(new String[0])).permitAll();
-            })
+        // 所有请求的可访问权限配置
+        http.authorizeHttpRequests(authorize ->
+                        // 设置无需认证和鉴权的资源
+                        authorize.requestMatchers(HttpMethod.GET, "/*.html", "/*.js", "/*.css").permitAll()
+                .requestMatchers(securityProperties.getIgnoreUrls().toArray(new String[0])).permitAll())
                 // 其他所有请求必须认证
                 .authorizeHttpRequests(authorize-> authorize.anyRequest().authenticated());
+        // 注册身份验证过滤器
         http.addFilterBefore(tokenValidateFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }

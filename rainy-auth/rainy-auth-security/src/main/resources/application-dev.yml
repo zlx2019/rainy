@@ -1,0 +1,22 @@
+# 开发环境配置
+spring:
+  # 数据源配置
+  datasource:
+    driver-class-name: com.p6spy.engine.spy.P6SpyDriver
+    url: jdbc:p6spy:mysql://127.0.0.1/rainy?useUnicode=true&characterEncoding=utf-8&useSSL=false&serverTimezone=GMT%2B8&allowPublicKeyRetrieval=true
+    username: root
+    password: rootROOT@1234
+    # 连接池
+    hikari:
+      minimum-idle: 10      # 最小连接数
+      maximum-pool-size: 64 # 最大连接数·
+      connection-timeout: 10000 # 连接超时时间
+      idle-timeout: 600000  # 空闲连接超时时间
+      max-lifetime: 1800000     # 连接最大生命周期, 连接超过该时间，一旦空闲就会回收
+  data:
+    redis:
+      host: 127.0.0.1
+      port: 6379
+      database: 0
+      connect-timeout: 3s
+      timeout: 3s
