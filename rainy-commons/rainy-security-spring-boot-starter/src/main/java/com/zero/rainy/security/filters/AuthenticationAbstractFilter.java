@@ -2,7 +2,9 @@ package com.zero.rainy.security.filters;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.zero.rainy.core.enums.GlobalResponseCode;
+import com.zero.rainy.security.constant.SecurityConstants;
 import com.zero.rainy.security.helper.TokenHelper;
 import com.zero.rainy.security.properties.SecurityProperties;
 import com.zero.rainy.web.utils.ResponseUtils;
@@ -14,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.http.HttpHeaders;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -58,14 +61,12 @@ public abstract class AuthenticationAbstractFilter extends OncePerRequestFilter 
         if (StringUtils.isBlank(token)) {
             log.error("[Auth] token is blank, Request: {}", request.getRequestURI());
             ResponseUtils.response(response, GlobalResponseCode.UNAUTHORIZED);
-            filterChain.doFilter(request, response);
             return;
         }
         // step1: 校验令牌，获取其用户信息
-        Authentication authentication;
+        DecodedJWT jwt;
         try {
-            // TODO 抽取为JWT，并解析为 Authentication and UserDetails
-            authentication = TokenHelper.extractToken(token);
+            jwt = TokenHelper.parseAccessToken(token);
         }catch (TokenExpiredException e) {
             log.error("[Auth] token expired, Request: {}", request.getRequestURI());
             ResponseUtils.response(response, GlobalResponseCode.AUTHORIZED_EXPIRED);
@@ -75,15 +76,19 @@ public abstract class AuthenticationAbstractFilter extends OncePerRequestFilter 
             ResponseUtils.response(response, GlobalResponseCode.AUTHORIZED_INVALID);
             return;
         }
+        Long userId = jwt.getClaim(SecurityConstants.JWT_CLAIM_USER_ID).asLong();
+        String username = jwt.getClaim(SecurityConstants.JWT_CLAIM_USER_NAME).asString();
         // step2: 校验会话是否有效
-        this.doValidateSession(request, response, filterChain);
-        if (!this.doValidateSession(request, response, filterChain)) {
+        if (!this.doValidateSession(request, response, filterChain, username, token)) {
             // 令牌已离线(修改密码、强制下线等)
             log.error("[Auth] token offline, Request: {}", request.getRequestURI());
             ResponseUtils.response(response, GlobalResponseCode.AUTHORIZED_INVALID);
             return;
         }
+
+        // 设置认证上下文、权限列表
         List<GrantedAuthority> authorities = new ArrayList<>();
+        Authentication authentication = new UsernamePasswordAuthenticationToken(username, null, authorities);
         SecurityContextHolder.getContext().setAuthentication(authentication);
         filterChain.doFilter(request, response);
     }
@@ -101,5 +106,6 @@ public abstract class AuthenticationAbstractFilter extends OncePerRequestFilter 
      * Validate authorize session
      * 校验授权会话，是否有效
      */
-    protected abstract boolean doValidateSession(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException;
+    protected abstract boolean doValidateSession(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain,
+                                                 String username, String token) throws ServletException, IOException;
 }

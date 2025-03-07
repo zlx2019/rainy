@@ -11,7 +11,8 @@ import java.time.Duration;
  */
 @Getter
 public enum AuthRedisKeys implements RedisKey {
-    USER_AUTH_TOKEN("uaa", "auth", "token", "用户令牌会话")
+    USER_AUTH_TOKEN("auth", "user", "token", "用户令牌会话"),
+    USER_AUTH_OTT_TOKEN("auth", "user", "ott", Duration.ofMinutes(10), "一次性令牌")
 
     ;
     private final String service;

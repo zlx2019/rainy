@@ -7,5 +7,5 @@ ${AnsiColor.BRIGHT_RED}
 ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝╚═╝  ╚═══╝   ╚═╝
 
 
-                            ${spring.application.name} (${spring.application.version})
+                            ${spring.application.name} (${spring.application.version}) SpringBoot: ${spring-boot.version}
 ${AnsiColor.DEFAULT}

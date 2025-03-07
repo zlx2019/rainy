@@ -27,7 +27,7 @@ public class StatelessAuthenticationFilter extends AuthenticationAbstractFilter 
      * 授权会话是否有效, 以JWT有效期为准，所以默认为有效.
      */
     @Override
-    protected boolean doValidateSession(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+    protected boolean doValidateSession(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain, String username, String token) throws ServletException, IOException {
         return Boolean.TRUE;
     }
 }
