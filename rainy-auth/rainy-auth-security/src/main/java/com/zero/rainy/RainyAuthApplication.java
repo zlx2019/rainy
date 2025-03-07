@@ -11,8 +11,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  */
 @SpringBootApplication
 @EnableDynamicConfigurationProperties
-public class RainyUaaApplication {
+public class RainyAuthApplication {
     public static void main(String[] args) {
-        SpringApplication.run(RainyUaaApplication.class, args);
+        SpringApplication.run(RainyAuthApplication.class, args);
     }
 }

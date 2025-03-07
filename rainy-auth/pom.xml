@@ -11,6 +11,7 @@
     <packaging>pom</packaging>
     <modules>
         <module>rainy-auth-security</module>
+        <module>rainy-auth-sa-token</module>
     </modules>
     <artifactId>rainy-auth</artifactId>
     <description>

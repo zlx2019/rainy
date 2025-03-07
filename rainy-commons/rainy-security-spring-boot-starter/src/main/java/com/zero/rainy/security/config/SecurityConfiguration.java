@@ -1,6 +1,6 @@
 package com.zero.rainy.security.config;
 
-import com.zero.rainy.security.filters.TokenValidateFilter;
+import com.zero.rainy.security.filters.AuthenticationAbstractFilter;
 import com.zero.rainy.security.properties.SecurityProperties;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -39,8 +39,8 @@ public class SecurityConfiguration {
     private final AccessDeniedHandler accessDeniedHandler;
     /** 认证失败处理 */
     private final AuthenticationEntryPoint authenticationEntryPoint;
-    /** 令牌校验过滤器 */
-    private final TokenValidateFilter tokenValidateFilter;
+    /** 授权校验过滤器 */
+    private final AuthenticationAbstractFilter authenticationAbstractFilter;
     /** 认证配置 */
     private final SecurityProperties securityProperties;
 
@@ -65,7 +65,7 @@ public class SecurityConfiguration {
                 // 其他所有请求必须认证
                 .authorizeHttpRequests(authorize-> authorize.anyRequest().authenticated());
         // 注册身份验证过滤器
-        http.addFilterBefore(tokenValidateFilter, UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(authenticationAbstractFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();
     }
 

@@ -3,7 +3,6 @@ package com.zero.rainy.security.properties;
 import com.zero.rainy.core.enums.DynamicPropertiesKey;
 import com.zero.rainy.core.ext.dynamic.DynamicProperties;
 import com.zero.rainy.core.ext.dynamic.DynamicPropertiesKeys;
-import com.zero.rainy.security.constant.SecurityConstants;
 import lombok.Data;
 
 import java.time.Duration;
@@ -21,7 +20,7 @@ public class SecurityProperties implements DynamicProperties {
     /**
      * 白名单
      */
-    private List<String> ignoreUrls = List.of(SecurityConstants.AUTH_ENDPOINT);
+    private List<String> ignoreUrls = List.of();
 
     /**
      * JWT 令牌配置

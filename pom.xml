@@ -23,7 +23,6 @@
         <module>rainy-commons/rainy-sa-token-spring-boot-starter</module>
         <module>rainy-commons/rainy-security-spring-boot-starter</module>
         <module>rainy-auth</module>
-        <module>rainy-auth/rainy-auth-sa-token</module>
         <module>rainy-bom</module>
     </modules>
     <!-- 全局依赖版本 -->
@@ -206,9 +205,6 @@
                 <artifactId>java-jwt</artifactId>
                 <version>${jwt.version}</version>
             </dependency>
-
-
-
             <!-- SpringBoot -->
             <dependency>
                 <groupId>org.springframework.boot</groupId>
