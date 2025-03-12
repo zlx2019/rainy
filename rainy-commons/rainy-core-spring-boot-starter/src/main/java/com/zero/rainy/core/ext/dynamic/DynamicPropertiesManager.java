@@ -82,7 +82,6 @@ public class DynamicPropertiesManager<T extends DynamicProperties> implements In
                     }catch (Exception e) {
                         log.error("[DynamicPropertiesManager] 动态注入配置属性异常: {}", e.getMessage());
                     }
-
                 }
             }
         }
@@ -102,7 +101,7 @@ public class DynamicPropertiesManager<T extends DynamicProperties> implements In
      * 从数据库加载所有配置
      */
     public void loadAllDynamicConfigs(){
-        MapSqlParameterSource param = new MapSqlParameterSource("status", Status.NORMAL.getCode());
+        MapSqlParameterSource param = new MapSqlParameterSource("status", Status.NORMAL.getValue());
         String SQL = "SELECT id, config_key, config_value, config_type, status FROM config WHERE status = :status AND deleted = 0";
         jdbcTemplate.query(SQL, param, (rs) -> {
             long id = rs.getLong(ID);

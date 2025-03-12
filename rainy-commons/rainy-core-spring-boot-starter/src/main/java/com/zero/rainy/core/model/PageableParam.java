@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
  */
 @Getter
 @Setter
-public class PageableQuery {
+public class PageableParam {
 
     /**
      * 页码

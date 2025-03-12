@@ -5,19 +5,19 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 /**
- * 实体全局状态枚举
+ * 基础状态
  *
  * @author Zero.
  * <p> Created on 2024/9/20 11:37 </p>
  */
-@AllArgsConstructor
 @Getter
-public enum Status {
-    NORMAL(0, "正常"),
-    LOCKING(1,"锁定")
+@AllArgsConstructor
+public enum Status implements SuperEnum<Integer> {
+    NORMAL(0, "正常可用"),
+    NO_NORMAL(1,"不可用")
     ;
 
     @EnumValue
-    private final int code;
-    private final String message;
+    private final Integer value;
+    private final String label;
 }

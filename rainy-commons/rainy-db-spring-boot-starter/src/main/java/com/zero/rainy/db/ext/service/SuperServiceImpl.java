@@ -11,7 +11,7 @@ import com.google.common.collect.Lists;
 import com.zero.rainy.core.constant.Constant;
 import com.zero.rainy.core.enums.OrderBy;
 import com.zero.rainy.core.model.PageResult;
-import com.zero.rainy.core.model.PageableQuery;
+import com.zero.rainy.core.model.PageableParam;
 import com.zero.rainy.core.model.entity.supers.SuperEntity;
 import com.zero.rainy.core.model.entity.supers.WithLockEntity;
 import com.zero.rainy.core.utils.AssertUtils;
@@ -40,14 +40,14 @@ public class SuperServiceImpl<M extends SuperMapper<T>,T extends SuperEntity<T>>
     private static final int BATCH_MAX = 1000;
 
     @Override
-    public <V> PageResult<V> pages(PageableQuery query, Wrapper<T> wrapper, Class<V> voClass, Function<T, V> transform) {
+    public <V> PageResult<V> pages(PageableParam query, Wrapper<T> wrapper, Class<V> voClass, Function<T, V> transform) {
         IPage<T> page = this.page(query, wrapper);
         List<V> wraps = this.wraps(page.getRecords(), voClass, transform);
         return PageResult.of(page, wraps);
     }
 
     @Override
-    public IPage<T> page(PageableQuery query, Wrapper<T> wrapper) {
+    public IPage<T> page(PageableParam query, Wrapper<T> wrapper) {
         wrapper = Optional.ofNullable(wrapper).orElseGet(this::lambdaWrapper);
         if (wrapper instanceof LambdaQueryWrapper<? extends T> lqw){
             LocalDateTime begin = query.getBegin();

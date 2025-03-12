@@ -1,7 +1,7 @@
 package com.zero.rainy.user.controller;
 
 import com.zero.rainy.core.model.PageResult;
-import com.zero.rainy.core.model.PageableQuery;
+import com.zero.rainy.core.model.PageableParam;
 import com.zero.rainy.core.model.Result;
 import com.zero.rainy.core.model.dto.LoginRequestDTO;
 import com.zero.rainy.core.model.dto.LoginResponseDTO;
@@ -56,7 +56,7 @@ public class UserController {
      * 分页查询记录
      */
     @GetMapping("/page")
-    public Result<PageResult<UserVo>> list(@Valid PageableQuery query) {
+    public Result<PageResult<UserVo>> list(@Valid PageableParam query) {
         return Result.ok(userService.pages(query, UserVo.class, convert::toVo));
     }
 

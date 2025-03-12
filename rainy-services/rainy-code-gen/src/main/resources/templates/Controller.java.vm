@@ -1,6 +1,6 @@
 package ${package}.${moduleName}.controller;
 
-import com.zero.rainy.core.model.PageableQuery;
+import com.zero.rainy.core.model.PageableParam;
 import com.zero.rainy.core.model.Result;
 import com.zero.rainy.core.model.PageResult;
 import com.zero.rainy.web.model.group.Create;
@@ -51,7 +51,7 @@ public class ${ClassName}Controller {
      * 分页查询记录
      */
     @GetMapping("/page")
-    public Result<PageResult<${ClassName}Vo>> list(@Valid PageableQuery query) {
+    public Result<PageResult<${ClassName}Vo>> list(@Valid PageableParam query) {
         return Result.ok(${classname}Service.pages(query, ${ClassName}Vo.class, convert::toVo));
     }
 

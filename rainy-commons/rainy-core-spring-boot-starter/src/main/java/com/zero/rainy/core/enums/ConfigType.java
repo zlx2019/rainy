@@ -32,13 +32,4 @@ public enum ConfigType {
         }
         throw new IllegalArgumentException("invalid ConfigType name: " + name);
     }
-
-    public static void main(String[] args) {
-        Class<ConfigType> clazz = ConfigType.class;
-        ConfigType[] enumConstants = clazz.getEnumConstants();
-        ConfigType s1 = enumConstants[0];
-        ConfigType s2 = enumConstants[1];
-        System.out.println(s1);
-        System.out.println(s2);
-    }
 }

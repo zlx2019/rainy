@@ -55,6 +55,7 @@ public class MybatisPlusConfig {
     @Bean
     public ConfigurationCustomizer configurationCustomizer(){
         return configuration -> {
+            // 枚举默认映射为 Ordinal 存储
             configuration.setDefaultEnumTypeHandler(EnumOrdinalTypeHandler.class);
         };
     }

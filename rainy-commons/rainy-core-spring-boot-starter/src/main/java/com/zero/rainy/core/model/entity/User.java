@@ -1,10 +1,12 @@
 package com.zero.rainy.core.model.entity;
 
+import com.zero.rainy.core.enums.Gender;
 import com.zero.rainy.core.model.entity.supers.SuperEntityExt;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;
+import lombok.experimental.Accessors;
 
 import java.time.LocalDateTime;
 
@@ -18,6 +20,7 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = true)
+@Accessors(chain = true)
 public class User extends SuperEntityExt<User> {
     /**
      * 用户名
@@ -31,6 +34,10 @@ public class User extends SuperEntityExt<User> {
      * 用户昵称
      */
     private String nickname;
+    /**
+     * 性别
+     */
+    private Gender gender;
     /**
      * 电子邮件
      */

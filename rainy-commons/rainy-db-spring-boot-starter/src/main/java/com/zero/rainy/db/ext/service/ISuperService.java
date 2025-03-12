@@ -8,7 +8,7 @@ import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.baomidou.mybatisplus.core.toolkit.support.SFunction;
 import com.baomidou.mybatisplus.extension.service.IService;
 import com.zero.rainy.core.model.PageResult;
-import com.zero.rainy.core.model.PageableQuery;
+import com.zero.rainy.core.model.PageableParam;
 import com.zero.rainy.core.model.Pair;
 import com.zero.rainy.core.model.entity.supers.SuperEntity;
 
@@ -28,28 +28,28 @@ import java.util.function.Function;
 public interface ISuperService<T extends SuperEntity<T>> extends IService<T> {
     String ORDER_BY = " ORDER BY ";
 
-    default PageResult<T> pages(PageableQuery query) {
+    default PageResult<T> pages(PageableParam query) {
         return PageResult.of(this.page(query, null));
     }
 
-    default PageResult<T> pages(PageableQuery query, Wrapper<T> wrapper) {
+    default PageResult<T> pages(PageableParam query, Wrapper<T> wrapper) {
         return PageResult.of(this.page(query, wrapper));
     }
 
-    default <V> PageResult<V> pages(PageableQuery query, Class<V> voClass) {
+    default <V> PageResult<V> pages(PageableParam query, Class<V> voClass) {
         return PageResult.of(this.page(query, null), voClass);
     }
-    default <V> PageResult<V> pages(PageableQuery query, Class<V> voClass, Function<T, V> transform) {
+    default <V> PageResult<V> pages(PageableParam query, Class<V> voClass, Function<T, V> transform) {
         return this.pages(query, null, voClass, transform);
     }
 
-    default <V> PageResult<V> pages(PageableQuery query, Wrapper<T> wrapper, Class<V> voClass) {
+    default <V> PageResult<V> pages(PageableParam query, Wrapper<T> wrapper, Class<V> voClass) {
         return PageResult.of(this.page(query, wrapper), voClass);
     }
 
-    <V> PageResult<V> pages(PageableQuery query, Wrapper<T> wrapper, Class<V> voClass, Function<T, V> transform);
+    <V> PageResult<V> pages(PageableParam query, Wrapper<T> wrapper, Class<V> voClass, Function<T, V> transform);
 
-    default IPage<T> page(PageableQuery query) {
+    default IPage<T> page(PageableParam query) {
         return this.page(query, null);
     }
 
@@ -59,7 +59,7 @@ public interface ISuperService<T extends SuperEntity<T>> extends IService<T> {
      * @param query   分页参数.
      * @param wrapper 查询条件.
      */
-    IPage<T> page(PageableQuery query, Wrapper<T> wrapper);
+    IPage<T> page(PageableParam query, Wrapper<T> wrapper);
 
 
     /**

@@ -1,10 +1,8 @@
 package com.zero.rainy.sample.controller;
 
 import com.zero.rainy.core.model.PageResult;
-import com.zero.rainy.core.model.PageableQuery;
+import com.zero.rainy.core.model.PageableParam;
 import com.zero.rainy.core.model.Result;
-import com.zero.rainy.limiter.annotations.ApiLimiter;
-import com.zero.rainy.limiter.enums.LimiterRule;
 import com.zero.rainy.sample.model.converts.SampleConvert;
 import com.zero.rainy.sample.model.dto.SampleDTO;
 import com.zero.rainy.sample.model.vo.SampleVo;
@@ -56,7 +54,7 @@ public class SampleController {
      * @param query 分页参数
      */
     @GetMapping("/page")
-    public Result<PageResult<SampleVo>> list(@Valid PageableQuery query) {
+    public Result<PageResult<SampleVo>> list(@Valid PageableParam query) {
         return Result.ok(sampleService.pages(query, SampleVo.class, convert::toVo));
     }
 

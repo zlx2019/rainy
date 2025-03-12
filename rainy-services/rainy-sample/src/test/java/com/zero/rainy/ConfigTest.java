@@ -27,7 +27,7 @@ public class ConfigTest {
         config.setConfigValue("""
 jwt:
   secret-key: wadhnuikawhduiwahduiawhduiwaduiwauiadw
-  ttl: 1m
+  ttl: 12h
 ignore-urls:
   - /auth/**
                 """);

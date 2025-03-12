@@ -193,8 +193,9 @@ public class MailFetcher {
 
     public static void main(String[] args) throws Exception {
         long begin = System.currentTimeMillis();
-        List<EMailMessage> eMailMessages = fetchEmails("imap", "imap.gmail.com", 993, "zero18674568@gmail.com", "ugdfxonasbwzgvww");
+//        List<EMailMessage> eMailMessages = fetchEmails("imap", "imap.gmail.com", 993, "zero18674568@gmail.com", "ugdfxonasbwzgvww");
 //        List<EMailMessage> eMailMessages = fetchEmails("imap", "outlook.office365.com", 993, "warnochp7192@outlook.com", "EwBYA+l3BAAUcDnR9grBJokeAHaUV8R3+rVHX+IAAWW7evUTtMUhvwKp/lxLHboZkr4D/wSWi++4wXVKXiTk/i1Hn9/G9a8xv1W2EDNu74heZN0Lq3ciqJBOzB65ggTFkh+St0H/WM8mb9vDbKzzs+Yh10rbgRvveHOSXy1D+RKpOrTa80tRfrWweAyhZZMWXwYMMY3VoHIebL6+a7VK6pzLQC6DKz7SjmJilRWunTMiifbipQc02BhxipokB51vh5xHV+JZJsZT/TySvSvUj6GhUSnYzQc7BgymV2B1dGbhqg0/f2BJ0CZMkPq3Kl5PUAZRbEiP81ysxfdrbNbdNxrPffgvA67thpEZv/mYA1Mqyy6paqLvpfZ/hxMC6TAQZgAAEPxhzF+qVxcpdKrcxNxZmTUgAoWQAo738IUzWfsh/x3OjCSJ1MNM7NQ/SwyiA9C/XnPkC73LFhOvt3+yy0dGodzm3lk464mXtebryQduDK66j5m15wt1Cs79xvWtiCNqOhhUJYE91lC+L9Ww3qEHwbovTDZdLPOgDJSb7MLXuaJEzlLAQkVY+HnZMm/nYsPNzWj5z3pi+vPGTaBnxM7vTszzyDOvrHolx9TNmvZdg5FmuLalkNr5a7RG9HonH3pu+ykxLNplDgxvYFYAC+8KfRrUg9kBEm+/skaqhYy4LAZli0GXSzPCs7tDbWNsD3oj5bYSZUCUY+n+QDdWP/Wt5aDDbiiyWA58hNoaLYmKc6esBj4GcpPsnLxpPPL5KR1E7L2cQ9DBp4qkEleu7idV64yf5o8Y5HJ0KgRADGkeI/rfC61JX+9XMyAG0fK+t6DLMRqmkZreYJKI8njyo42KNvBTPUFFTfklteegcdFP7SovPeFJjQ5rSKgpNTB9lx3H+VqxejtXelPcBUJS3XlLggcdW2hYFX2tBrbwsWUk9EqdQkFaXxxc8MKo7nWANcsv0ojrBSjxbv0sVJXAq3vvRZfZYglWUJMhlmstdCpMbcyDosCGenMDBstG0kWb0JoBsSWqpAddIUmROfRvvLLwcIapIrs/HWs/9bKLtaluA534jS9cKMJOEuIL+Z5eb6oV94LhAqpNiiof/W345IzO6nW7NVZ742gPES82QW22Sstf3YFSAg==");
+        List<EMailMessage> emails = fetchEmails("imap", "imap.zmailservice.com", 993, "zero9501@outlook.com", "qq18674568");
         long end = System.currentTimeMillis();
         System.out.println("用时: " + (end - begin) + "ms");
     }

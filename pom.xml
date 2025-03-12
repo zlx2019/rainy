@@ -71,7 +71,7 @@
         <!-- SpringCloud -->
         <spring-cloud.version>2024.0.0</spring-cloud.version>
         <!-- SpringCloudAlibaba -->
-        <spring-cloud-alibaba.version>2023.0.1.2</spring-cloud-alibaba.version>
+        <spring-cloud-alibaba.version>2023.0.3.2</spring-cloud-alibaba.version>
     </properties>
     <!-- 全局依赖版本锁定 -->
     <dependencyManagement>
